@@ -38,7 +38,7 @@ def linear_X(X_all, Y, features, labels, label_names, isTrain, datasetPath):
         for i in range(nb_output):
             model_all.append(linear_X_models(image_size))
         for i in range(nb_output):
-            linear_X_models_fit(model_all[i],
+            model_all[i] = linear_X_models_fit(model_all[i],
                                         X_all,
                                         Y_all[i],
                                         10000,
