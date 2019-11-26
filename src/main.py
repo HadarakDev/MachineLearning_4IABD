@@ -19,5 +19,5 @@ features, labels = unpickle("../dataset/data_batch_1", size, True)
 X_all = features.flatten().reshape(10000, size * size * 3)
 Y = np.asarray(labels)
 
-linear_X(X_all, Y, features, labels, label_names, isTrain, datasetPath)
-#linear_one_hot(X_all, Y, features, labels, label_names, isTrain, datasetPath)
+#linear_X(X_all, Y, features, labels, label_names, isTrain, datasetPath)
+linear_one_hot(X_all, Y, features, labels, label_names, isTrain, datasetPath)

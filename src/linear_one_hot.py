@@ -5,13 +5,16 @@ import numpy as np
 from tools import unpickle, get_label_names, display_batch_stat, load_linear_model, y_one_hot
 
 
-def linear_model(X_param, Y_param, batch_size_param, epochs_param, save_path, size, nb_output):
+def linear_model(size, nb_output):
     model = tf.keras.Sequential()
     model.add(Dense(1, activation="linear", input_dim=size))
     model.add(Dense(nb_output, activation="softmax", input_dim=1))
     model.compile(optimizer="adam", loss='categorical_crossentropy', metrics=['accuracy'])
+    return model
+
+def linear_model_fit(model, X_param, Y_param, batch_size_param, epochs_param, save_path):
     model.fit(X_param, Y_param, batch_size=batch_size_param, verbose=0, epochs=epochs_param)
-    model.save(save_path) 
+    model.save(save_path)
     return model
 
 def predict_liear(model, X):
@@ -25,13 +28,14 @@ def linear_one_hot(X_all, Y, features, labels, label_names, isTrain, datasetPath
     image_size = 32 * 32 * 3
     path = "../models/linear_one_hot/model.h5"
     if isTrain:
-        model = linear_model(X_all,
+        model = linear_model(
+                    image_size,
+                    nb_output)
+        model = linear_model_fit(model, X_all,
                     Y_one_hot,
                     10000,
                     10000,
-                    path,
-                    image_size,
-                    nb_output)
+                    path)
     else:
         model = load_linear_model(path)
     
