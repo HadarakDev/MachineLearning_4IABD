@@ -1,6 +1,7 @@
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
+import tensorflow as tf
 
 def unpickle(path_batch, size, isRGB):
     with open(path_batch, 'rb') as fo:
@@ -22,3 +23,9 @@ def display_batch_stat(batch_nb, label_names, datasetPath, size, isRGB):
     counts =  [[x, labels.count(x)] for x in set(labels)]
     for c in counts:
         print( "%s = %d <=> %.2f %s" % (label_names[c[0]], c[1], (100 * c[1]) / len(features), "%"))
+
+def load_linear_model(model_path):
+    return tf.keras.models.load_model(model_path)
+
+def y_one_hot(Y, nb_output):
+    return tf.one_hot(Y, nb_output)
