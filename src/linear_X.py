@@ -5,10 +5,13 @@ import numpy as np
 from tools import unpickle, get_label_names, display_batch_stat, load_linear_model
 
 
-def linear_X_models(X_param, Y_param, batch_size_param, epochs_param, save_path, size):
+def linear_X_models(size):
     model = tf.keras.Sequential()
     model.add(Dense(1, activation="sigmoid", input_dim=size))
     model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
+    return model
+
+def linear_X_models_fit(model, X_param, Y_param, batch_size_param, epochs_param, save_path):
     model.fit(X_param, Y_param, batch_size=batch_size_param, verbose=0, epochs=epochs_param)
     model.save(save_path) 
     return model
@@ -33,12 +36,14 @@ def linear_X(X_all, Y, features, labels, label_names, isTrain, datasetPath):
 
     if isTrain:
         for i in range(nb_output):
-            model_all.append(linear_X_models(X_all, Y_all[i],
-                10000,
-                200,
-                path.format(str(i)),
-                image_size)
-            )
+            model_all.append(linear_X_models(image_size))
+        for i in range(nb_output):
+            linear_X_models_fit(model_all[i],
+                                        X_all,
+                                        Y_all[i],
+                                        10000,
+                                        200,
+                                        path.format(str(i)))
     else:
         for i in range(nb_output):
             model_all.append(load_linear_model(path.format(str(i)))) 

@@ -8,7 +8,7 @@ from tools import unpickle, get_label_names, display_batch_stat
 
 datasetPath = "../dataset/data_batch_"
 size = 32
-isTrain = False
+isTrain = True
 
 label_names = get_label_names()
 #for i in range(1, 5):
@@ -19,5 +19,5 @@ features, labels = unpickle("../dataset/data_batch_1", size, True)
 X_all = features.flatten().reshape(10000, size * size * 3)
 Y = np.asarray(labels)
 
-#linear10m(X_all, Y, features, labels, label_names, isTrain, datasetPath)
-linear_one_hot(X_all, Y, features, labels, label_names, isTrain, datasetPath)
+linear_X(X_all, Y, features, labels, label_names, isTrain, datasetPath)
+#linear_one_hot(X_all, Y, features, labels, label_names, isTrain, datasetPath)
