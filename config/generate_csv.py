@@ -6,7 +6,7 @@ activations=["sigmoid", "hard_sigmoid", "relu", "linear", "tanh", "elu", "selu",
 optimizers=["adadelta", "adagrad", "adam", "adamax", "ftrl", "nadam", "rmsprop", "sgd"]
 losses=["mean_squared_error", "mean_absolute_error", "mean_absolute_percentage_error", "mean_squared_logarithmic_error", "squared_hinge", "hinge", "categorical_hinge", "logcosh", "binary_crossentropy"]
 batchs=[500, 1000, 3000, 5000, 10000, 60000]
-epochs= [10, 20, 30]
+epochs= [50, 100, 200, 300]
 
 activation_param = []
 optimizer_param = []
@@ -15,7 +15,7 @@ batch_size_param = []
 epochs_param = []
 save_path_info = []
 
-for i in range(50):
+for i in range(100):
     activation_param.append(random.choice(activations))
     optimizer_param.append(random.choice(optimizers))
     loss_param.append(random.choice(losses))
@@ -33,4 +33,4 @@ for i in range(50):
 # both lists, with columns specified 
 df = pd.DataFrame(list(zip(activation_param, optimizer_param, loss_param, batch_size_param, epochs_param, save_path_info)), 
                columns =["activation_param", "optimizer_param", "loss_param", "batch_size_param", "epochs_param", "save_path_info"]) 
-df.to_csv("./linear_X.csv", index=False)
+df.to_csv("./linear.csv", index=False)

@@ -15,13 +15,18 @@ label_names = get_label_names()
 #for i in range(1, 5):
 #    display_batch_stat(i, label_names, datasetPath)
 
-features, labels = unpickle("../dataset/data_batch_1", size, True)
+X_all = []
+Y = []
 
-X_all = features.flatten().reshape(10000, size * size * 3)
-Y = np.asarray(labels)
+for i in range(1, 6):
+    features, labels = unpickle("../dataset/data_batch_{}".format(i), size, True)
+    X_all.append(features.flatten().reshape(10000, size * size * 3))
+    Y.append(np.asarray(labels))
 
+X_all = np.concatenate(X_all)
+Y = np.concatenate(Y)
 
-data = pd.read_csv("../config/linear_X.csv") 
+data = pd.read_csv("../config/linear.csv") 
 for i in range(data.shape[0]):
     activation_param = data['activation_param'].iloc[i]
     optimizer_param = data['optimizer_param'].iloc[i]
@@ -36,5 +41,5 @@ for i in range(data.shape[0]):
     print("batch_size_param : " + str(batch_size_param))
     print("epochs_param : " + str(epochs_param))
     print("save_path_info : " + str(save_path_info))
-    linear_X(X_all, Y, isTrain, activation_param, optimizer_param, loss_param, batch_size_param, epochs_param, save_path_info)
-#linear_one_hot(X_all, Y, features, labels, label_names, isTrain, datasetPath)
+#    linear_X(X_all, Y, isTrain, activation_param, optimizer_param, loss_param, batch_size_param, epochs_param, save_path_info)
+    linear_one_hot(X_all, Y, isTrain, activation_param, optimizer_param, loss_param, batch_size_param, epochs_param, save_path_info)
