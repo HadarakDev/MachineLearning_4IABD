@@ -6,7 +6,7 @@ activations=["sigmoid", "hard_sigmoid", "relu", "linear", "tanh", "elu", "selu",
 optimizers=["adadelta", "adagrad", "adam", "adamax", "ftrl", "nadam", "rmsprop", "sgd"]
 losses=["mean_squared_error", "mean_absolute_error", "mean_absolute_percentage_error", "mean_squared_logarithmic_error", "squared_hinge", "hinge", "categorical_hinge", "logcosh", "binary_crossentropy"]
 batchs=[500, 1000, 3000, 5000, 10000, 60000]
-epochs= [50, 100, 200, 300]
+epochs=[50, 100, 200, 300]
 
 activation_param = []
 optimizer_param = []

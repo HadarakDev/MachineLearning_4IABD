@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Dense, Flatten, Conv2D
+from tensorflow.keras.layers import Dense
 from tensorflow.keras import Model
 import numpy as np
 from tools import unpickle, get_label_names, display_batch_stat, load_linear_model
