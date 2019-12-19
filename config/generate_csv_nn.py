@@ -18,7 +18,7 @@ array_layers = []
 
 max_rand = 1000
 
-for i in range(10):
+for i in range(5):
     optimizer_param.append(random.choice(optimizers))
     loss_param.append(random.choice(losses))
     batch_size_param.append(random.choice(batchs))
