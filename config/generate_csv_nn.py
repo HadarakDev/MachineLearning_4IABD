@@ -7,6 +7,7 @@ optimizers=["adam", "sgd"]
 losses=["sparse_categorical_crossentropy"]
 batchs=[500, 1000, 3000, 5000, 10000, 60000]
 epochs=[400, 500, 600, 700]
+lrs=[0.0001]
 
 activation_param = []
 optimizer_param = []
@@ -15,6 +16,7 @@ batch_size_param = []
 epochs_param = []
 save_path_info = []
 array_layers = []
+lr = []
 
 max_rand = 1000
 
@@ -23,6 +25,7 @@ for i in range(5):
     loss_param.append(random.choice(losses))
     batch_size_param.append(random.choice(batchs))
     epochs_param.append(random.choice(epochs))
+    lr.append(random.choice(lrs))
 
     layers = []
     activ = []
@@ -39,6 +42,7 @@ for i in range(5):
     array_layers.append(layers)
     save_path_info.append(str(activation_param[i]) + "_" +
                            str(optimizer_param[i]) + "_" +
+                           str(lr[i]) + "_" +
                            str(loss_param[i]) + "_" +
                            str(batch_size_param[i]) + "_" +
                            str(epochs_param[i]))
@@ -46,6 +50,6 @@ for i in range(5):
   
 # Calling DataFrame constructor after zipping 
 # both lists, with columns specified 
-df = pd.DataFrame(list(zip(activation_param, optimizer_param, loss_param, batch_size_param, epochs_param, save_path_info, array_layers)), 
-               columns =["activation_param", "optimizer_param", "loss_param", "batch_size_param", "epochs_param", "save_path_info", "array_layers"]) 
+df = pd.DataFrame(list(zip(activation_param, optimizer_param, lr, loss_param, batch_size_param, epochs_param, save_path_info, array_layers)), 
+               columns =["activation_param", "optimizer_param", "learning_rate", "loss_param", "batch_size_param", "epochs_param", "save_path_info", "array_layers"]) 
 df.to_csv("./nn.csv", index=False)

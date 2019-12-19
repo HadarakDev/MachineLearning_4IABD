@@ -1,2 +1,6 @@
-activation_param,optimizer_param,loss_param,batch_size_param,epochs_param,save_path_info,array_layers
-relu;relu;relu;relu;relu;relu;relu;relu;relu,adam,sparse_categorical_crossentropy,3000,500,relu;relu;relu;relu;relu;relu;relu;relu;relu_adam_sparse_categorical_crossentropy_3000_500,900;700;600;600;500;500;500;300;200
+activation_param,optimizer_param,learning_rate,loss_param,batch_size_param,epochs_param,save_path_info,array_layers
+relu;sigmoid;tanh;sigmoid;relu;sigmoid;relu,adam,0.0001,sparse_categorical_crossentropy,1000,500,relu;sigmoid;tanh;sigmoid;relu;sigmoid;relu_adam_0.0001_sparse_categorical_crossentropy_1000_500,900;700;700;700;500;400;200
+tanh;sigmoid;sigmoid;tanh;tanh,sgd,0.0001,sparse_categorical_crossentropy,500,600,tanh;sigmoid;sigmoid;tanh;tanh_sgd_0.0001_sparse_categorical_crossentropy_500_600,800;700;400;400;300
+sigmoid;sigmoid;relu;sigmoid;sigmoid;tanh;tanh,adam,0.0001,sparse_categorical_crossentropy,60000,600,sigmoid;sigmoid;relu;sigmoid;sigmoid;tanh;tanh_adam_0.0001_sparse_categorical_crossentropy_60000_600,900;700;600;600;500;300;200
+relu;sigmoid;sigmoid;relu;relu;tanh;tanh;sigmoid;relu;sigmoid,sgd,0.0001,sparse_categorical_crossentropy,3000,600,relu;sigmoid;sigmoid;relu;relu;tanh;tanh;sigmoid;relu;sigmoid_sgd_0.0001_sparse_categorical_crossentropy_3000_600,900;800;600;600;600;500;500;300;300;200
+tanh;sigmoid;relu;tanh;tanh;tanh;tanh;relu,adam,0.0001,sparse_categorical_crossentropy,1000,500,tanh;sigmoid;relu;tanh;tanh;tanh;tanh;relu_adam_0.0001_sparse_categorical_crossentropy_1000_500,800;800;700;400;400;200;100;100

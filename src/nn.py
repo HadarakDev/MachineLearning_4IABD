@@ -3,10 +3,12 @@ from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras import Model
 import numpy as np
 import os
-from tools import unpickle, get_label_names, display_batch_stat, load_linear_model
+from tools import unpickle, get_label_names, display_batch_stat, load_linear_model, get_optimizer
+from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 
 
-def nn_model(size, nb_output, activation_param, optimizer_param, loss_param, array_layers):
+def nn_model(size, nb_output, activation_param, optimizer_param, lr_param, loss_param, array_layers):
+    optimizer_param = get_optimizer(optimizer_param, lr_param)
     model = tf.keras.Sequential()
 
     model.add(Dense(array_layers[0], activation=activation_param[0], input_dim=size))
@@ -32,7 +34,7 @@ def predict_nn(model, X):
     res = np.argmax((model.predict(img)))
     return res
 
-def nn_one_hot(X_all, Y, isTrain,  activation_param, optimizer_param, loss_param, batch_size_param, epochs_param, save_path_info, array_layers):
+def nn_one_hot(X_all, Y, isTrain,  activation_param, optimizer_param, lr_param, loss_param, batch_size_param, epochs_param, save_path_info, array_layers):
     nb_output = np.max(Y) + 1
     image_size = 32 * 32 * 3
 
@@ -47,6 +49,7 @@ def nn_one_hot(X_all, Y, isTrain,  activation_param, optimizer_param, loss_param
                     nb_output,
                     activation_param,
                     optimizer_param,
+                    lr_param,
                     loss_param,
                     array_layers)
         model = nn_model_fit(model, X_all,
