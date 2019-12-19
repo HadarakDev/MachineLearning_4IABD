@@ -8,7 +8,8 @@ from linear_one_hot import linear_one_hot
 from linear_sparse import linear_sparse
 from nn import nn_one_hot
 from cnn import test
-from tools import unpickle, get_label_names, display_batch_stat
+from tools import unpickle, get_label_names, display_batch_stat, create_dirs
+
 
 datasetPath = "../dataset/data_batch_"
 size = 32
@@ -79,4 +80,5 @@ def nn():
 # test(X_all, Y)
 
 if __name__ == "__main__":
-    linear()
+    create_dirs()
+    #linear()

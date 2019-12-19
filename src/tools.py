@@ -2,6 +2,7 @@ import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
+import os
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 
 def unpickle(path_batch, size, isRGB):
@@ -49,3 +50,10 @@ def get_optimizer(optimizer_param, lr_param):
     if optimizer_param == "sgd":
         optimizer_param = SGD(lr=lr_param)   
     return optimizer_param
+
+def create_dirs():
+    list_dir = ["cnn_sparse", "linear_one_hot", "linear_sparse" , "linearX", "nn_sparse", "saves"]
+    for dir in list_dir:
+        directory = "../models/" + dir 
+        if not os.path.exists(directory):
+            os.mkdir(directory)
