@@ -19,7 +19,7 @@ def linear_X_models_fit(model, X_param, Y_param, batch_size_param, epochs_param,
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
     model.fit(X_param, Y_param, batch_size=batch_size_param,
               verbose=1, epochs=epochs_param,
-              callbacks=[tensorboard_callback])
+              callbacks=[tensorboard_callback], validation_split=0.2)
     model.save(save_path)
     return model
 

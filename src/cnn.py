@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras import Model
 import numpy as np
 import os
@@ -64,16 +64,21 @@ def cnn_one_hot(X_all, Y, isTrain,  activation_param, optimizer_param, loss_para
 
 def test(X, Y):
     X = X.reshape(50000, 32, 32, 3)
+    path = "..\\models\\cnn_sparse\\test\\"
+    save_path = path + "model.h5"
     model = tf.keras.Sequential()
     model.add(tf.keras.layers.Conv2D(32, (4, 4), activation='relu', input_shape=(32, 32, 3)))
     model.add(tf.keras.layers.MaxPooling2D((4, 4), padding='SAME'))
+    #model.add(Dropout(0.1))
     model.add(tf.keras.layers.Conv2D(100, (3, 3), activation='relu'))
     model.add(tf.keras.layers.MaxPooling2D((2, 2), padding='SAME'))
+    #model.add(Dropout(0.1))
     model.add(tf.keras.layers.Conv2D(120, (3, 3), activation='relu'))
 
 
     model.add(tf.keras.layers.Flatten())
     model.add(tf.keras.layers.Dense(120, activation='relu'))
+    #model.add(Dropout(0.1))
     model.add(tf.keras.layers.Dense(120, activation='relu'))
     model.add(tf.keras.layers.Dense(10, activation='softmax'))
 
@@ -81,7 +86,8 @@ def test(X, Y):
     model.compile(optimizer='adam',
                 loss='sparse_categorical_crossentropy', batch_size=10000,
                 metrics=['accuracy'])
-
-    history = model.fit(X, Y, epochs=10)
+    model.save(save_path)
+    tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=path, histogram_freq=1)
+    history = model.fit(X, Y, epochs=10, callbacks=[tensorboard_callback], validation_split=0.2)
 
     print(history.history['accuracy'])

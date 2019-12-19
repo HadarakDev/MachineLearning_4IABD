@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras import Model
 import numpy as np
 import os
@@ -12,6 +12,7 @@ def nn_model(size, nb_output, activation_param, optimizer_param, loss_param, arr
     model.add(Dense(array_layers[0], activation=activation_param[0], input_dim=size))
 
     for i in range(1, len(array_layers)):
+        model.add(Dropout(0.1))
         model.add(Dense(array_layers[i], activation=activation_param[i]))
 
     model.add(Dense(nb_output, activation="softmax"))
@@ -22,7 +23,7 @@ def nn_model(size, nb_output, activation_param, optimizer_param, loss_param, arr
 def nn_model_fit(model, X_param, Y_param, batch_size_param, epochs_param, save_path, save_path_info):
     log_dir = "..\\models\\nn_sparse\\" + save_path_info
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-    model.fit(X_param, Y_param, batch_size=batch_size_param, verbose=1, epochs=epochs_param, callbacks=[tensorboard_callback])
+    model.fit(X_param, Y_param, batch_size=batch_size_param, verbose=1, epochs=epochs_param, callbacks=[tensorboard_callback], validation_split=0.2)
     model.save(save_path)
     return model
 
