@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import os
 
-from tensorboard.backend.event_processing.event_accumulator import EventAccumulator
+from tensorboard.backend.event_processing import event_accumulator
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 
 def unpickle(path_batch, size, isRGB):
@@ -62,19 +62,58 @@ def create_dirs():
             os.mkdir(directory)
 
 def export_tensorboard():
-    # model_type_dir = os.listdir("../models")
-    # for d in model_type_dir:
-    #     if os.path.isdir("../models/" + d):
-    #         model_dir = os.listdir("../models/" + d)
-    #         for md in model_dir:
-    #             print(md)
-    #             x = EventAccumulator(path="../models/" + d + "/" + md)
-    #
+    model_type_dir = os.listdir("../models")
+    acc_sparse = []
+    acc = []
+    loss_sparse = []
+    loss = []
+    f_name_sparse = []
+    f_name = []
+    for d in model_type_dir:
+        if os.path.isdir("../models/" + d):
+            model_dir = os.listdir("../models/" + d)
+            for md in model_dir:
+                #print("file: " + md)
+                path_file = "../models/" + d + "/" + md + "/train/"
+                ea = event_accumulator.EventAccumulator(path=path_file)
+                ea.Reload()
+                if "sparse" in path_file: 
+                    acc_sparse.append(ea.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
+                    loss_sparse.append(ea.Scalars('epoch_loss')[-1][2])
+                    f_name_sparse.append(md)
+                else:
+                    acc.append(ea.Scalars('epoch_accuracy')[-1][2])
+                    loss.append(ea.Scalars('epoch_loss')[-1][2])
+                    f_name.append(md)
 
-        x = EventAccumulator(path="../models/linear_one_hot/elu_adadelta_0.0001_categorical_crossentropy_5000_200/validation/events.out.tfevents.1576845217.DESKTOP-U4CNN6N.1264.1813286.v2",
-            size_guidance={EventAccumulator.SCALARS: 0})
-        tags = x.Tags()
-        print(tags)
-        print(x.Scalars('Loss'))
+    print(acc_sparse)
+    print(loss_sparse)
+    print(acc)
+    print(loss)
+    for i, f in enumerate(f_name):
+        f_name[i] = "_".join(f.split("_", 2)[:2])
+    for i, f in enumerate(f_name_sparse):
+        f_name_sparse[i] = "_".join(f.split("_", 2)[:2])
+    print(f_name)
+    print(f_name_sparse)
+    dict = {'Name': f_name_sparse,
+        'activation': [elt.split("_")[0] for elt in f_name_sparse],
+        'optimizer': [elt.split("_")[1] for elt in f_name_sparse],
+        'is_one_hot': [True] * len(f_name_sparse),
+        'loss': loss_sparse,
+        'accuracy': acc_sparse}          
+    df_sparse = pd.DataFrame(dict) 
+    print(df_sparse)
+    dict2 = {'Name': f_name,
+        'activation': [elt.split("_")[0] for elt in f_name],
+        'optimizer': [elt.split("_")[1] for elt in f_name],
+        'is_one_hot': [False] * len(f_name),
+        'loss': loss,
+        'accuracy': acc}
+    df = pd.DataFrame(dict2)
+    frames = [df_sparse, df]
+    result = pd.concat(frames)
+    print(result)
+    result.to_csv("../one_hot_vs_sparse.csv", index=False)
 
 export_tensorboard()
