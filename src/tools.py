@@ -1,8 +1,11 @@
 import pickle
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import os
+
+from tensorboard.backend.event_processing.event_accumulator import EventAccumulator
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 
 def unpickle(path_batch, size, isRGB):
@@ -57,3 +60,18 @@ def create_dirs():
         directory = "../models/" + dir 
         if not os.path.exists(directory):
             os.mkdir(directory)
+
+def export_tensorboard():
+    # model_type_dir = os.listdir("../models")
+    # for d in model_type_dir:
+    #     if os.path.isdir("../models/" + d):
+    #         model_dir = os.listdir("../models/" + d)
+    #         for md in model_dir:
+    #             print(md)
+    #             x = EventAccumulator(path="../models/" + d + "/" + md)
+    #
+
+        x = EventAccumulator(path="../models/linear_one_hot/linear_adadelta_0.0001_categorical_crossentropy_5000_200/validation     ")
+        tags = x.Tags()
+        print(tags)
+
