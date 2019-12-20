@@ -71,7 +71,10 @@ def export_tensorboard():
     #             x = EventAccumulator(path="../models/" + d + "/" + md)
     #
 
-        x = EventAccumulator(path="../models/linear_one_hot/linear_adadelta_0.0001_categorical_crossentropy_5000_200/validation     ")
+        x = EventAccumulator(path="../models/linear_one_hot/elu_adadelta_0.0001_categorical_crossentropy_5000_200/validation/events.out.tfevents.1576845217.DESKTOP-U4CNN6N.1264.1813286.v2",
+            size_guidance={EventAccumulator.SCALARS: 0})
         tags = x.Tags()
         print(tags)
+        print(x.Scalars('Loss'))
 
+export_tensorboard()
