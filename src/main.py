@@ -52,8 +52,12 @@ def linear():
         print("epochs_param : " + str(epochs_param))
         print("save_path_info : " + str(save_path_info))
         #linear_X(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, loss_param, batch_size_param, epochs_param, save_path_info)
-        linear_one_hot(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, loss_param, batch_size_param, epochs_param, save_path_info)
-        linear_sparse(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, loss_param_sparse, batch_size_param, epochs_param, save_path_info)
+        #linear_one_hot(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, loss_param, batch_size_param, epochs_param, save_path_info)
+        
+        save_path_info_sparse = save_path_info.split("_")
+        save_path_info_sparse.insert(3, "sparse")
+        save_path_info_sparse = "_".join(save_path_info_sparse)
+        linear_sparse(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, loss_param_sparse, batch_size_param, epochs_param, save_path_info_sparse)
 
 def nn():
     data = pd.read_csv("../config/nn.csv") 
@@ -81,4 +85,4 @@ def nn():
 
 if __name__ == "__main__":
     create_dirs()
-    #linear()
+    linear()
