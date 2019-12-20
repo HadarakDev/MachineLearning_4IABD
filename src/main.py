@@ -28,7 +28,7 @@ for i in range(1, 6):
     Y.append(np.asarray(labels))
 
 X_all = np.concatenate(X_all)
-#X_all = X_all / 255.0
+X_all = X_all / 255.0
 
 Y = np.concatenate(Y)
 

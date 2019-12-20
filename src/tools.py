@@ -61,6 +61,15 @@ def create_dirs():
         if not os.path.exists(directory):
             os.mkdir(directory)
 
+def create_dic(f_name, loss, acc, boolean):
+    return {'Name': f_name,
+        'activation': [elt.split("_")[0] for elt in f_name],
+        'optimizer': [elt.split("_")[1] for elt in f_name],
+        'is_one_hot': [boolean] * len(f_name),
+        'loss': loss,
+        'accuracy': acc}
+
+
 def export_tensorboard():
     model_type_dir = os.listdir("../models")
     acc_sparse = []
@@ -86,34 +95,21 @@ def export_tensorboard():
                     loss.append(ea.Scalars('epoch_loss')[-1][2])
                     f_name.append(md)
 
-    print(acc_sparse)
-    print(loss_sparse)
-    print(acc)
-    print(loss)
+    # Split names to get only
     for i, f in enumerate(f_name):
         f_name[i] = "_".join(f.split("_", 2)[:2])
     for i, f in enumerate(f_name_sparse):
         f_name_sparse[i] = "_".join(f.split("_", 2)[:2])
-    print(f_name)
-    print(f_name_sparse)
-    dict = {'Name': f_name_sparse,
-        'activation': [elt.split("_")[0] for elt in f_name_sparse],
-        'optimizer': [elt.split("_")[1] for elt in f_name_sparse],
-        'is_one_hot': [True] * len(f_name_sparse),
-        'loss': loss_sparse,
-        'accuracy': acc_sparse}          
-    df_sparse = pd.DataFrame(dict) 
-    print(df_sparse)
-    dict2 = {'Name': f_name,
-        'activation': [elt.split("_")[0] for elt in f_name],
-        'optimizer': [elt.split("_")[1] for elt in f_name],
-        'is_one_hot': [False] * len(f_name),
-        'loss': loss,
-        'accuracy': acc}
-    df = pd.DataFrame(dict2)
-    frames = [df_sparse, df]
+
+    # generate dataframes with values
+    df_sparse = pd.DataFrame(create_dic(f_name_sparse, loss_sparse, acc_sparse, True))  
+    df_one_hot = pd.DataFrame(create_dic(f_name, loss, acc, False))
+
+    # Merge sparse and one hot df
+    frames = [df_sparse, df_one_hot]
     result = pd.concat(frames)
     print(result)
+    # Save to csv
     result.to_csv("../one_hot_vs_sparse.csv", index=False)
 
-export_tensorboard()
+#export_tensorboard()
