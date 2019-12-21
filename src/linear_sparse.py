@@ -5,6 +5,7 @@ import numpy as np
 import os
 from tools import unpickle, get_label_names, display_batch_stat, load_linear_model, get_optimizer
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
+from config import isGray
 
 
 def linear_model(size, nb_output, activation_param, optimizer_param, lr_param, loss_param):
@@ -28,8 +29,11 @@ def predict_linear(model, X):
     return res
 
 def linear_sparse(X_all, Y, isTrain,  activation_param, optimizer_param, lr_param, loss_param, batch_size_param, epochs_param, save_path_info):
+    if isGray:
+        image_size = 32 * 32
+    else:
+        image_size = 32 * 32 * 3
     nb_output = np.max(Y) + 1
-    image_size = 32 * 32 * 3
     directory = "../models/linear_sparse/" + save_path_info
     if not os.path.exists(directory):
         os.mkdir(directory)
