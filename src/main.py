@@ -28,7 +28,10 @@ for i in range(1, 6):
     Y.append(np.asarray(labels))
 
 X_all = np.concatenate(X_all)
+# norm
 X_all = X_all / 255.0
+# Gray
+X_all = np.mean(X_all.reshape(-1,size * size, 3), axis=2)
 
 Y = np.concatenate(Y)
 

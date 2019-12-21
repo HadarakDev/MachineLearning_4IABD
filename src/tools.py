@@ -65,109 +65,45 @@ def create_dic(f_name, loss, acc, is_one_hot, is_norm, is_gray):
     return {'Name': f_name,
         'activation': [elt.split("_")[0] for elt in f_name],
         'optimizer': [elt.split("_")[1] for elt in f_name],
-        'is_one_hot': [is_one_hot] * len(f_name),
-        'is_norm': [is_norm] * len(f_name),
-        'is_gray': [is_gray] * len(f_name),
+        'is_sparse': is_one_hot,
+        'is_norm': is_norm,
+        'is_gray': is_gray,
         'loss': loss,
         'accuracy': acc}
 
 
 def export_tensorboard():
     model_type_dir = os.listdir("../models")
-    acc = [[],[],[],[],[],[],[],[]]
-    loss = [[],[],[],[],[],[],[],[]]
-    f_name = [[],[],[],[],[],[],[],[]]
+    f_name = []
+    loss = []
+    acc = []
     for d in model_type_dir:
         if os.path.isdir("../models/" + d):
             model_dir = os.listdir("../models/" + d)
             for md in model_dir:
                 #print("file: " + md)
-                path_file = "../models/" + d + "/" + md + "/train/"
-                ea = event_accumulator.EventAccumulator(path=path_file)
+                file_name = "../models/" + d + "/" + md + "/train/"
+                ea = event_accumulator.EventAccumulator(path=file_name)
                 ea.Reload()
-                # Sparse only
-                if "sparse" in path_file and "norm" not in path_file and "gray" not in path_file:
-                    i = 0
-                    acc[i].append(ea.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
-                    loss[i].append(ea.Scalars('epoch_loss')[-1][2])
-                    f_name[i].append(md)
-                    continue
-                # Nothing
-                if "sparse" not in path_file and "norm" not in path_file and "gray" not in path_file:
-                    i = 1
-                    acc[i].append(ea.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
-                    loss[i].append(ea.Scalars('epoch_loss')[-1][2])
-                    f_name[i].append(md)
-                    continue
-                # Sparse + norm
-                if "sparse" in path_file and "norm" in path_file and "gray" not in path_file:
-                    i = 2
-                    acc[i].append(ea.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
-                    loss[i].append(ea.Scalars('epoch_loss')[-1][2])
-                    f_name[i].append(md)
-                    continue
-                # Norm
-                if "sparse" not in path_file and "norm" in path_file and "gray" not in path_file:
-                    i = 3
-                    acc[i].append(ea.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
-                    loss[i].append(ea.Scalars('epoch_loss')[-1][2])
-                    f_name[i].append(md)
-                    continue
-                # Sparse Gray
-                if "sparse" in path_file and "norm" not in path_file and "gray" in path_file:
-                    i = 4
-                    acc[i].append(ea.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
-                    loss[i].append(ea.Scalars('epoch_loss')[-1][2])
-                    f_name[i].append(md)
-                    continue
-                # Gray
-                if "sparse" not in path_file and "norm" not in path_file and "gray" in path_file:
-                    i = 5
-                    acc[i].append(ea.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
-                    loss[i].append(ea.Scalars('epoch_loss')[-1][2])
-                    f_name[i].append(md)
-                    continue
-                # Sparse + Gray + Norm
-                if "sparse" in path_file and "norm" in path_file and "gray" in path_file:
-                    i = 6
-                    acc[i].append(ea.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
-                    loss[i].append(ea.Scalars('epoch_loss')[-1][2])
-                    f_name[i].append(md)
-                    continue
-                # Gray + Norm
-                if "sparse" not in path_file and "norm" in path_file and "gray" in path_file:
-                    i = 7
-                    acc[i].append(ea.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
-                    loss[i].append(ea.Scalars('epoch_loss')[-1][2])
-                    f_name[i].append(md)
-                    continue
-            
-
-
-    # Split names to get only
-    # for ici
-    for i in range(8):
-        for j, f in enumerate(f_name[0]):
-            f_name[i][j] = "_".join(f.split("_", 2)[:2])
+                loss.append(ea.Scalars('epoch_loss')[-1][2])
+                f_name.append(md)
+                try:
+                    acc.append(ea.Scalars('epoch_accuracy')[-1][2])
+                except:
+                    acc.append(ea.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
+        
+    # Split names to get only optimizer + activation
+    f_names_short = []
+    for f in f_name:
+        f_names_short.append("_".join(f.split("_", 2)[:2]))
 
     # generate dataframes with values
     frames = []
-    # Sparse only
-    frames.append(pd.DataFrame(create_dic(f_name[0], loss[0], acc[0], True, False, False)))
-    # Nothing
-    frames.append(pd.DataFrame(create_dic(f_name[1], loss[1], acc[1], False, False, False)))
-    # Sparse + norm
-    frames.append(pd.DataFrame(create_dic(f_name[2], loss[2], acc[2], True, True, False)))
-    # Norm
-    frames.append(pd.DataFrame(create_dic(f_name[3], loss[3], acc[3], False, True, False)))
-    # Sparse Gray
-    frames.append(pd.DataFrame(create_dic(f_name[4], loss[4], acc[4], True, False, True)))
-    # Gray
-    frames.append(pd.DataFrame(create_dic(f_name[5], loss[5], acc[5], False, False, True)))
-    # Sparse + Gray + Norm
-    frames.append(pd.DataFrame(create_dic(f_name[6], loss[6], acc[6], True, True, True)))
-    # Gray + Norm
-    frames.append(pd.DataFrame(create_dic(f_name[7], loss[7], acc[7], False, True, True)))
+    sparse = [True if 'sparse' in x else False for x in f_name]
+    gray = [True if 'gray' in x else False for x in f_name]
+    norm = [True if 'norm' in x else False for x in f_name]
+
+    frames.append(pd.DataFrame(create_dic(f_names_short, loss, acc, sparse, gray, norm)))
 
     # Merge all
     result = pd.concat(frames)
@@ -175,4 +111,4 @@ def export_tensorboard():
     # Save to csv
     result.to_csv("../one_hot_vs_sparse.csv", index=False)
 
-#export_tensorboard()
+export_tensorboard()
