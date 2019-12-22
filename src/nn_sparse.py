@@ -5,7 +5,7 @@ import numpy as np
 import os
 from tools import unpickle, get_label_names, display_batch_stat, load_linear_model, get_optimizer
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
-from tools import isGray
+from config import isGray
 
 
 def nn_model(size, nb_output, activation_param, optimizer_param, lr_param, loss_param, array_layers):
