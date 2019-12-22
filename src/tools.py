@@ -110,5 +110,3 @@ def export_tensorboard():
     print(result)
     # Save to csv
     result.to_csv("../one_hot_vs_sparse.csv", index=False)
-
-export_tensorboard()
