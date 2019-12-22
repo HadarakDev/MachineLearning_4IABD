@@ -5,9 +5,9 @@ import random
 activations=["sigmoid", "hard_sigmoid", "relu", "linear", "tanh", "elu", "selu", "softmax", "softplus", "softsign"]
 optimizers=["adadelta", "adagrad", "adam", "adamax", "ftrl", "nadam", "rmsprop", "sgd"]
 losses=["categorical_crossentropy"]
-batchs=[5000]
-epochs=[200]
-lrs=[0.0001]
+batchs=[50000]
+epochs=[600]
+lrs=[0.001]
 
 activation_param = []
 optimizer_param = []
