@@ -56,7 +56,7 @@ def nn_one_hot(X_all, Y, isTrain,  activation_param, optimizer_param, lr_param, 
                     loss_param,
                     array_layers)
         model = nn_model_fit(model, X_all,
-                    Y,
+                    Y_one_hot,
                     batch_size_param,
                     epochs_param,
                     path, save_path_info)
