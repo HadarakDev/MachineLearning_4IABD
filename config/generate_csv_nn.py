@@ -38,7 +38,7 @@ for i in range(100000):
     layers.sort(reverse = True)
     activ = ';'.join(map(str, activ)) 
     layers = ';'.join(map(str, layers)) 
-
+    
     activation_param.append(activ)
     array_layers.append(layers)
     save_path_info.append(str(activation_param[i]) + "_" +
@@ -46,7 +46,8 @@ for i in range(100000):
                            str(lr[i]) + "_" +
                            str(loss_param[i]) + "_" +
                            str(batch_size_param[i]) + "_" +
-                           str(epochs_param[i]))
+                           str(epochs_param[i]) + "_" +
+                           str(layers))
 
   
 # Calling DataFrame constructor after zipping 
