@@ -2,11 +2,11 @@
 import pandas as pd 
 import random 
   
-activations=["relu", "sigmoid", "tanh"]
-optimizers=["adam", "sgd"]
-losses=["sparse_categorical_crossentropy"]
-batchs=[500, 1000, 3000, 5000, 10000, 60000]
-epochs=[400, 500, 600, 700]
+activations=["sigmoid", "hard_sigmoid", "relu", "linear", "tanh", "elu", "selu", "softmax", "softplus", "softsign"]
+optimizers=["adadelta", "adagrad", "adam", "adamax", "ftrl", "nadam", "rmsprop", "sgd"]
+losses=["categorical_crossentropy"]
+batchs=[5000]
+epochs=[200]
 lrs=[0.0001]
 
 activation_param = []
@@ -20,7 +20,7 @@ lr = []
 
 max_rand = 1000
 
-for i in range(5):
+for i in range(100000):
     optimizer_param.append(random.choice(optimizers))
     loss_param.append(random.choice(losses))
     batch_size_param.append(random.choice(batchs))
@@ -29,9 +29,10 @@ for i in range(5):
 
     layers = []
     activ = []
-    for j in range(random.randint(5, 15)):
-        activ.append(random.choice(activations))
-        layers.append(random.randrange(100, max_rand, 100))
+    same_activation = random.choice(activations)
+    for j in range(4):
+        activ.append(same_activation)
+        layers.append(random.randrange(64, 65, 1))
     
     
     layers.sort(reverse = True)
@@ -50,6 +51,9 @@ for i in range(5):
   
 # Calling DataFrame constructor after zipping 
 # both lists, with columns specified 
-df = pd.DataFrame(list(zip(activation_param, optimizer_param, lr, loss_param, batch_size_param, epochs_param, save_path_info, array_layers)), 
+l = list(zip(activation_param, optimizer_param, lr, loss_param, batch_size_param, epochs_param, save_path_info, array_layers))
+list_set = set(l) 
+unique_list = (list(list_set))
+df = pd.DataFrame(list_set, 
                columns =["activation_param", "optimizer_param", "learning_rate", "loss_param", "batch_size_param", "epochs_param", "save_path_info", "array_layers"]) 
 df.to_csv("./nn.csv", index=False)

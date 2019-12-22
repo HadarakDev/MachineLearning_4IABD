@@ -1,1 +1,1 @@
-isGray = True
+isGray = False
