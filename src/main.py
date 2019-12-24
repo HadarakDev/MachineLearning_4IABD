@@ -30,9 +30,9 @@ for i in range(1, 6):
 
 X_all = np.concatenate(X_all)
 # norm
-#X_all = X_all / 255.0
+# X_all = X_all / 255.0
 # Gray
-#X_all = np.mean(X_all.reshape(-1,size * size, 3), axis=2)
+# X_all = np.mean(X_all.reshape(-1,size * size, 3), axis=2)
 
 Y = np.concatenate(Y)
 
@@ -88,7 +88,7 @@ def nn():
         save_path_info_sparse = save_path_info.split("_")
         save_path_info_sparse.insert(3, "sparse")
         save_path_info_sparse = "_".join(save_path_info_sparse)
-        nn_sparse(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, loss_param_sparse, batch_size_param, epochs_param, save_path_info, array_layers)
+        nn_sparse(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, loss_param_sparse, batch_size_param, epochs_param, save_path_info_sparse, array_layers)
 
 # test(X_all, Y)
 
