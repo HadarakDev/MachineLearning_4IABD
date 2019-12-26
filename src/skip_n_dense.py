@@ -14,6 +14,7 @@ import numpy as np
 
 
 from tools import unpickle, get_label_names, display_batch_stat, create_dirs
+from config import isGray
 
 
 def shift_out(last_output, penultimate_output, i):
@@ -75,15 +76,19 @@ if __name__ == "__main__":
         Y.append(np.asarray(labels))
 
     X_all = np.concatenate(X_all)
-    X_all = X_all.reshape(50000, size, size, 3)
+    # Gray
+    if isGray:
+        X_all = np.mean(X_all.reshape(-1, size * size, 3), axis=2)
+        X_all = X_all.reshape(50000, size, size)
+    else:
+        X_all = X_all.reshape(50000, size, size, 3)
     # norm
     X_all = X_all / 255.0
-    # Gray
-    # X_all = np.mean(X_all.reshape(-1, size * size, 3), axis=2)
-
+    
+    print(np.shape(X_all))
     Y = np.concatenate(Y)
 
-    model = resnet_model_dense(3, 6, (32, 32, 3))
+    model = resnet_model_dense(5, 2, (size, size))
     print(model.summary())
     plot_model(model, "residual_dense.png")
     model.fit(X_all, Y, validation_split=0.2,
