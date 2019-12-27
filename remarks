@@ -1,0 +1,10 @@
+Linear
+
+Norm
+6us => 33us
+
+Sparse uses more GPU than one_hot
+
+Gray
+
+elu_adam_0.0001_categorical_crossentropy_5000_200_norm
