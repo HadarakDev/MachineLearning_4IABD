@@ -16,7 +16,11 @@ Pour run un NN =>
 
 
 DROPOUT 0.2 :
+
 DROPOUT 0.4 :
+
 L1l2  :
+
 L1l2 DROPOUT 0.2 :
+
 L1l2 DROPOUT 0.4 :
