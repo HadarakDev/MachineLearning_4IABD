@@ -3,18 +3,29 @@ from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras import Model
 import numpy as np
 import os
+
+from tensorflow_core.python.keras.layers import MaxPool2D, AveragePooling2D
+
 from tools import unpickle, get_label_names, display_batch_stat, load_linear_model, get_optimizer
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 
 
-def cnn_model(size, nb_output, activation_param, optimizer_param, lr_param, loss_param, array_layers):
+def cnn_model(size, nb_output, activation_param, optimizer_param, lr_param, loss_param, array_layers, pooling_param, kernel_shape_param):
     optimizer_param = get_optimizer(optimizer_param, lr_param)
     model = tf.keras.Sequential()
 
-    model.add(Dense(array_layers[0], activation=activation_param[0], input_dim=size))
+    model.add(tf.keras.layers.Conv2D(filters=array_layers[0], kernel_size=(kernel_shape_param, kernel_shape_param), padding='same', activation=activation_param[0], input_shape=(32, 32, 3)))
+    if pooling_param == "avg_pool":
+        model.add(AveragePooling2D((2, 2), padding='same'))
+    else:
+        model.add(MaxPool2D((2, 2), padding='same'))
 
     for i in range(1, len(array_layers)):
-        model.add(Dense(array_layers[i], activation=activation_param[i]))
+        model.add(tf.keras.layers.Conv2D(array_layers[i], (kernel_shape_param, kernel_shape_param), padding='same',  activation=activation_param[i]))
+        if pooling_param == "avg_pool":
+            model.add(AveragePooling2D((2, 2), padding='same'))
+        else:
+            model.add(MaxPool2D((2, 2), padding='same'))
 
     model.add(Dense(nb_output, activation="softmax"))
     model.compile(optimizer=optimizer_param, loss=loss_param, metrics=['sparse_categorical_accuracy'])
@@ -33,10 +44,9 @@ def predict_cnn(model, X):
     res = np.argmax((model.predict(img)))
     return res
 
-def cnn_one_hot(X_all, Y, isTrain,  activation_param, optimizer_param, lr_param, loss_param, batch_size_param, epochs_param, save_path_info, array_layers):
+def cnn_sparse(X_all, Y, isTrain,  activation_param, optimizer_param, lr_param, loss_param, batch_size_param, epochs_param, save_path_info, array_layers, pooling_param, filter_shape_param):
     nb_output = np.max(Y) + 1
     image_size = 32 * 32 * 3
-
 
     directory = "../models/cnn_sparse/" + save_path_info
     if not os.path.exists(directory):
@@ -50,7 +60,9 @@ def cnn_one_hot(X_all, Y, isTrain,  activation_param, optimizer_param, lr_param,
                     optimizer_param,
                     lr_param,
                     loss_param,
-                    array_layers)
+                    array_layers,
+                    pooling_param,
+                    filter_shape_param)
         model = cnn_model_fit(model, X_all,
                     Y,
                     batch_size_param,
@@ -58,11 +70,6 @@ def cnn_one_hot(X_all, Y, isTrain,  activation_param, optimizer_param, lr_param,
                     path, save_path_info)
     else:
         model = load_linear_model(path)
-    
-    #for i in range(1000):
-    #    res = predict_cnn(model, X_all[i])
-    #    print("predict => " + label_names[res] + " | expected => "  + label_names[Y[i]])
-
 
 
 def test(X, Y):

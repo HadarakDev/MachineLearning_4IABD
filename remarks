@@ -8,3 +8,18 @@ Sparse uses more GPU than one_hot
 Gray
 
 elu_adam_0.0001_categorical_crossentropy_5000_200_norm
+
+
+Generate CNN
+
+average Ou Max Pool (2*2)
+Taille Filtre (fixe ou 3*3)
+Nombre de filtres ( a definir )
+meme nombre de params (check couches)
+
+Total params: 209,802
+Trainable params: 209,802
+Non-trainable params: 0
+
+
+replace ; par _ dans les noms de dossier models
