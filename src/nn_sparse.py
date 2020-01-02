@@ -42,7 +42,6 @@ def nn_sparse(X_all, Y, isTrain,  activation_param, optimizer_param, lr_param, l
     else:
         image_size = 32 * 32 * 3
 
-
     directory = "../models/nn_sparse/" + save_path_info
     if not os.path.exists(directory):
         os.mkdir(directory)

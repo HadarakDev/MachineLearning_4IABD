@@ -6,7 +6,7 @@ optimizers=["adadelta", "adagrad", "adam", "adamax", "ftrl", "nadam", "rmsprop",
 pooling=["avg_pool", "max_pool"]
 losses=["categorical_crossentropy"]
 kernel_shape=[2, 3]
-batchs=[5000]
+batchs=[500]
 epochs=[600]
 lrs=[0.001]
 
@@ -21,7 +21,7 @@ save_path_info = []
 array_layers = []
 lr = []
 
-for i in range(1):
+for i in range(10000):
     optimizer_param.append(random.choice(optimizers))
     pooling_param.append(random.choice(pooling))
     kernel_shape_param.append(random.choice(kernel_shape))
@@ -35,7 +35,7 @@ for i in range(1):
     same_activation = random.choice(activations)
     for j in range(4):
         activ.append(same_activation)
-        layers.append(random.randrange(64, 65, 1))
+        layers.append(random.randrange(128, 129, 1))
 
     layers.sort(reverse=True)
     activ = ';'.join(map(str, activ))

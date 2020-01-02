@@ -16,9 +16,9 @@ def cnn_model(nb_output, activation_param, optimizer_param, lr_param, loss_param
 
     model.add(tf.keras.layers.Conv2D(filters=array_layers[0], kernel_size=(kernel_shape_param, kernel_shape_param), padding='same', activation=activation_param[0], input_shape=(32, 32, 3)))
     if pooling_param == "avg_pool":
-        model.add(tf.keras.layers.AveragePooling2D((4, 4), padding='same'))
+        model.add(tf.keras.layers.AveragePooling2D((2, 2), padding='same'))
     else:
-        model.add(tf.keras.layers.MaxPooling2D((4, 4), padding='same'))
+        model.add(tf.keras.layers.MaxPooling2D((2, 2), padding='same'))
 
     for i in range(1, len(array_layers)):
         model.add(tf.keras.layers.Conv2D(array_layers[i], (kernel_shape_param, kernel_shape_param), padding='same',  activation=activation_param[i]))
@@ -26,7 +26,7 @@ def cnn_model(nb_output, activation_param, optimizer_param, lr_param, loss_param
             model.add(tf.keras.layers.AveragePooling2D((2, 2), padding='same'))
         else:
             model.add(tf.keras.layers.MaxPooling2D((2, 2), padding='same'))
-    # model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Flatten())
     model.add(Dense(nb_output, activation="softmax"))
     print(loss_param)
     model.compile(optimizer=optimizer_param, loss=loss_param, metrics=['sparse_categorical_accuracy'])
@@ -34,11 +34,9 @@ def cnn_model(nb_output, activation_param, optimizer_param, lr_param, loss_param
     return model
 
 def cnn_model_fit(model, X_param, Y_param, batch_size_param, epochs_param, save_path, save_path_info):
-    print(X_param.shape)
-    print(Y_param.shape)
     log_dir = "..\\models\\cnn_sparse\\" + save_path_info
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-    model.fit(X_param, Y_param, batch_size=batch_size_param, verbose=1, epochs=epochs_param, callbacks=[tensorboard_callback])
+    model.fit(X_param, Y_param, batch_size=batch_size_param, verbose=1, epochs=epochs_param, callbacks=[tensorboard_callback], validation_split=0.2)
     model.save(save_path)
     return model
 
@@ -76,34 +74,3 @@ def cnn_sparse(X_all, Y, isTrain,  activation_param, optimizer_param, lr_param, 
     else:
         model = load_linear_model(path)
 
-
-def test(X, Y):
-    X = X.reshape(50000, 32, 32, 3)
-    # path = "..\\models\\cnn_sparse\\test\\"
-    # save_path = path + "model.h5"
-    model = tf.keras.Sequential()
-    model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=(32, 32, 3)))
-    model.add(tf.keras.layers.MaxPooling2D((2, 2), padding='SAME'))
-    #model.add(Dropout(0.1))
-    model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu'))
-    model.add(tf.keras.layers.MaxPooling2D((2, 2), padding='SAME'))
-    #model.add(Dropout(0.1))
-    model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu'))
-
-
-    # model.add(tf.keras.layers.Flatten())
-    # model.add(tf.keras.layers.Dense(120, activation='relu'))
-    # #model.add(Dropout(0.1))
-    # model.add(tf.keras.layers.Dense(120, activation='relu'))
-    model.add(tf.keras.layers.Dense(10, activation='softmax'))
-
-    model.summary()
-    model.compile(optimizer='adam',
-                loss='sparse_categorical_crossentropy', batch_size=10000,
-                metrics=['accuracy'])
-    # model.save(save_path)
-    # tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=path, histogram_freq=1)
-    print(Y.shape)
-    model.fit(X, Y, epochs=10, validation_split=0.2)
-
-    # print(history.history['accuracy'])

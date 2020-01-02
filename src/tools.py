@@ -55,7 +55,7 @@ def get_optimizer(optimizer_param, lr_param):
     return optimizer_param
 
 def create_dirs():
-    list_dir = ["cnn_sparse", "linear_one_hot", "linear_sparse" , "linearX", "nn_sparse", "nn_one_hot"]
+    list_dir = ["cnn_sparse", "linear_one_hot", "linear_sparse" , "linearX", "nn_sparse", "nn_one_hot", "cnn_sparse"]
     for dir in list_dir:
         directory = "../models/" + dir 
         if not os.path.exists(directory):
