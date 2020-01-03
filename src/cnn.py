@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras import Model
+from tensorflow.keras.callbacks import EarlyStopping
 import numpy as np
 import os
 
@@ -36,7 +37,10 @@ def cnn_model(nb_output, activation_param, optimizer_param, lr_param, loss_param
 def cnn_model_fit(model, X_param, Y_param, batch_size_param, epochs_param, save_path, save_path_info):
     log_dir = "..\\models\\cnn_sparse\\" + save_path_info
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-    model.fit(X_param, Y_param, batch_size=batch_size_param, verbose=1, epochs=epochs_param, callbacks=[tensorboard_callback], validation_split=0.2)
+
+    earlystop_callback = EarlyStopping(monitor='sparse_categorical_accuracy', min_delta=0.0001, patience=10)
+
+    model.fit(X_param, Y_param, batch_size=batch_size_param, verbose=1, epochs=epochs_param, callbacks=[tensorboard_callback, earlystop_callback], validation_split=0.2)
     model.save(save_path)
     return model
 
