@@ -34,10 +34,6 @@ for i in range(100):
                            str(epochs_param[i]))
 
 
-def unique(list1): 
-    x = np.array(list1) 
-    return np.unique(x)
-
 # Calling DataFrame constructor after zipping 
 # both lists, with columns specified 
 l = list(zip(activation_param, optimizer_param, lr, loss_param, batch_size_param, epochs_param, save_path_info))

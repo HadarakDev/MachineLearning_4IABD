@@ -5,6 +5,7 @@ import numpy as np
 import os
 from tools import unpickle, get_label_names, display_batch_stat, load_linear_model, y_one_hot, get_optimizer
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
+from config import isGray
 
 
 def linear_model(size, nb_output, activation_param, optimizer_param, lr_param, loss_param):
@@ -28,9 +29,12 @@ def predict_linear(model, X):
     return res
 
 def linear_one_hot(X_all, Y, isTrain,  activation_param, optimizer_param, lr_param, loss_param, batch_size_param, epochs_param, save_path_info):
+    if isGray:
+        image_size = 32 * 32
+    else:
+        image_size = 32 * 32 * 3
     Y_one_hot = y_one_hot(Y, max(Y) + 1)
     nb_output = np.shape(Y_one_hot)[1]
-    image_size = 32 * 32 * 3
     directory = "../models/linear_one_hot/" + save_path_info
     if not os.path.exists(directory):
         os.mkdir(directory)
