@@ -35,7 +35,7 @@ for i in range(10000):
     same_activation = random.choice(activations)
     for j in range(4):
         activ.append(same_activation)
-        layers.append(random.randrange(128, 129, 1))
+        layers.append(random.randrange(86, 87, 1))
 
     layers.sort(reverse=True)
     activ = ';'.join(map(str, activ))
@@ -53,11 +53,11 @@ for i in range(10000):
                           str(epochs_param[i]) + "_" +
                           str(layers))
 
-    l = list(zip(activation_param, optimizer_param, pooling_param, lr, loss_param, batch_size_param, epochs_param, save_path_info,
-                 array_layers, kernel_shape_param))
+    l = list(zip(activation_param, optimizer_param, pooling_param, lr, loss_param, batch_size_param, epochs_param,
+                 array_layers, kernel_shape_param, save_path_info))
     list_set = set(l)
     unique_list = (list(list_set))
     df = pd.DataFrame(list_set,
                       columns=["activation_param", "optimizer_param", "pooling_param", "learning_rate", "loss_param", "batch_size_param",
-                               "epochs_param", "save_path_info", "array_layers", "kernel_shape_param"])
+                               "epochs_param", "array_layers", "kernel_shape_param", "save_path_info"])
     df.to_csv("./cnn.csv", index=False)

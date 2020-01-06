@@ -8,6 +8,28 @@ import os
 from tensorboard.backend.event_processing import event_accumulator
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 
+def renameDirNorm(basePath):
+    dirs = os.listdir(basePath)
+    for dir in dirs:
+        if dir.find("norm") == -1:
+            os.rename(basePath + dir, basePath + dir + "_norm")
+
+def renameFilesNorm(basePath):
+    dirs = os.listdir(basePath)
+    for dir in dirs:
+        files = os.listdir(basePath + dir)
+        for file in files:
+            if file.find("h5") != -1 and file.find("norm") == -1:
+                tmpFile = file[0:-3] + "_norm.h5"
+                os.rename(basePath + dir + "//" + file, basePath + dir + "//" + tmpFile)
+
+
+def renameWithNorm():
+    basePath = "..\\models\\cnn_sparse\\"
+    renameDirNorm(basePath)
+    renameFilesNorm(basePath)
+
+
 def unpickle(path_batch, size, isRGB):
     with open(path_batch, 'rb') as fo:
         batch = pickle.load(fo, encoding='latin1')
