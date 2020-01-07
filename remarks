@@ -23,3 +23,13 @@ Non-trainable params: 0
 
 
 replace ; par _ dans les noms de dossier models
+
+OSError: Unable to create file (unable to open file: name = '../models/cnn_sparse/softmax;softmax;softmax;softmax_nadam_max_pool_2_0.001_categorical_crossentropy_500_600_86;86;86;86_norm/softmax;softmax;softmax;softmax_nadam_max_pool_2_0.001_categorical_crossentropy_500_600_86;86;86;86_norm.h5', errno = 2, error message = 'No such file or directory', flags = 13, o_flags = 302)
+
+
+Already done
+tanh;tanh;tanh;tanh,ftrl,max_pool,0.001,categorical_crossentropy,500,600,tanh;tanh;tanh;tanh_ftrl_max_pool_3_0.001_categorical_crossentropy_500_600_86;86;86;86_norm,86;86;86;86,3
+elu;elu;elu;elu,nadam,max_pool,0.001,categorical_crossentropy,500,600,elu;elu;elu;elu_nadam_max_pool_2_0.001_categorical_crossentropy_500_600_86;86;86;86_norm,86;86;86;86,2
+
+
+softmax;softmax;softmax;softmax,nadam,max_pool,0.001,categorical_crossentropy,500,600,softmax;softmax;softmax;softmax_nadam_max_pool_2_0.001_categorical_crossentropy_500_600_86;86;86;86_norm,86;86;86;86,2

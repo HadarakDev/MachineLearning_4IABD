@@ -19,7 +19,7 @@ softplus;softplus;softplus;softplus,adadelta,max_pool,0.001,categorical_crossent
 selu;selu;selu;selu,rmsprop,max_pool,0.001,categorical_crossentropy,500,600,selu;selu;selu;selu_rmsprop_max_pool_2_0.001_categorical_crossentropy_500_600_86;86;86;86,86;86;86;86,2
 linear;linear;linear;linear,adagrad,avg_pool,0.001,categorical_crossentropy,500,600,linear;linear;linear;linear_adagrad_avg_pool_3_0.001_categorical_crossentropy_500_600_86;86;86;86,86;86;86;86,3
 softplus;softplus;softplus;softplus,adagrad,max_pool,0.001,categorical_crossentropy,500,600,softplus;softplus;softplus;softplus_adagrad_max_pool_3_0.001_categorical_crossentropy_500_600_86;86;86;86,86;86;86;86,3
- ard_sigmoid;hard_sigmoid;hard_sigmoid;hard_sigmoid,nadam,avg_pool,0.001,categorical_crossentropy,500,600,hard_sigmoid;hard_sigmoid;hard_sigmoid;hard_sigmoid_nadam_avg_pool_2_0.001_categorical_crossentropy_500_600_86;86;86;86,86;86;86;86,2
+hard_sigmoid;hard_sigmoid;hard_sigmoid;hard_sigmoid,nadam,avg_pool,0.001,categorical_crossentropy,500,600,hard_sigmoid;hard_sigmoid;hard_sigmoid;hard_sigmoid_nadam_avg_pool_2_0.001_categorical_crossentropy_500_600_86;86;86;86,86;86;86;86,2
 selu;selu;selu;selu,ftrl,max_pool,0.001,categorical_crossentropy,500,600,selu;selu;selu;selu_ftrl_max_pool_2_0.001_categorical_crossentropy_500_600_86;86;86;86,86;86;86;86,2
 softmax;softmax;softmax;softmax,adadelta,max_pool,0.001,categorical_crossentropy,500,600,softmax;softmax;softmax;softmax_adadelta_max_pool_2_0.001_categorical_crossentropy_500_600_86;86;86;86,86;86;86;86,2
 softsign;softsign;softsign;softsign,ftrl,max_pool,0.001,categorical_crossentropy,500,600,softsign;softsign;softsign;softsign_ftrl_max_pool_2_0.001_categorical_crossentropy_500_600_86;86;86;86,86;86;86;86,2
