@@ -83,7 +83,7 @@ def create_dirs():
         if not os.path.exists(directory):
             os.mkdir(directory)
 
-def create_dic(f_name, loss, acc, is_one_hot, is_norm, is_gray, loss_val, acc_val):
+def create_dic(f_name, loss, acc, is_one_hot, is_norm, is_gray, loss_val, acc_val, drop):
     return {'Name': f_name,
         'activation': [elt.split("_")[0] for elt in f_name],
         'optimizer': [elt.split("_")[1] for elt in f_name],
@@ -92,6 +92,7 @@ def create_dic(f_name, loss, acc, is_one_hot, is_norm, is_gray, loss_val, acc_va
         'is_gray': is_gray,
         'loss': loss,
         'accuracy': acc,
+        'dropout': drop,
         'loss_validation': loss_val,
         'accuracy_validation': acc_val}
 
@@ -105,24 +106,25 @@ def export_tensorboard():
     acc_val = []
     for d in model_type_dir:
         if os.path.isdir("../models/" + d):
-            model_dir = os.listdir("../models/" + d)
-            for md in model_dir:
-                print("file: " + md)
-                file_name = "../models/" + d + "/" + md + "/train/"
-                file_name_validation = "../models/" + d + "/" + md + "/validation/"
-                ea = event_accumulator.EventAccumulator(path=file_name)
-                ea_val = event_accumulator.EventAccumulator(path=file_name_validation)
-                ea.Reload()
-                ea_val.Reload()
-                loss.append(ea.Scalars('epoch_loss')[-1][2])
-                loss_val.append(ea_val.Scalars('epoch_loss')[-1][2])
-                f_name.append(md)
-                try:
-                    acc.append(ea.Scalars('epoch_accuracy')[-1][2])
-                    acc_val.append(ea_val.Scalars('epoch_accuracy')[-1][2])
-                except:
-                    acc.append(ea.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
-                    acc_val.append(ea_val.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
+            if d != "cnn_sparse": ######## CHANGE ME => FOLDER SELECTION
+                model_dir = os.listdir("../models/" + d)
+                for md in model_dir:
+                    print("file: " + md)
+                    file_name = "../models/" + d + "/" + md + "/train/"
+                    file_name_validation = "../models/" + d + "/" + md + "/validation/"
+                    ea = event_accumulator.EventAccumulator(path=file_name)
+                    ea_val = event_accumulator.EventAccumulator(path=file_name_validation)
+                    ea.Reload()
+                    ea_val.Reload()
+                    loss.append(ea.Scalars('epoch_loss')[-1][2])
+                    loss_val.append(ea_val.Scalars('epoch_loss')[-1][2])
+                    f_name.append(md)
+                    try:
+                        acc.append(ea.Scalars('epoch_accuracy')[-1][2])
+                        acc_val.append(ea_val.Scalars('epoch_accuracy')[-1][2])
+                    except:
+                        acc.append(ea.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
+                        acc_val.append(ea_val.Scalars('epoch_sparse_categorical_accuracy')[-1][2])
         
     # Split names to get only optimizer + activation
     f_names_short = []
@@ -135,8 +137,9 @@ def export_tensorboard():
     sparse = [True if 'sparse' in x else False for x in f_name]
     gray = [True if 'gray' in x else False for x in f_name]
     norm = [True if 'norm' in x else False for x in f_name]
+    drop = [True if 'drop' in x else False for x in f_name]
 
-    frames.append(pd.DataFrame(create_dic(f_names_short, loss, acc, sparse, gray, norm, loss_val, acc_val)))
+    frames.append(pd.DataFrame(create_dic(f_name, loss, acc, sparse, norm, gray, loss_val, acc_val, drop)))
 
     # Merge all
     result = pd.concat(frames)
@@ -144,4 +147,4 @@ def export_tensorboard():
     # Save to csv
     result.to_csv("../results.csv", index=False)
 
-#export_tensorboard()
+export_tensorboard()
