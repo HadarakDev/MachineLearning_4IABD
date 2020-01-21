@@ -9,8 +9,7 @@ from linear_sparse import linear_sparse
 from nn_sparse import nn_sparse
 from nn_one_hot import nn_one_hot
 from cnn import cnn_sparse
-from tools import unpickle, get_label_names, display_batch_stat, create_dirs, renameWithNorm
-
+from tools import unpickle, get_label_names, display_batch_stat, create_dirs, renameWithNorm, export_tensorboard, renameSyntax
 
 datasetPath = "../dataset/data_batch_"
 size = 32
@@ -131,6 +130,8 @@ def cnn():
 if __name__ == "__main__":
     create_dirs()
     #linear()
-    cnn()
+    #cnn()
+    export_tensorboard()
     #renameWithNorm()
     # test(X_all, Y)
+    #renameSyntax()
