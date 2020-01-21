@@ -7,7 +7,7 @@ Projet Machine Learning 4 IABD
 
 # Linear
 
-Best  5  models:
+Best  models:
 
 | Name                                                                   | Val_accuracy      | Val_loss         |
 |------------------------------------------------------------------------|-------------------|------------------|
@@ -19,12 +19,14 @@ Best  5  models:
 
 # NN without Regularizers
 
-Best 5  models:
+Best  models:
 
 # NN with Regularizers
 
 
 # CNN
+
+Best  models:
 
 | Name                                                                                                                     | Val_accuracy | Val_loss    |
 |--------------------------------------------------------------------------------------------------------------------------|--------------|-------------|
