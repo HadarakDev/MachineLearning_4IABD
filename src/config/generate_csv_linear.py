@@ -29,15 +29,14 @@ for i in range(10000):
     epochs_param.append(random.choice(epochs))
     lr.append(random.choice(lrs))
     isGray_param.append(random.choice(bool_l))
-    isSparse_param.append(random.choice(bool_l))
     isNorm_param.append(random.choice(bool_l))
 
 
 # Calling DataFrame constructor after zipping 
 # both lists, with columns specified 
-l = list(zip(activation_param, optimizer_param, loss_param, epochs_param, batch_size_param, lr, isGray_param, isSparse_param, isNorm_param))
+l = list(zip(activation_param, optimizer_param, loss_param, epochs_param, batch_size_param, lr, isGray_param, isNorm_param))
 list_set = set(l) 
 unique_list = (list(list_set))
 df = pd.DataFrame(unique_list, 
-               columns =["activation", "optimizer", "loss", "epochs", "batch-size", "learning-rate", "isGray" , "isSparse", "isNorm"]) 
+               columns =["activation", "optimizer", "loss", "epochs", "batch-size", "learning-rate", "isGray", "isNorm"]) 
 df.to_csv("../../config/linear.csv", index=False)
