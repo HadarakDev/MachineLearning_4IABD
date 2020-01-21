@@ -16,7 +16,6 @@ Best  5  models:
 | linear_adamax_0.0001_categorical_crossentropy_5000_200_norm            | 0.177599996       | 2.117193222      |
 | linear_nadam_0.0001_sparse_categorical_crossentropy_5000_200_gray_norm | 0.177599996328354 | 2.21883940696716 |
 | selu_rmsprop_0.0001_categorical_crossentropy_5000_200_gray_norm        | 0.177100002765656 | 2.20988273620605 |
-|---------------------------------------------------------------------------------------------------------------|
 
 # NN without Regularizers
 
