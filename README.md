@@ -21,8 +21,6 @@ Best  models:
 
 Best  models:
 
-# NN with Regularizers
-
 | Name                                                                                                     | Val_accuracy | Val_loss    |
 |----------------------------------------------------------------------------------------------------------|--------------|-------------|
 | elu;elu;elu;elu_adamax_0.001_sparse_categorical_crossentropy_5000_600_64;64;64;64_norm                   | 0.513999999  | 1.470142961 |
@@ -30,6 +28,10 @@ Best  models:
 | elu;elu;elu;elu_nadam_0.001_sparse_categorical_crossentropy_5000_600_64;64;64;64_norm                    | 0.508599997  | 1.714097142 |
 | softplus;softplus;softplus;softplus_adamax_0.001_categorical_crossentropy_5000_600_64;64;64;64_norm      | 0.504700005  | 1.466722488 |
 | softplus;softplus;softplus;softplus_adam_0.001_sparse_categorical_crossentropy_5000_600_64;64;64;64_norm | 0.504599988  | 1.704827309 |
+
+# NN with Regularizers
+
+
 
 
 # CNN
