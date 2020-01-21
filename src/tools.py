@@ -8,6 +8,12 @@ import os
 from tensorboard.backend.event_processing import event_accumulator
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 
+## add Norm at the end of Dir/Files
+def renameWithNorm():
+    basePath = "..\\models\\cnn_sparse\\"
+    renameDirNorm(basePath)
+    renameFilesNorm(basePath)
+
 def renameDirNorm(basePath):
     dirs = os.listdir(basePath)
     for dir in dirs:
@@ -24,10 +30,33 @@ def renameFilesNorm(basePath):
                 os.rename(basePath + dir + "//" + file, basePath + dir + "//" + tmpFile)
 
 
-def renameWithNorm():
-    basePath = "..\\models\\cnn_sparse\\"
-    renameDirNorm(basePath)
-    renameFilesNorm(basePath)
+
+## rename dir/file syntax
+def renameSyntax():
+    basePath = "..\\models\\nn_sparse\\"
+
+    renameSyntaxDir(basePath)
+    renameSyntaxFile(basePath)
+
+def renameSyntaxDir(basePath):
+    dirs = os.listdir(basePath)
+    for dir in dirs:
+        if dir.find("dropout") != -1:
+            newDir = dir.replace("dropout_02", "dropout02")
+            newDir = newDir.replace("dropout_01", "dropout01")
+            #os.rename(basePath + dir, basePath + newDir)
+
+
+def renameSyntaxFile(basePath):
+    dirs = os.listdir(basePath)
+    for dir in dirs:
+        files = os.listdir(basePath + dir)
+        for file in files:
+            if file.find("dropout") != -1:
+                newFile = file.replace("dropout_02", "dropout02")
+                newFile = newFile.replace("dropout_01", "dropout01")
+                os.rename(basePath + dir + "//" + file, basePath + dir + "//" + newFile)
+
 
 
 def unpickle(path_batch, size, isRGB):
@@ -83,7 +112,7 @@ def create_dirs():
         if not os.path.exists(directory):
             os.mkdir(directory)
 
-def create_dic(f_name, loss, acc, is_one_hot, is_norm, is_gray, loss_val, acc_val, drop):
+def create_dic(f_name, loss, acc, is_one_hot, is_norm, is_gray, loss_val, acc_val, drop, l1, l2):
     return {'Name': f_name,
         'activation': [elt.split("_")[0] for elt in f_name],
         'optimizer': [elt.split("_")[1] for elt in f_name],
@@ -93,6 +122,8 @@ def create_dic(f_name, loss, acc, is_one_hot, is_norm, is_gray, loss_val, acc_va
         'loss': loss,
         'accuracy': acc,
         'dropout': drop,
+        'l1': l1,
+        'l2': l2,
         'loss_validation': loss_val,
         'accuracy_validation': acc_val}
 
@@ -106,7 +137,7 @@ def export_tensorboard():
     acc_val = []
     for d in model_type_dir:
         if os.path.isdir("../models/" + d):
-            if d != "cnn_sparse": ######## CHANGE ME => FOLDER SELECTION
+            if d == "linear_one_hot" or d == "linear_sparse": ######## CHANGE ME => FOLDER SELECTION
                 model_dir = os.listdir("../models/" + d)
                 for md in model_dir:
                     print("file: " + md)
@@ -137,14 +168,14 @@ def export_tensorboard():
     sparse = [True if 'sparse' in x else False for x in f_name]
     gray = [True if 'gray' in x else False for x in f_name]
     norm = [True if 'norm' in x else False for x in f_name]
-    drop = [True if 'drop' in x else False for x in f_name]
+    drop = [float(x[x.index("dropout") + 7:x.index("dropout") + 9])/10 if "dropout" in x else 0 for x in f_name]
+    l1 = [True if 'l1' in x else False for x in f_name]
+    l2 = [True if 'l2' in x else False for x in f_name]
 
-    frames.append(pd.DataFrame(create_dic(f_name, loss, acc, sparse, norm, gray, loss_val, acc_val, drop)))
+    frames.append(pd.DataFrame(create_dic(f_name, loss, acc, sparse, norm, gray, loss_val, acc_val, drop, l1, l2)))
 
     # Merge all
     result = pd.concat(frames)
     print(result)
     # Save to csv
-    result.to_csv("../results.csv", index=False)
-
-export_tensorboard()
+    result.to_csv("../results_Linear.csv", index=False)
