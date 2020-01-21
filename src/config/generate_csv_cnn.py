@@ -3,7 +3,7 @@ import pandas as pd
 import random 
 import numpy as np
 
-#activation,optimizer,loss,epochs,batch-size,learning-rate,layers,kernel-shape,pooling,isGray,isSparse,isNorm,Dropout,L1,L2
+#activation,optimizer,loss,epochs,batch-size,learning-rate,layers,kernel-shape,pooling,isGray,isNorm,Dropout,L1,L2
 
 
 
@@ -11,7 +11,7 @@ activations=["linear", "sigmoid", "hard_sigmoid", "relu", "linear", "tanh", "elu
 optimizers=["adadelta", "adagrad", "adam", "adamax", "ftrl", "nadam", "rmsprop", "sgd"]
 losses=["categorical_crossentropy"]#["categorical_hinge", "categorical_crossentropy", "kullback_leibler_divergence"]
 batchs=[1000, 5000] #[500, 1000, 3000, 5000, 10000, 60000]
-epochs=[500]#[50, 100, 200, 300]
+epochs=[100]#[50, 100, 200, 300]
 lrs=[0.0001]
 bool_l=[False]
 l1l2 = [0]
