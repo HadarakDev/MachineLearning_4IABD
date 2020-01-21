@@ -23,6 +23,17 @@ Best 5  models:
 
 # NN with Regularizers
 
+
+# CNN
+
+| Name                                                                                                                     | Val_accuracy | Val_loss    |
+|--------------------------------------------------------------------------------------------------------------------------|--------------|-------------|
+| hard_sigmoid;hard_sigmoid;hard_sigmoid;hard_sigmoid_adam_avg_pool_3_0.001_categorical_crossentropy_500_600_86;86;86;86   | 0.776499987  | 0.657149494 |
+| sigmoid;sigmoid;sigmoid;sigmoid_adamax_max_pool_3_0.001_categorical_crossentropy_500_600_86;86;86;86                     | 0.761300027  | 0.71304363  |
+| hard_sigmoid;hard_sigmoid;hard_sigmoid;hard_sigmoid_adamax_max_pool_3_0.001_categorical_crossentropy_500_600_86;86;86;86 | 0.760699987  | 0.922477245 |
+| sigmoid;sigmoid;sigmoid;sigmoid_adam_max_pool_3_0.001_categorical_crossentropy_500_600_86;86;86;86                       | 0.758400023  | 1.016017795 |
+| hard_sigmoid;hard_sigmoid;hard_sigmoid;hard_sigmoid_nadam_max_pool_3_0.001_categorical_crossentropy_500_600_86;86;86;86  | 0.757600009  | 1.011644244 |
+
 # TODO
 
 Pour run un NN =>
