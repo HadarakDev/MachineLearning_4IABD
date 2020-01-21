@@ -1,4 +1,6 @@
 import pickle
+from os import path
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -44,7 +46,8 @@ def renameSyntaxDir(basePath):
         if dir.find("dropout") != -1:
             newDir = dir.replace("dropout_02", "dropout02")
             newDir = newDir.replace("dropout_01", "dropout01")
-            #os.rename(basePath + dir, basePath + newDir)
+            if not path.exists(basePath + newDir):
+                os.rename(basePath + dir, basePath + newDir)
 
 
 def renameSyntaxFile(basePath):
@@ -55,7 +58,8 @@ def renameSyntaxFile(basePath):
             if file.find("dropout") != -1:
                 newFile = file.replace("dropout_02", "dropout02")
                 newFile = newFile.replace("dropout_01", "dropout01")
-                os.rename(basePath + dir + "//" + file, basePath + dir + "//" + newFile)
+                if not path.exists(basePath + dir + "//" + newFile):
+                    os.rename(basePath + dir + "//" + file, basePath + dir + "//" + newFile)
 
 
 
@@ -137,7 +141,7 @@ def export_tensorboard():
     acc_val = []
     for d in model_type_dir:
         if os.path.isdir("../models/" + d):
-            if d == "linear_one_hot" or d == "linear_sparse": ######## CHANGE ME => FOLDER SELECTION
+            if d == "nn_one_hot" or d == "nn_sparse": ######## CHANGE ME => FOLDER SELECTION
                 model_dir = os.listdir("../models/" + d)
                 for md in model_dir:
                     print("file: " + md)
@@ -178,4 +182,4 @@ def export_tensorboard():
     result = pd.concat(frames)
     print(result)
     # Save to csv
-    result.to_csv("../results_Linear.csv", index=False)
+    result.to_csv("../results_NN.csv", index=False)
