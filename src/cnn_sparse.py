@@ -10,7 +10,7 @@ from tensorflow_core.python.keras.layers import MaxPool2D, AveragePooling2D
 from tools import unpickle, get_label_names, display_batch_stat, load_linear_model, get_optimizer
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 
-from callbacks import get_callbacks
+from models import model_fit
 
 
 def cnn_model(nb_output, activation_param, optimizer_param, lr_param, loss_param, array_layers, pooling_param, kernel_shape_param):
@@ -36,12 +36,7 @@ def cnn_model(nb_output, activation_param, optimizer_param, lr_param, loss_param
     model.summary()
     return model
 
-def cnn_model_fit(model, X_param, Y_param, batch_size_param, epochs_param, save_path, save_path_info):
-    log_dir = "..\\models\\cnn_sparse\\" + save_path_info
-    call_backs = get_callbacks(log_dir)
-    model.fit(X_param, Y_param, batch_size=batch_size_param, verbose=1, epochs=epochs_param, callbacks=call_backs, validation_split=0.2)
-    model.save(save_path)
-    return model
+
 
 def predict_cnn(model, X):
     img = X.reshape(1, 3072)
@@ -69,7 +64,7 @@ def cnn_sparse(X_all, Y, isTrain,  activation_param, optimizer_param, lr_param, 
                     array_layers,
                     pooling_param,
                     kernel_shape_param)
-        model = cnn_model_fit(model, X,
+        model = model_fit(model, X,
                     Y,
                     batch_size_param,
                     epochs_param,
