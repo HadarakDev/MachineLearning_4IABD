@@ -6,6 +6,7 @@ import os
 from tools import unpickle, get_label_names, display_batch_stat, load_linear_model, get_optimizer
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 from config import isGray
+from models import model_fit
 
 
 def nn_model(size, nb_output, activation_param, optimizer_param, lr_param, loss_param, array_layers):
@@ -21,13 +22,6 @@ def nn_model(size, nb_output, activation_param, optimizer_param, lr_param, loss_
     model.add(Dense(nb_output, activation="softmax"))
     model.compile(optimizer=optimizer_param, loss=loss_param, metrics=['sparse_categorical_accuracy'])
     model.summary()
-    return model
-
-def nn_model_fit(model, X_param, Y_param, batch_size_param, epochs_param, save_path, save_path_info):
-    log_dir = "..\\models\\nn_sparse\\" + save_path_info
-    tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-    model.fit(X_param, Y_param, batch_size=batch_size_param, verbose=1, epochs=epochs_param, callbacks=[tensorboard_callback], validation_split=0.2)
-    model.save(save_path)
     return model
 
 def predict_nn(model, X):
@@ -55,7 +49,7 @@ def nn_sparse(X_all, Y, isTrain,  activation_param, optimizer_param, lr_param, l
                     lr_param,
                     loss_param,
                     array_layers)
-        model = nn_model_fit(model, X_all,
+        model = model_fit(model, X_all,
                     Y,
                     batch_size_param,
                     epochs_param,
