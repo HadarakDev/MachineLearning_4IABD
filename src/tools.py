@@ -10,6 +10,27 @@ import os
 from tensorboard.backend.event_processing import event_accumulator
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 
+def display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm):
+    print("START NEW TRAINING")
+    print("activation : " + str(activation))
+    print("optimizer : " + str(optimizer))
+    print("loss : " + str(loss))
+
+    print("epochs : " + str(epochs))
+    print("batch-size : " + str(batch_size))
+    print("learning-rate : " + str(lr))
+
+    print("isGray : " + str(isGray))
+    print("isNorm : " + str(isNorm))
+
+
+def generate_name(config):
+    name = ""
+    for k in config:
+        name += str(k) + "_"
+    name = name[0:-1]
+
+
 ## add Norm at the end of Dir/Files
 def renameWithNorm():
     basePath = "..\\models\\cnn_sparse\\"
