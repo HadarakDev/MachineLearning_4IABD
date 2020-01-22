@@ -10,6 +10,8 @@ from tensorflow_core.python.keras.layers import MaxPool2D, AveragePooling2D
 from tools import unpickle, get_label_names, display_batch_stat, load_linear_model, get_optimizer
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 
+from callbacks import get_callbacks
+
 
 def cnn_model(nb_output, activation_param, optimizer_param, lr_param, loss_param, array_layers, pooling_param, kernel_shape_param):
     optimizer_param = get_optimizer(optimizer_param, lr_param)
@@ -35,12 +37,9 @@ def cnn_model(nb_output, activation_param, optimizer_param, lr_param, loss_param
     return model
 
 def cnn_model_fit(model, X_param, Y_param, batch_size_param, epochs_param, save_path, save_path_info):
-
     log_dir = "..\\models\\cnn_sparse\\" + save_path_info
-    tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-    earlystop_callback = EarlyStopping(monitor='sparse_categorical_accuracy', min_delta=0.0001, patience=5)
-    earlystop_val_callback = EarlyStopping(monitor='val_sparse_categorical_accuracy', min_delta=0.0001, patience=5)
-    model.fit(X_param, Y_param, batch_size=batch_size_param, verbose=1, epochs=epochs_param, callbacks=[tensorboard_callback, earlystop_callback, earlystop_val_callback], validation_split=0.2)
+    call_backs = get_callbacks(log_dir)
+    model.fit(X_param, Y_param, batch_size=batch_size_param, verbose=1, epochs=epochs_param, callbacks=call_backs, validation_split=0.2)
     model.save(save_path)
     return model
 
