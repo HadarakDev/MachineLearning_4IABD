@@ -12,50 +12,60 @@ from cnn import cnn_sparse
 from tools import unpickle, get_label_names, display_batch_stat, create_dirs, renameWithNorm, export_tensorboard, \
     renameSyntax, generate_name, display_config
 
-datasetPath = "../dataset/data_batch_"
-size = 32
-isTrain = True
+# datasetPath = "../dataset/data_batch_"
+# size = 32
+# isTrain = True
+#
+# label_names = get_label_names()
+# #for i in range(1, 5):
+# #    display_batch_stat(i, label_names, datasetPath)
+#
+# X_all = []
+# Y = []
+#
+# for i in range(1, 6):
+#     features, labels = unpickle("../dataset/data_batch_{}".format(i), size, True)
+#     X_all.append(features.flatten().reshape(10000, size * size * 3))
+#     Y.append(np.asarray(labels))
+#
+# X_all = np.concatenate(X_all)
+# # norm
+#
+# # Gray
+# # X_all = np.mean(X_all.reshape(-1,size * size, 3), axis=2)
+#
+# Y = np.concatenate(Y)
 
-label_names = get_label_names()
-#for i in range(1, 5):
-#    display_batch_stat(i, label_names, datasetPath)
 
-X_all = []
-Y = []
 
-for i in range(1, 6):
-    features, labels = unpickle("../dataset/data_batch_{}".format(i), size, True)
-    X_all.append(features.flatten().reshape(10000, size * size * 3))
-    Y.append(np.asarray(labels))
+def compareOneHotAndSparse(X_all, Y):
+    data = pd.read_csv("../config/sparse_vs_oneHotLinear.csv")
+    for i in range(data.shape[0]):
 
-X_all = np.concatenate(X_all)
-# norm
+        activation = data['activation'].iloc[i]
+        optimizer = data['optimizer'].iloc[i]
+        loss = data['loss'].iloc[i]
 
-# Gray
-# X_all = np.mean(X_all.reshape(-1,size * size, 3), axis=2)
+        epochs = data['epochs'].iloc[i]
+        batch_size = data['batch-size'].iloc[i]
+        lr = data['learning-rate'].iloc[i]
 
-Y = np.concatenate(Y)
+        isGray = data['isGray'].iloc[i]
+        isNorm = data['isNorm'].iloc[i]
 
-def load_dataset():
-    datasetPath = "../dataset/data_batch_"
-    size = 32
-    isTrain = True
+        loss_param_sparse = "sparse_" + loss
+        display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm)
+        if isNorm == True:
+            X_Final = X_all / 255.0
+        else:
+            X_Final = X_all
 
-    label_names = get_label_names()
-    # for i in range(1, 5):
-    #    display_batch_stat(i, label_names, datasetPath)
+        save_dir = generate_name(data.iloc[i])
+        linear_one_hot(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir)
 
-    X_all = []
-    Y = []
+        save_dir_sparse = save_dir + "_sparse"
+        linear_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir)
 
-    for i in range(1, 6):
-        features, labels = unpickle("../dataset/data_batch_{}".format(i), size, True)
-        X_all.append(features.flatten().reshape(10000, size * size * 3))
-        Y.append(np.asarray(labels))
-
-    X_all = np.concatenate(X_all)
-    Y = np.concatenate(Y)
-    return X_all, Y
 
 def linear():
     data = pd.read_csv("../config/linear.csv") 
@@ -158,8 +168,9 @@ def cnn():
 
 
 if __name__ == "__main__":
+    X_all, Y = load_dataset()
     create_dirs()
-    linear()
+    compareOneHotAndSparse(X_all, Y)
     #cnn()
     #export_tensorboard()
     #renameWithNorm()

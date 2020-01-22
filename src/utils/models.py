@@ -9,9 +9,11 @@ def get_callbacks(log_dir):
     earlystop_val_callback = EarlyStopping(monitor='val_sparse_categorical_accuracy', min_delta=0.0001, patience=5)
     return [tensorboard_callback, earlystop_callback, earlystop_val_callback]
 
-def model_fit(model, X_param, Y_param, batch_size_param, epochs_param, save_path, save_path_info):
-    log_dir = "..\\models\\cnn_sparse\\" + save_path_info
+
+# base path
+def model_fit(model, X_param, Y_param, epochs, batch_size, save_path, save_dir, basePath):
+    log_dir = basePath + save_dir
     call_backs = get_callbacks(log_dir)
-    model.fit(X_param, Y_param, batch_size=batch_size_param, verbose=1, epochs=epochs_param, callbacks=call_backs, validation_split=0.2)
+    model.fit(X_param, Y_param, batch_size=batch_size, verbose=1, epochs=epochs, callbacks=call_backs, validation_split=0.2)
     model.save(save_path)
     return model

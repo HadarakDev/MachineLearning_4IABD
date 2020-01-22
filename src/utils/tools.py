@@ -31,56 +31,7 @@ def generate_name(config):
     name = name[0:-1]
 
 
-## add Norm at the end of Dir/Files
-def renameWithNorm():
-    basePath = "..\\models\\cnn_sparse\\"
-    renameDirNorm(basePath)
-    renameFilesNorm(basePath)
 
-def renameDirNorm(basePath):
-    dirs = os.listdir(basePath)
-    for dir in dirs:
-        if dir.find("norm") == -1:
-            os.rename(basePath + dir, basePath + dir + "_norm")
-
-def renameFilesNorm(basePath):
-    dirs = os.listdir(basePath)
-    for dir in dirs:
-        files = os.listdir(basePath + dir)
-        for file in files:
-            if file.find("h5") != -1 and file.find("norm") == -1:
-                tmpFile = file[0:-3] + "_norm.h5"
-                os.rename(basePath + dir + "//" + file, basePath + dir + "//" + tmpFile)
-
-
-
-## rename dir/file syntax
-def renameSyntax():
-    basePath = "..\\models\\nn_sparse\\"
-
-    renameSyntaxDir(basePath)
-    renameSyntaxFile(basePath)
-
-def renameSyntaxDir(basePath):
-    dirs = os.listdir(basePath)
-    for dir in dirs:
-        if dir.find("dropout") != -1:
-            newDir = dir.replace("dropout_02", "dropout02")
-            newDir = newDir.replace("dropout_01", "dropout01")
-            if not path.exists(basePath + newDir):
-                os.rename(basePath + dir, basePath + newDir)
-
-
-def renameSyntaxFile(basePath):
-    dirs = os.listdir(basePath)
-    for dir in dirs:
-        files = os.listdir(basePath + dir)
-        for file in files:
-            if file.find("dropout") != -1:
-                newFile = file.replace("dropout_02", "dropout02")
-                newFile = newFile.replace("dropout_01", "dropout01")
-                if not path.exists(basePath + dir + "//" + newFile):
-                    os.rename(basePath + dir + "//" + file, basePath + dir + "//" + newFile)
 
 
 
@@ -92,18 +43,6 @@ def unpickle(path_batch, size, isRGB):
     labels = batch['labels']
     return features, labels
 
-def get_label_names():
-    with open("../dataset/batches.meta", 'rb') as fo:
-        data = pickle.load(fo, encoding='latin1')
-    return (data['label_names'])
-
-def display_batch_stat(batch_nb, label_names, datasetPath, size, isRGB):
-    features, labels = unpickle(datasetPath + str(batch_nb), size, isRGB)
-    print("Batch N° %s" % str(batch_nb), "\n")
-    print("Number of Samples in batch %s" % str(len(features)), "\n")
-    counts =  [[x, labels.count(x)] for x in set(labels)]
-    for c in counts:
-        print( "%s = %d <=> %.2f %s" % (label_names[c[0]], c[1], (100 * c[1]) / len(features), "%"))
 
 def load_linear_model(model_path):
     return tf.keras.models.load_model(model_path)

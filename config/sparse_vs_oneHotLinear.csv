@@ -1,0 +1,2 @@
+activation,optimizer,loss,epochs,batch-size,learning-rate,isGray,isNorm
+linear,adam,categorical_crossentropy,500,5000,0.0001,False,False
