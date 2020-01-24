@@ -1,11 +1,12 @@
 import pickle
-
+import tensorflow as tf
 import numpy as np
 
 from utils.tools import unpickle
 
 
 def load_dataset():
+    tf.random.set_seed(4)
     size = 32
     X_all = []
     Y = []
@@ -23,7 +24,7 @@ def display_batch_stat(batch_nb, label_names, datasetPath, size, isRGB):
     features, labels = unpickle(datasetPath + str(batch_nb), size, isRGB)
     print("Batch N° %s" % str(batch_nb), "\n")
     print("Number of Samples in batch %s" % str(len(features)), "\n")
-    counts =  [[x, labels.count(x)] for x in set(labels)]
+    counts = [[x, labels.count(x)] for x in set(labels)]
     for c in counts:
         print( "%s = %d <=> %.2f %s" % (label_names[c[0]], c[1], (100 * c[1]) / len(features), "%"))
 

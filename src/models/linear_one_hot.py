@@ -3,7 +3,7 @@ from tensorflow.keras.layers import Dense, Flatten, Conv2D
 from tensorflow.keras import Model
 import numpy as np
 import os
-from src.utils.tools import unpickle, get_label_names, display_batch_stat, load_linear_model, y_one_hot, get_optimizer
+from src.utils.tools import unpickle, load_linear_model, y_one_hot, get_optimizer
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 # from config import isGray
 
@@ -27,14 +27,14 @@ def predict_linear(model, X):
     res = np.argmax((model.predict(img)))
     return res
 
-def linear_one_hot(X_all, Y, isTrain,  activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir):
+def linear_one_hot(X_all, Y, isTrain,  activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, base_path):
     if isGray:
         image_size = 32 * 32
     else:
         image_size = 32 * 32 * 3
     Y_one_hot = y_one_hot(Y, max(Y) + 1)
     nb_output = np.shape(Y_one_hot)[1]
-    directory = "../models/linear_one_hot/" + save_dir
+    directory = base_path + save_dir
     if not os.path.exists(directory):
         os.mkdir(directory)
     path = directory + "/model.h5"
@@ -44,6 +44,6 @@ def linear_one_hot(X_all, Y, isTrain,  activation, optimizer, loss, epochs, batc
 
         model = linear_model_fit(model, X_all,Y_one_hot,
                     epochs, batch_size,
-                    path, save_dir,  "..\\models\\linear_one_hot\\")
+                    path, save_dir, base_path)
     else:
         model = load_linear_model(path)

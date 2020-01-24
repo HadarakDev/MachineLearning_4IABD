@@ -7,10 +7,10 @@ import os
 
 from tensorflow_core.python.keras.layers import MaxPool2D, AveragePooling2D
 
-from tools import unpickle, get_label_names, display_batch_stat, load_linear_model, get_optimizer
+from src.utils.tools import unpickle, load_linear_model, get_optimizer
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 
-from models import model_fit
+from src.utils.models import model_fit
 
 
 def cnn_model(nb_output, activation_param, optimizer_param, lr_param, loss_param, array_layers, pooling_param, kernel_shape_param):

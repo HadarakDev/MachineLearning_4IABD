@@ -3,39 +3,20 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import pandas as pd
 
-from linear_X import linear_X
-from linear_one_hot import linear_one_hot
-from linear_sparse import linear_sparse
-from nn_sparse import nn_sparse
-from nn_one_hot import nn_one_hot
-from cnn import cnn_sparse
-from tools import unpickle, get_label_names, display_batch_stat, create_dirs, renameWithNorm, export_tensorboard, \
-    renameSyntax, generate_name, display_config
+from models.cnn_sparse import cnn_sparse
+from src.models.linear_one_hot import linear_one_hot
+from src.models.linear_sparse import linear_sparse
+# from src.models.nn_sparse import nn_sparse
+# from src.models.nn_one_hot import nn_one_hot
+# from src.models.cnn_sparse import cnn_sparse
+from src.utils.tools import unpickle, create_dirs,  export_tensorboard, generate_name, display_config
 
-# datasetPath = "../dataset/data_batch_"
-# size = 32
-# isTrain = True
-#
-# label_names = get_label_names()
-# #for i in range(1, 5):
-# #    display_batch_stat(i, label_names, datasetPath)
-#
-# X_all = []
-# Y = []
-#
-# for i in range(1, 6):
-#     features, labels = unpickle("../dataset/data_batch_{}".format(i), size, True)
-#     X_all.append(features.flatten().reshape(10000, size * size * 3))
-#     Y.append(np.asarray(labels))
-#
-# X_all = np.concatenate(X_all)
-# # norm
-#
+
 # # Gray
 # # X_all = np.mean(X_all.reshape(-1,size * size, 3), axis=2)
 #
 # Y = np.concatenate(Y)
-
+from utils.data import load_dataset
 
 
 def compareOneHotAndSparse(X_all, Y):
@@ -53,7 +34,7 @@ def compareOneHotAndSparse(X_all, Y):
         isGray = data['isGray'].iloc[i]
         isNorm = data['isNorm'].iloc[i]
 
-        loss_param_sparse = "sparse_" + loss
+        loss_sparse = "sparse_" + loss
         display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm)
         if isNorm == True:
             X_Final = X_all / 255.0
@@ -61,10 +42,10 @@ def compareOneHotAndSparse(X_all, Y):
             X_Final = X_all
 
         save_dir = generate_name(data.iloc[i])
-        linear_one_hot(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir)
+        linear_one_hot(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir,  "..\\models\\sparse_vs_oneHot_Linear\\")
 
-        save_dir_sparse = save_dir + "_sparse"
-        linear_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir)
+        #save_dir_sparse = save_dir + "_sparse"
+        linear_sparse(X_Final, Y, True, activation, optimizer, loss_sparse, epochs, batch_size, lr, isGray, save_dir,  "..\\models\\sparse_vs_oneHot_Linear\\")
 
 
 def linear():
@@ -82,7 +63,7 @@ def linear():
         isGray = data['isGray'].iloc[i]
         isNorm = data['isNorm'].iloc[i]
 
-        loss_param_sparse = "sparse_" + loss
+        loss__sparse = "sparse_" + loss
 
         display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm)
 
@@ -94,10 +75,10 @@ def linear():
 
         save_dir = generate_name(data.iloc[i])
         # print("save_path_info : " + str(save_path_info))
-        linear_one_hot(X_Final, Y, isTrain, activation, optimizer, loss, epochs, batch_size, lr, save_dir)
+        linear_one_hot(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, save_dir)
 
         save_dir_sparse = save_dir + "_sparse"
-        linear_sparse(X_Final, Y, isTrain, activation, optimizer, loss, epochs, batch_size, lr, save_dir)
+        linear_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, save_dir)
 
 def nn():
     data = pd.read_csv("../config/nn.csv") 
@@ -159,7 +140,7 @@ def cnn():
 
         #launch cnn sparse
         print(X_all.shape)
-        cnn_sparse(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, loss_param, batch_size_param,
+        cnn_sparse(X_all, Y, True, activation_param, optimizer_param, lr_param, loss_param, batch_size_param,
                    epochs_param, save_path_info, array_layers, pooling_param, kernel_shape_param)
         # save_path_info_sparse = save_path_info.split("_")
         # save_path_info_sparse.insert(3, "sparse")
