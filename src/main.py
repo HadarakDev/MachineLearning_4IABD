@@ -48,13 +48,13 @@ def compareOneHotAndSparse(X_all, Y):
         linear_sparse(X_Final, Y, True, activation, optimizer, loss_sparse, epochs, batch_size, lr, isGray, save_dir,  "..\\models\\sparse_vs_oneHot_Linear\\")
 
 
-def linear():
+def linear(X_all, Y):
     data = pd.read_csv("../config/linear.csv") 
     for i in range(data.shape[0]):
 
         activation = data['activation'].iloc[i]
         optimizer = data['optimizer'].iloc[i]
-        loss = data['loss'].iloc[i]
+        loss = "sparse_" + data['loss'].iloc[i]
 
         epochs = data['epochs'].iloc[i]
         batch_size = data['batch-size'].iloc[i]
@@ -62,8 +62,6 @@ def linear():
 
         isGray = data['isGray'].iloc[i]
         isNorm = data['isNorm'].iloc[i]
-
-        loss__sparse = "sparse_" + loss
 
         display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm)
 
@@ -73,12 +71,8 @@ def linear():
         else:
             X_Final = X_all
 
-        save_dir = generate_name(data.iloc[i])
-        # print("save_path_info : " + str(save_path_info))
-        linear_one_hot(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, save_dir)
-
-        save_dir_sparse = save_dir + "_sparse"
-        linear_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, save_dir)
+        save_dir = generate_name(data.iloc[i]) + "_sparse"
+        linear_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, "..\\models\\Linear\\linear_final\\")
 
 def nn():
     data = pd.read_csv("../config/nn.csv") 
@@ -150,8 +144,9 @@ def cnn():
 
 if __name__ == "__main__":
     X_all, Y = load_dataset()
-    create_dirs()
-    compareOneHotAndSparse(X_all, Y)
+    #create_dirs()
+    linear(X_all, Y)
+
     #cnn()
     #export_tensorboard()
     #renameWithNorm()

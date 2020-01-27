@@ -18,6 +18,7 @@ from src.utils.models import model_fit
      :param lr: learning rate
 """
 
+
 def linear_model(size, nb_output, activation, optimizer, loss, lr):
     optimizer_param = get_optimizer(optimizer, lr)
     model = tf.keras.Sequential()
@@ -39,7 +40,7 @@ def linear_sparse(X_all, Y, isTrain, activation, optimizer, loss, epochs, batch_
     else:
         image_size = 32 * 32 * 3
     nb_output = np.max(Y) + 1
-    directory = base_path + save_dir + "_sparse"
+    directory = base_path + save_dir
     if not os.path.exists(directory):
         os.mkdir(directory)
     path = directory + "/model.h5"
@@ -49,6 +50,6 @@ def linear_sparse(X_all, Y, isTrain, activation, optimizer, loss, epochs, batch_
 
         model = model_fit(model, X_all, Y,
                           epochs, batch_size,
-                          path, save_dir + "_sparse", base_path)
+                          path, save_dir, base_path)
     else:
         model = load_linear_model(path)
