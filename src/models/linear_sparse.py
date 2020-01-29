@@ -36,6 +36,7 @@ def predict_linear(model, X):
 
 def linear_sparse(X_all, Y, isTrain, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, base_path):
     if isGray:
+        X_all = np.mean(X_all.reshape(-1, 32 * 32, 3), axis=2)
         image_size = 32 * 32
     else:
         image_size = 32 * 32 * 3

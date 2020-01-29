@@ -1,0 +1,2 @@
+linear_sgd_categorical_crossentropy_500_5000_0.0001_True_False_sparse
+linear_sgd_categorical_crossentropy_500_1000_0.0001_True_False_sparse

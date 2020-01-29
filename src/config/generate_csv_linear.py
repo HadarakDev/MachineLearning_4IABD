@@ -9,7 +9,7 @@ losses=["categorical_crossentropy"]#["categorical_hinge", "categorical_crossentr
 batchs=[1000, 5000] #[500, 1000, 3000, 5000, 10000, 60000]
 epochs=[500]#[50, 100, 200, 300]
 lrs=[0.0001]
-bool_l=[False]
+bool_l=[False, True]
 
 activation_param = []
 optimizer_param = []

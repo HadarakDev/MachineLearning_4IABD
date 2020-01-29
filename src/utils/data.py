@@ -6,7 +6,7 @@ from utils.tools import unpickle
 
 
 def load_dataset():
-    tf.random.set_seed(4)
+    tf.random.set_seed(1)
     size = 32
     X_all = []
     Y = []
