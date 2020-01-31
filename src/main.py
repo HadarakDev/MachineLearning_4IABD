@@ -17,6 +17,7 @@ from src.utils.tools import unpickle, create_dirs,  export_tensorboard, generate
 #
 # Y = np.concatenate(Y)
 from utils.data import load_dataset
+from utils.export import export_tensorboard_to_csv
 
 
 def compareOneHotAndSparse(X_all, Y):
@@ -145,8 +146,8 @@ def cnn():
 if __name__ == "__main__":
     X_all, Y = load_dataset()
     #create_dirs()
-    linear(X_all, Y)
-
+    #linear(X_all, Y)
+    export_tensorboard_to_csv("../config/linear.csv", "../results/export.csv", "../models\\Linear\\linear_final\\")
     #cnn()
     #export_tensorboard()
     #renameWithNorm()
