@@ -49,8 +49,8 @@ def compareOneHotAndSparse(X_all, Y):
         linear_sparse(X_Final, Y, True, activation, optimizer, loss_sparse, epochs, batch_size, lr, isGray, save_dir,  "..\\models\\sparse_vs_oneHot_Linear\\")
 
 
-def linear(X_all, Y):
-    data = pd.read_csv("../config/linear.csv") 
+def linear(X_all, Y, config_path, save_path):
+    data = pd.read_csv(config_path)
     for i in range(data.shape[0]):
 
         activation = data['activation'].iloc[i]
@@ -73,7 +73,7 @@ def linear(X_all, Y):
             X_Final = X_all
 
         save_dir = generate_name(data.iloc[i]) + "_sparse"
-        linear_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, "..\\models\\Linear\\linear_final\\")
+        linear_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, save_path)
 
 def nn():
     data = pd.read_csv("../config/nn.csv") 
@@ -146,8 +146,10 @@ def cnn():
 if __name__ == "__main__":
     X_all, Y = load_dataset()
     #create_dirs()
-    #linear(X_all, Y)
-    export_tensorboard_to_csv("../config/linear.csv", "../results/export.csv", "../models\\Linear\\linear_final\\")
+
+    #linear(X_all, Y, "../config/archive/linear_10_best_dataset_batch.csv", "..\\models\\Linear\\linear_final\\best_10_dataset_batch\\")
+    export_tensorboard_to_csv("../config/archive/linear_10_best_dataset_batch.csv", "../results/export_best_10_dataset_batch.csv",\
+                              "..\\models\\Linear\\linear_final\\best_10_dataset_batch\\")
     #cnn()
     #export_tensorboard()
     #renameWithNorm()

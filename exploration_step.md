@@ -1,0 +1,50 @@
+# Dataset Information
+
+- Contains 60 000 images
+
+# Sparse VS One Hot
+
+Sparse is most of the better than One Hot. ( refers to the doc Sparse VS One hot)
+
+# Linear
+
+## Test all combinaisons of Activation / Optimizers with:
+- learning rate : 0.0001
+- batchs : 5000 / 1000
+- epochs : 500
+- Norm / no Norm
+- Gray / Color
+- loss : categorical_crossentropy
+
+
+##### Note :  These configurations are not working with tensorboard because of Nan
+
+- linear,sgd,categorical_crossentropy,500,5000_0.0001_True_False
+- linear,sgd,categorical_crossentropy,500,1000_0.0001_True_False
+- linear,sgd,categorical_crossentropy,500,1000,0.0001,False,False
+- linear,sgd,categorical_crossentropy,500,5000,0.0001,False,False
+
+=> the couple linear + Sgd is only working if Norm is set to True
+
+
+#### Best 10 configs for Linear
+
+| activation | optimizer | loss                     | epochs | batch-size | learning-rate | isGray | isNorm | last_loss | last_val_loss | last_accuracy | last_val_accuracy |
+|------------|-----------|--------------------------|--------|------------|---------------|--------|--------|-----------|---------------|---------------|-------------------|
+| linear     | adamax    | categorical_crossentropy | 500    | 5000       | 0.0001        | FAUX   | VRAI   | 2.05683   | 2.0691        | 0.18965       | 0.1941            |
+| selu       | adam      | categorical_crossentropy | 500    | 1000       | 0.0001        | FAUX   | VRAI   | 2.02468   | 2.04076       | 0.19308       | 0.1928            |
+| linear     | adamax    | categorical_crossentropy | 500    | 1000       | 0.0001        | FAUX   | VRAI   | 2.06132   | 2.06988       | 0.19488       | 0.1926            |
+| linear     | adam      | categorical_crossentropy | 500    | 1000       | 0.0001        | FAUX   | VRAI   | 2.0378    | 2.05222       | 0.19435       | 0.1921            |
+| elu        | rmsprop   | categorical_crossentropy | 500    | 1000       | 0.0001        | FAUX   | VRAI   | 2.07778   | 2.07607       | 0.1873        | 0.1892            |
+| elu        | adamax    | categorical_crossentropy | 500    | 1000       | 0.0001        | FAUX   | VRAI   | 2.0679    | 2.08643       | 0.19135       | 0.1882            |
+| linear     | sgd       | categorical_crossentropy | 500    | 1000       | 0.0001        | FAUX   | VRAI   | 2.09911   | 2.10564       | 0.1868        | 0.1881            |
+| linear     | nadam     | categorical_crossentropy | 500    | 1000       | 0.0001        | FAUX   | VRAI   | 2.05672   | 2.0648        | 0.18955       | 0.1879            |
+| softplus   | rmsprop   | categorical_crossentropy | 500    | 1000       | 0.0001        | FAUX   | VRAI   | 2.06619   | 2.08833       | 0.19200       | 0.1855            |
+| linear     | nadam     | categorical_crossentropy | 500    | 5000       | 0.0001        | FAUX   | VRAI   | 2.09998   | 2.10575       | 0.18927       | 0.1854            |
+
+=> As you can see they are all using float ( Norm ) and Color Scale
+
+## Test some hyperparams to improve these 10 configs :
+- more epochs
+- change learning_rate
+- 60000 Batch size ( entire dataset)

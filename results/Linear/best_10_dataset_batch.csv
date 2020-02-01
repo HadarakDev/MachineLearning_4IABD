@@ -1,0 +1,9 @@
+activation,optimizer,loss,epochs,batch-size,learning-rate,isGray,isNorm,last_loss, last_val_loss, last_accuracy, last_val_accuracy
+linear,adamax,categorical_crossentropy,500,50000,0.0001,False,True,2.29883,2.30266,0.10917,0.0988
+selu,adam,categorical_crossentropy,500,50000,0.0001,False,True,2.25644,2.2525,0.1631,0.1686
+linear,adam,categorical_crossentropy,500,50000,0.0001,False,True,2.2529,2.25168,0.12513,0.1298
+elu,rmsprop,categorical_crossentropy,500,50000,0.0001,False,True,2.36022,2.35007,0.09943,0.1025
+elu,adamax,categorical_crossentropy,500,50000,0.0001,False,True,2.28577,2.28486,0.14382,0.1466
+linear,sgd,categorical_crossentropy,500,50000,0.0001,False,True,2.27598,2.27837,0.13938,0.1406
+linear,nadam,categorical_crossentropy,500,50000,0.0001,False,True,2.31367,2.29267,0.10797,0.1078
+softplus,rmsprop,categorical_crossentropy,500,50000,0.0001,False,True,2.30084,2.30058,0.1144,0.107
