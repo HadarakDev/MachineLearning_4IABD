@@ -8,13 +8,12 @@ import numpy as np
 activations=["linear", "sigmoid", "hard_sigmoid", "relu", "linear", "tanh", "elu", "selu", "softmax", "softplus", "softsign"]
 optimizers=["adadelta", "adagrad", "adam", "adamax", "ftrl", "nadam", "rmsprop", "sgd"]
 losses=["categorical_crossentropy"]#["categorical_hinge", "categorical_crossentropy", "kullback_leibler_divergence"]
-batchs=[1000, 5000] #[500, 1000, 3000, 5000, 10000, 60000]
+batchs=[1000, 5000] #[500, 1000, 3000, 5000, 10000, 50000]
 epochs=[100]#[50, 100, 200, 300]
 lrs=[0.0001]
-bool_l=[False]
+# bool_l=[False]
 l1l2 = [0]
 dropout = [0]
-kernel_shape = [2]
 nb_neurons = [32]
 nb_layers = [4]
 
@@ -38,8 +37,8 @@ for i in range(10000):
     batch_size_param.append(random.choice(batchs))
     epochs_param.append(random.choice(epochs))
     lr.append(random.choice(lrs))
-    isGray_param.append(random.choice(bool_l))
-    isNorm_param.append(random.choice(bool_l))
+    isGray_param.append(False)
+    isNorm_param.append(True)
 
     dropout_param.append(random.choice(dropout))
     l1_param.append(random.choice(l1l2))
@@ -63,4 +62,4 @@ list_set = set(l)
 unique_list = (list(list_set))
 df = pd.DataFrame(unique_list, 
                columns =["activation", "optimizer", "loss", "epochs", "batch-size", "learning-rate", "layers", "isGray", "isNorm", "Dropout", "L1", "L2"]) 
-df.to_csv("../../config/nn.csv", index=False)
+df.to_csv("../../config/archive/NN/optimizer_activaction_testing.csv", index=False)
