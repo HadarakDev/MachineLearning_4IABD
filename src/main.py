@@ -7,6 +7,7 @@ from models.cnn_sparse import cnn_sparse
 from models.nn_sparse import nn_sparse
 from src.models.linear_one_hot import linear_one_hot
 from src.models.linear_sparse import linear_sparse
+from src.models.unet_conv2D import unet_conv2D
 # from src.models.nn_sparse import nn_sparse
 # from src.models.nn_one_hot import nn_one_hot
 # from src.models.cnn_sparse import cnn_sparse
@@ -147,8 +148,8 @@ if __name__ == "__main__":
     #create_dirs()
 
     #linear(X_all, Y, "../config/archive/Linear/learning_rate_change2.csv", "..\\models\\Linear\\linear_final\\learning_rate_change\\")
-    export_tensorboard_to_csv("../config/archive/Linear/learning_rate_change.csv", "../results/Linear/learning_rate_change.csv",\
-                              "..\\models\\Linear\\linear_final\\learning_rate_change\\")
+    #export_tensorboard_to_csv("../config/archive/Linear/learning_rate_change.csv", "../results/Linear/learning_rate_change.csv",\
+    #                          "..\\models\\Linear\\linear_final\\learning_rate_change\\")
 
     #nn(X_all, Y, "../config/archive/Nn/optimizer_activaction_testing.csv", "..\\models\\Nn\\nn_final\\optimizer_activaction_testing\\")
     #cnn()
@@ -156,3 +157,6 @@ if __name__ == "__main__":
     #renameWithNorm()
     # test(X_all, Y)
     #renameSyntax()
+    #tanh,adagrad,categorical_crossentropy,100,5000,0.0001,32-32-32-32,False,True,0,0,0
+    unet_conv2D(X_all, Y, True, "tanh", "adagrad", 0.001, "sparse_categorical_crossentropy", 5000,
+                1000, "my_cool_unet", [64, 64], 2)
