@@ -12,7 +12,6 @@ selu,adam,categorical_crossentropy,500,5000,0.0005,False,True
 linear,adam,categorical_crossentropy,500,5000,0.0005,False,True
 elu,rmsprop,categorical_crossentropy,500,5000,0.0005,False,True
 elu,adamax,categorical_crossentropy,500,5000,0.0005,False,True
-linear,sgd,categorical_crossentropy,500,5000,0.000,False,True
+linear,sgd,categorical_crossentropy,500,5000,0.0005,False,True
 linear,nadam,categorical_crossentropy,500,5000,0.0005,False,True
 softplus,rmsprop,categorical_crossentropy,500,5000,0.0005,False,True
-
