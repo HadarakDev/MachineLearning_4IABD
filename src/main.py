@@ -4,6 +4,7 @@ import tensorflow as tf
 import pandas as pd
 
 from models.cnn_sparse import cnn_sparse
+from models.nn_sparse import nn_sparse
 from src.models.linear_one_hot import linear_one_hot
 from src.models.linear_sparse import linear_sparse
 # from src.models.nn_sparse import nn_sparse
@@ -75,35 +76,33 @@ def linear(X_all, Y, config_path, save_path):
         save_dir = generate_name(data.iloc[i]) + "_sparse"
         linear_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, save_path)
 
-def nn():
-    data = pd.read_csv("../config/nn.csv") 
+def nn(X_all, Y, config_path, save_path):
+    data = pd.read_csv(config_path)
     for i in range(data.shape[0]):
-        activation_param = data['activation_param'].iloc[i].split(";")
-        optimizer_param = data['optimizer_param'].iloc[i]
-        lr_param = data['learning_rate'].iloc[i]
-        loss_param = data['loss_param'].iloc[i]
-        loss_param_sparse = "sparse_" + loss_param
-        batch_size_param = data['batch_size_param'].iloc[i]
-        epochs_param = data['epochs_param'].iloc[i]
-        save_path_info = data['save_path_info'].iloc[i]
-        array_layers = data['array_layers'].iloc[i].split(";")
-        print("START NEW TRAINING")
-        print("activation_param : " + str(activation_param))
-        print("optimizer_param : " + str(optimizer_param))
-        print("learning_rate : " + str(lr_param))
-        print("loss_param : " + str(loss_param))
-        print("batch_size_param : " + str(batch_size_param))
-        print("epochs_param : " + str(epochs_param))
-        print("save_path_info : " + str(save_path_info))
-        print("array_layers : " + str(array_layers))
 
+        activation = data['activation'].iloc[i]
+        optimizer = data['optimizer'].iloc[i]
+        loss = "sparse_" + data['loss'].iloc[i]
 
-        # nn_one_hot(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, loss_param, batch_size_param, epochs_param, save_path_info, array_layers)
-        #
-        # save_path_info_sparse = save_path_info.split("_")
-        # save_path_info_sparse.insert(3, "sparse")
-        # save_path_info_sparse = "_".join(save_path_info_sparse)
-        # nn_sparse(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, loss_param_sparse, batch_size_param, epochs_param, save_path_info_sparse, array_layers)
+        epochs = data['epochs'].iloc[i]
+        batch_size = data['batch-size'].iloc[i]
+        lr = data['learning-rate'].iloc[i]
+
+        isGray = data['isGray'].iloc[i]
+        isNorm = data['isNorm'].iloc[i]
+
+        # A voir si load norm et non norm de base pour perf
+        if isNorm == True:
+            X_Final = X_all / 255.0
+        else:
+            X_Final = X_all
+
+        save_dir = generate_name(data.iloc[i]) + "_sparse"
+
+        array_layers = data['layers'].iloc[i].split("-")
+        display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm, array_layers)
+
+        nn_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, save_path, array_layers)
 
 # test(X_all, Y)
 def cnn():
@@ -147,9 +146,11 @@ if __name__ == "__main__":
     X_all, Y = load_dataset()
     #create_dirs()
 
-    linear(X_all, Y, "../config/archive/Linear/learning_rate_change.csv", "..\\models\\Linear\\linear_final\\learning_rate_change\\")
+    #linear(X_all, Y, "../config/archive/Linear/learning_rate_change.csv", "..\\models\\Linear\\linear_final\\learning_rate_change\\")
     #export_tensorboard_to_csv("../config/archive/linear_10_best_dataset_batch.csv", "../results/export_best_10_dataset_batch.csv",\
    #                           "..\\models\\Linear\\linear_final\\best_10_dataset_batch\\")
+
+    nn(X_all, Y, "../config/archive/Nn/optimizer_activaction_testing.csv", "..\\models\\Nn\\nn_final\\optimizer_activaction_testing\\")
     #cnn()
     #export_tensorboard()
     #renameWithNorm()

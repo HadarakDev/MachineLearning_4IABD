@@ -10,7 +10,7 @@ import os
 from tensorboard.backend.event_processing import event_accumulator
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
 
-def display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm):
+def display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm, layers = None):
     print("START NEW TRAINING")
     print("activation : " + str(activation))
     print("optimizer : " + str(optimizer))
@@ -22,6 +22,9 @@ def display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, 
 
     print("isGray : " + str(isGray))
     print("isNorm : " + str(isNorm))
+
+    if layers != None:
+        print("array_layers : " + str(layers))
 
 
 def generate_name(config):
