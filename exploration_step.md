@@ -99,4 +99,24 @@ As we have seen with Linear Norm is better because it avoid Nan, and Gray don't 
 - loss : categorical_crossentropy
 - layers : 32-32-32-32
 
- 
+
+#### Best 10 configs for NN
+
+| activation | optimizer | loss	                    | epochs |batch-size  |	learning-rate |	layers	    |isGray	 |isNorm	 |   Dropout	| L1	| L2	| last_loss	| last_val_loss	| last_accuracy	| last_val_accuracy |
+|------------|-----------|--------------------------|--------|------------|---------------|-------------|--------|-----------|--------------|-------|-------|-----------|---------------|---------------|-------------------|
+|softplus	 | adam	     | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.34584    | 1.47875	    | 0.5206	    | 0.4806            |
+|elu	     | adam	     | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.23077    | 1.456	        | 0.5611    	| 0.4903            |
+|elu	     | adamax	 | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.32575    | 1.48325	    | 0.53212	    | 0.4797            |
+|softsign	 | adam      | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.20283    | 1.532	        | 0.57162	    | 0.4758            |
+|selu	     | adam	     | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.3193	    | 1.51017	    | 0.53282	    | 0.4726            |
+|selu	     | adamax	 | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.32171    | 1.51393	    | 0.53057	    | 0.4726            |
+|softplus	 | adam	     | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.32127    | 1.52043	    | 0.53282	    | 0.4704            |
+|elu	     | nadam	 | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.29081    | 1.52104	    | 0.5403	    | 0.4672            |
+|selu	     | nadam	 | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.36742    | 1.52614	    | 0.51788	    | 0.4665            |
+|softplus	 | damax	 | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.40602    | 1.52741	    | 0.50178	    | 0.4645            |
+
+## Test some hyperparams  and layers structure to improve these 10 configs  :
+
+- Layers 64-64-64-64
+- Layers 128-128-128-128
+- Layers 128-128-128-128-128-128
