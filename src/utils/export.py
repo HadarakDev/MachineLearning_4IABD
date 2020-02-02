@@ -15,8 +15,12 @@ def export_tensorboard_to_csv(source, dest, model_path):
             output.write(configs[0][0:-1] + ",last_loss, last_val_loss, last_accuracy, last_val_accuracy\n")
             for conf in configs[1::]:
                 filename = generate_name(conf.split(","))
+
                 if filename[-1] == "\n":
                     filename = filename[0:-1] + "_sparse"
+                else:
+                    filename = filename + "_sparse"
+
                 train_path = model_path + filename + "\\train\\"
                 val_path = model_path + filename + "\\validation\\"
 

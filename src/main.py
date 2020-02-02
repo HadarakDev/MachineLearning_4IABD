@@ -146,11 +146,11 @@ if __name__ == "__main__":
     X_all, Y = load_dataset()
     #create_dirs()
 
-    #linear(X_all, Y, "../config/archive/Linear/learning_rate_change.csv", "..\\models\\Linear\\linear_final\\learning_rate_change\\")
-    #export_tensorboard_to_csv("../config/archive/linear_10_best_dataset_batch.csv", "../results/export_best_10_dataset_batch.csv",\
-   #                           "..\\models\\Linear\\linear_final\\best_10_dataset_batch\\")
+    #linear(X_all, Y, "../config/archive/Linear/learning_rate_change2.csv", "..\\models\\Linear\\linear_final\\learning_rate_change\\")
+    export_tensorboard_to_csv("../config/archive/Linear/learning_rate_change.csv", "../results/Linear/learning_rate_change.csv",\
+                              "..\\models\\Linear\\linear_final\\learning_rate_change\\")
 
-    nn(X_all, Y, "../config/archive/Nn/optimizer_activaction_testing.csv", "..\\models\\Nn\\nn_final\\optimizer_activaction_testing\\")
+    #nn(X_all, Y, "../config/archive/Nn/optimizer_activaction_testing.csv", "..\\models\\Nn\\nn_final\\optimizer_activaction_testing\\")
     #cnn()
     #export_tensorboard()
     #renameWithNorm()

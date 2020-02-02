@@ -63,5 +63,40 @@ Sparse is most of the better than One Hot. ( refers to the doc Sparse VS One hot
 
 ### Change Learning Rate
 
+| activation | optimizer | loss                     | epochs | batch-size | learning-rate | isGray | isNorm | last_loss | last_val_loss | last_accuracy | last_val_accuracy |
+|------------|-----------|--------------------------|--------|------------|---------------|--------|--------|-----------|---------------|---------------|-------------------|
+| linear	 | adam	     | categorical_crossentropy	| 500	 | 5000       |	0.0005	      | FAUX   | VRAI	| 2.03808	| 2.053	        | 0.19168	    |0.1879             |             
+| selu	     | adam	     | categorical_crossentropy	| 500	 | 5000       |	0.0005	      | FAUX   | VRAI	| 2.06036	| 2.06925	    | 0.19103	    |0.1869             |
+| elu	     | adamax	 | categorical_crossentropy	| 500	 | 5000       |	0.0005	      | FAUX   | VRAI	| 2.10677	| 2.11317	    | 0.1832	    |0.1841             |
+| linear	 | adamax	 | categorical_crossentropy	| 500	 | 5000       |	0.0005	      | FAUX   | VRAI	| 2.09041	| 2.09576	    | 0.1891	    |0.1828             |
+| linear	 | adam	     | categorical_crossentropy	| 500	 | 5000       |	0.001	      | FAUX   | VRAI	| 2.05202	| 2.06735	    | 0.1851	    |0.1766             |
+| linear	 | sgd	     | categorical_crossentropy	| 500	 | 5000       |	0.001	      | FAUX   | VRAI	| 2.16486	| 2.16485	    | 0.1732	    |0.1765             |
+| selu	     | adam	     | categorical_crossentropy	| 500	 | 5000       |	0.001	      | FAUX   | VRAI	| 2.15891	| 2.1626	    | 0.17042	    |0.1738             |
+| linear	 | nadam	 | categorical_crossentropy	| 500	 | 5000       |	0.001	      | FAUX   | VRAI	| 2.07415	| 2.08653	    | 0.1716	    |0.1703             |
+| linear	 | nadam	 | categorical_crossentropy	| 500	 | 5000       |	0.0005	      | FAUX   | VRAI	| 2.1545	| 2.16839	    | 0.17083	    |0.1621             |
+| elu	     | rmsprop	 | categorical_crossentropy	| 500	 | 5000       |	0.001	      | FAUX   | VRAI	| 2.18739	| 2.19589	    | 0.1644	    |0.1561             |
+| elu	     | rmsprop	 | categorical_crossentropy	| 500	 | 5000       |	0.0005	      | FAUX   | VRAI	| 2.21895	| 2.23468	    | 0.17537	    |0.1561             |
+| elu	     | adamax	 | categorical_crossentropy	| 500	 | 5000       |	0.001	      | FAUX   | VRAI	| 2.18876	| 2.18864	    | 0.1582	    |0.1543             |
+| softplus	 | rmsprop	 | categorical_crossentropy	| 500	 | 5000       |	0.0005	      | FAUX   | VRAI	| 2.26413	| 2.26003	    | 0.15552	    |0.1469             |
+| linear	 | sgd	     | categorical_crossentropy	| 500	 | 5000       |	0.0005	      | FAUX   | VRAI	| 2.29088	| 2.29132	    | 0.11375	    |0.1147             |
+| linear	 | adamax	 | categorical_crossentropy	| 500	 | 5000       |	0.001	      | FAUX   | VRAI	| 2.28205	| 2.28255	    | 0.1128	    |0.1145             |
+| softplus	 | rmsprop	 | categorical_crossentropy	| 500	 | 5000       |	0.001	      | FAUX   | VRAI	| 2.30265	| 2.3028	    | 0.10087	    |0.0946             |
+ 
+=> changing learning rate don't gives better result
+
+
+# Neural Networks ( Fully connected Dense )
+
+As we have seen with Linear Norm is better because it avoid Nan, and Gray don't gives better results.
+=> For NN we will only use Color Scale and Normalized data
+
+## Test all combinaisons of Activation / Optimizers with:
+- learning rate : 0.0001
+- batchs : 5000 / 1000
+- epochs : 500
+- Norm : True
+- Gray : False
+- loss : categorical_crossentropy
+- layers : 32-32-32-32
 
  
