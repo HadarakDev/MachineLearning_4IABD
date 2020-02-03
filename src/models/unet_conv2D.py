@@ -69,12 +69,12 @@ def unet_conv2D(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, 
     model = create_model(activation_param, optimizer_param, lr_param, loss_param, array_layers, kernel_shape_param,
                          depth)
     print(model.summary())
-    #plot_model(model, "unet_conv2d.png")
+    plot_model(model, "unet_conv2d.png")
 
-    # directory = "../models/Unet_conv2D/" + save_path_info
-    # if not os.path.exists(directory):
-    #     os.mkdir(directory)
-    # path = directory + "/" + save_path_info + ".h5"
+    directory = "../models/Unet_conv2D/" + save_path_info
+    if not os.path.exists(directory):
+        os.mkdir(directory)
+    path = directory + "/" + save_path_info + ".h5"
 
     X = X_all.reshape(50000, 32, 32, 3)
     model.fit(X, Y, validation_split=0.2,
