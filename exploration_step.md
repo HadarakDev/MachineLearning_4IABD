@@ -82,13 +82,13 @@ Sparse is most of the better than One Hot. ( refers to the doc Sparse VS One hot
 | linear	 | adamax	 | categorical_crossentropy	| 500	 | 5000       |	0.001	      | FAUX   | VRAI	| 2.28205	| 2.28255	    | 0.1128	    |0.1145             |
 | softplus	 | rmsprop	 | categorical_crossentropy	| 500	 | 5000       |	0.001	      | FAUX   | VRAI	| 2.30265	| 2.3028	    | 0.10087	    |0.0946             |
  
-=> changing learning rate don't gives better result
+> changing learning rate don't gives better result
 
 
 # Neural Networks ( Fully connected Dense )
 
 As we have seen with Linear Norm is better because it avoid Nan, and Gray don't gives better results.
-=> For NN we will only use Color Scale and Normalized data
+> For NN we will only use Color Scale and Normalized data
 
 ## Test all combinaisons of Activation / Optimizers with:
 - learning rate : 0.0001
@@ -104,8 +104,8 @@ As we have seen with Linear Norm is better because it avoid Nan, and Gray don't 
 
 | activation | optimizer | loss	                    | epochs |batch-size  |	learning-rate |	layers	    |isGray	 |isNorm	 |   Dropout	| L1	| L2	| last_loss	| last_val_loss	| last_accuracy	| last_val_accuracy |
 |------------|-----------|--------------------------|--------|------------|---------------|-------------|--------|-----------|--------------|-------|-------|-----------|---------------|---------------|-------------------|
-|softplus	 | adam	     | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.34584    | 1.47875	    | 0.5206	    | 0.4806            |
 |elu	     | adam	     | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.23077    | 1.456	        | 0.5611    	| 0.4903            |
+|softplus	 | adam	     | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.34584    | 1.47875	    | 0.5206	    | 0.4806            |
 |elu	     | adamax	 | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.32575    | 1.48325	    | 0.53212	    | 0.4797            |
 |softsign	 | adam      | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.20283    | 1.532	        | 0.57162	    | 0.4758            |
 |selu	     | adam	     | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.3193	    | 1.51017	    | 0.53282	    | 0.4726            |
@@ -115,8 +115,42 @@ As we have seen with Linear Norm is better because it avoid Nan, and Gray don't 
 |selu	     | nadam	 | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.36742    | 1.52614	    | 0.51788	    | 0.4665            |
 |softplus	 | damax	 | categorical_crossentropy	| 100	 | 1000	      | 0.0001	      |32-32-32-32	| FAUX	 | VRAI	     |0	            |0	    |0	    |1.40602    | 1.52741	    | 0.50178	    | 0.4645            |
 
-## Test some hyperparams  and layers structure to improve these 10 configs  :
 
-- Layers 64-64-64-64
-- Layers 128-128-128-128
-- Layers 128-128-128-128-128-128
+
+> Accuracy is  better compared to Linear models.<br>
+> We are close to 0.5 Accuracy.<br>
+> We have only a little overfit.
+
+## Test some hyperparams and layers structure to improve these 10 configs  :
+
+### Layers Structure
+- 64-64-64-64
+- 128-128-128-128
+- 128-128-128-128-128-128
+- 255-255-255-255
+
+#### Results (Best 10)
+| activation | optimizer | loss	                    | epochs |batch-size  |	learning-rate |	layers	        |isGray	 |isNorm     | Dropout	| L1	| L2	| last_loss	| last_val_loss	| last_accuracy	| last_val_accuracy |
+|------------|-----------|--------------------------|--------|------------|---------------|-----------------|--------|-----------|----------|-------|-------|-----------|---------------|---------------|-------------------|
+| elu	     | adamax	 | categorical_crossentropy	| 500	 | 1000	      |  0.0001	      | 256-256-256-256 | FAUX	 | VRAI	     | 0        | 0	    | 0     | 0.8182	| 1.44976	    |0.71527	    | 0.5366            |
+| selu	     | adam	     | categorical_crossentropy	| 500	 | 1000	      |  0.0001	      | 256-256-256-256 | FAUX	 | VRAI	     | 0        | 0	    | 0     | 0.62829	| 1.66146	    |0.7786	        | 0.5267            |
+| elu	     | adam	     | categorical_crossentropy	| 500	 | 1000	      |  0.0001	      | 256-256-256-256 | FAUX	 | VRAI	     | 0        | 0	    | 0     | 0.9034	| 1.43963	    |0.68015	    | 0.5265            |
+| elu	     | adamax	 | categorical_crossentropy	| 500	 | 1000	      |  0.0001	      | 128-128-128-128 | FAUX	 | VRAI	     | 0        | 0	    | 0     | 1.02173	| 1.41011	    |0.64025	    | 0.5243            |
+| softplus   | adam	     | categorical_crossentropy	| 500	 | 1000	      |  0.0001	      | 256-256-256-256 | FAUX	 | VRAI	     | 0        | 0	    | 0     | 0.99166	| 1.43647	    |0.6437	        | 0.5236            |
+| selu	     | adamax	 | categorical_crossentropy	| 500	 | 1000	      |  0.0001	      | 256-256-256-256 | FAUX	 | VRAI	     | 0        | 0	    | 0     | 0.87139	| 1.4488	    |0.69845	    | 0.5229            |
+| elu	     | adam	     | categorical_crossentropy	| 500	 | 1000	      |  0.0001	      | 128-128-128-128 | FAUX	 | VRAI	     | 0        | 0	    | 0     | 0.95531	| 1.45568	    |0.6622   	    | 0.5219            |
+| softplus   | adamax	 | categorical_crossentropy	| 500	 | 1000	      |  0.0001	      | 256-256-256-256 | FAUX	 | VRAI	     | 0        | 0	    | 0     | 1.1161	| 1.40723	    |0.6042	        | 0.5215            |
+| softplus   | adam	     | categorical_crossentropy	| 500	 | 1000	      |  0.0001	      | 128-128-128-128 | FAUX	 | VRAI	     | 0        | 0	    | 0     | 1.01214	| 1.46002	    |0.63945	    | 0.5208            |
+| elu	     | nadam	 | categorical_crossentropy	| 500	 | 1000	      |  0.0001	      | 128-128-128-128 | FAUX	 | VRAI	     | 0        | 0	    | 0     | 0.89541	| 1.51284	    |0.68068	    | 0.5193            |
+
+> We can see no structure with 8 layers of 128 is in the top 10. We can suppose increasing the number of neurons as a better impact on results.
+<br>
+> Models are now overfitting  with almost 0.20 difference between train and test.
+
+### Layer Structure 2 ( Let's test more neurons)
+- 512-512-512-512
+- 1024-1024-1024-1024
+
+### Add regularizers to avoid overfiting
+
+
