@@ -10,7 +10,7 @@ elu,nadam,categorical_crossentropy,500,1000,0.0001,64-64-64-64,False,True,0,0,0
 selu,nadam,categorical_crossentropy,500,1000,0.0001,64-64-64-64,False,True,0,0,0
 softplus,adamax,categorical_crossentropy,500,1000,0.0001,64-64-64-64,False,True,0,0,0
 elu,adam,categorical_crossentropy,500,1000,0.0001,128-128-128-128,False,True,0,0,0
-softplus,adam,categorical_crossentropy,500,1000,0.0001,128-128-128-1284,False,True,0,0,0
+softplus,adam,categorical_crossentropy,500,1000,0.0001,128-128-128-128,False,True,0,0,0
 elu,adamax,categorical_crossentropy,500,1000,0.0001,128-128-128-128,False,True,0,0,0
 softsign,adam,categorical_crossentropy,500,1000,0.0001,128-128-128-128,False,True,0,0,0
 selu,adam,categorical_crossentropy,500,1000,0.0001,128-128-128-128,False,True,0,0,0
