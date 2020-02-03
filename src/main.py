@@ -92,6 +92,10 @@ def nn(X_all, Y, config_path, save_path):
         isGray = data['isGray'].iloc[i]
         isNorm = data['isNorm'].iloc[i]
 
+        dropout = data["Dropout"].iloc[i]
+        l1 = data["L1"].iloc[i]
+        l2 = data["L2"].iloc[i]
+
         # A voir si load norm et non norm de base pour perf
         if isNorm == True:
             X_Final = X_all / 255.0
@@ -101,9 +105,9 @@ def nn(X_all, Y, config_path, save_path):
         save_dir = generate_name(data.iloc[i]) + "_sparse"
 
         array_layers = data['layers'].iloc[i].split("-")
-        display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm, array_layers)
+        display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm, array_layers, dropout, l1, l2)
 
-        nn_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, save_path, array_layers)
+        nn_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, save_path, array_layers, dropout, l1, l2)
 
 # test(X_all, Y)
 def cnn():
@@ -148,15 +152,15 @@ if __name__ == "__main__":
     #create_dirs()
 
     #linear(X_all, Y, "../config/archive/Linear/learning_rate_change2.csv", "..\\models\\Linear\\linear_final\\learning_rate_change\\")
-    #export_tensorboard_to_csv("../config/archive/Linear/learning_rate_change.csv", "../results/Linear/learning_rate_change.csv",\
-    #                          "..\\models\\Linear\\linear_final\\learning_rate_change\\")
+    # export_tensorboard_to_csv("../config/archive/Nn/10_best_more_neurons_test.csv", "../results/Nn/10_best_more_neurons_test.csv",\
+    #                          "..\\models\\Nn\\nn_final\\10_best_more_neurons_test\\")
 
-    #nn(X_all, Y, "../config/archive/Nn/optimizer_activaction_testing.csv", "..\\models\\Nn\\nn_final\\optimizer_activaction_testing\\")
+    nn(X_all, Y, "../config/archive/Nn/5_top_with_regularizers.csv", "..\\models\\Nn\\nn_final\\5_top_with_regularizers\\")
     #cnn()
     #export_tensorboard()
     #renameWithNorm()
     # test(X_all, Y)
     #renameSyntax()
     #tanh,adagrad,categorical_crossentropy,100,5000,0.0001,32-32-32-32,False,True,0,0,0
-    unet_conv2D(X_all, Y, True, "tanh", "adagrad", 0.001, "sparse_categorical_crossentropy", 5000,
-                1000, "my_cool_unet", [64, 64], 2)
+    # unet_conv2D(X_all, Y, True, "tanh", "adagrad", 0.001, "sparse_categorical_crossentropy", 5000,
+    #             1000, "my_cool_unet", [64, 64], 2)

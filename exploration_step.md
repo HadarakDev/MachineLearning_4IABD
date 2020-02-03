@@ -151,6 +151,23 @@ As we have seen with Linear Norm is better because it avoid Nan, and Gray don't 
 - 512-512-512-512
 - 1024-1024-1024-1024
 
+| activation | optimizer | loss	                    | epochs |batch-size  |	learning-rate |	layers	           |isGray	 |isNorm    | Dropout  | L1	   | L2	   | last_loss | last_val_loss | last_accuracy | last_val_accuracy |
+|------------|-----------|--------------------------|--------|------------|---------------|--------------------|--------|-----------|----------|-------|-------|-----------|---------------|---------------|-------------------|
+| selu	     | adam	     | categorical_crossentropy	| 500	 | 1000	      | 0.0001	      | 512-512-512-512	   | FAUX	| VRAI	    | 0	       | 0	   | 0	   | 0.23604   | 2.18678	   | 0.9247	       | 0.5386            |
+| softplus	 | nadam	 | categorical_crossentropy	| 500	 | 1000	      | 0.0001	      | 512-512-512-512	   | FAUX	| VRAI	    | 0	       | 0	   | 0	   | 0.24998   | 2.87626	   | 0.92032	   | 0.4832            |
+| softsign	 | adam	     | categorical_crossentropy	| 500	 | 1000	      | 0.0001	      | 1024-1024-1024-1024| FAUX	| VRAI	    | 0	       | 0	   | 0	   | 0.3167	   | 1.94076	   | 0.89882	   | 0.5244            |
+| selu	     | adamax	 | categorical_crossentropy	| 500	 | 1000	      | 0.0001	      | 1024-1024-1024-1024| FAUX	| VRAI	    | 0	       | 0	   | 0	   | 0.38091   | 1.72022	   | 0.87552	   | 0.5458            |
+| elu	     | adam	     | categorical_crossentropy	| 500	 | 1000	      | 0.0001	      | 1024-1024-1024-1024| FAUX	| VRAI	    | 0	       | 0	   | 0	   | 0.39739   | 2.00565	   | 0.86193	   | 0.5246            |
+
+> Let's try to add regularizers to improve val_accuracy on models with higher overfit
+
 ### Add regularizers to avoid overfiting
+
+selu	adam	categorical_crossentropy	500	1000	0.0001	512-512-512-512	FAUX	VRAI	0	0	0	0.23604	2.18678	0.9247	0.5386
+softplus	nadam	categorical_crossentropy	500	1000	0.0001	512-512-512-512	FAUX	VRAI	0	0	0	0.24998	2.87626	0.92032	0.4832
+softsign	adam	categorical_crossentropy	500	1000	0.0001	1024-1024-1024-1024	FAUX	VRAI	0	0	0	0.3167	1.94076	0.89882	0.5244
+selu	adamax	categorical_crossentropy	500	1000	0.0001	1024-1024-1024-1024	FAUX	VRAI	0	0	0	0.38091	1.72022	0.87552	0.5458
+elu	adam	categorical_crossentropy	500	1000	0.0001	1024-1024-1024-1024	FAUX	VRAI	0	0	0	0.39739	2.00565	0.86193	0.5246
+
 
 
