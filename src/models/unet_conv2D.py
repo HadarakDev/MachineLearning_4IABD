@@ -8,6 +8,7 @@ from tensorflow.keras.models import *
 from tensorflow_core.python.keras.regularizers import L1L2
 
 from src.utils.tools import unpickle, get_optimizer
+from src.utils.models import model_fit
 
 
 def create_model(activation_param, optimizer_param, lr_param, loss_param, array_layers, kernel_shape_param, depth):
@@ -61,7 +62,7 @@ def create_model(activation_param, optimizer_param, lr_param, loss_param, array_
 
 
 def unet_conv2D(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, loss_param, batch_size_param,
-                epochs_param, save_path_info, array_layers, kernel_shape_param):
+                epochs_param, array_layers, kernel_shape_param, save_dir, base_path):
     depth = int(len(array_layers) / 2)
     if depth % 2 == 0:
         depth = depth - 1
@@ -69,14 +70,13 @@ def unet_conv2D(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, 
     model = create_model(activation_param, optimizer_param, lr_param, loss_param, array_layers, kernel_shape_param,
                          depth)
     print(model.summary())
-    plot_model(model, "unet_conv2d.png")
+    #plot_model(model, "unet_conv2d.png")
 
-    directory = "../models/Unet_conv2D/" + save_path_info
+    directory = base_path + save_dir
     if not os.path.exists(directory):
         os.mkdir(directory)
-    path = directory + "/" + save_path_info + ".h5"
+    path = directory + "/model.h5"
 
     X = X_all.reshape(50000, 32, 32, 3)
-    model.fit(X, Y, validation_split=0.2,
-              epochs=epochs_param,
-              batch_size=batch_size_param)
+    if isTrain:
+        model_fit(model, X, Y, epochs_param, batch_size_param, path, save_dir, base_path)
