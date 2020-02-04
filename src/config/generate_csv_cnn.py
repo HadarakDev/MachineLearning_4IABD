@@ -43,8 +43,8 @@ for i in range(10000):
     batch_size_param.append(random.choice(batchs))
     epochs_param.append(random.choice(epochs))
     lr.append(random.choice(lrs))
-    isGray_param.append(random.choice(bool_l))
-    isNorm_param.append(random.choice(bool_l))
+    isGray_param.append(False)
+    isNorm_param.append(True)
 
     kernel_shape_param.append(random.choice(kernel_shape))
     pooling_param.append(random.choice(pooling))
@@ -70,4 +70,4 @@ list_set = set(l)
 unique_list = (list(list_set))
 df = pd.DataFrame(unique_list, 
                columns =["activation", "optimizer", "loss", "epochs", "batch-size", "learning-rate", "layers", "kernel-shape", "pooling", "isGray", "isNorm", "Dropout", "L1", "L2"]) 
-df.to_csv("../../config/archive/Cnn/optimizer_activaction_testing.csv", index=False)
+df.to_csv("../../config/archive/Cnn/optimizer_activaction_testing_norm.csv", index=False)
