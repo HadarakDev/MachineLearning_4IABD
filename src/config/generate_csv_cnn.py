@@ -70,4 +70,4 @@ list_set = set(l)
 unique_list = (list(list_set))
 df = pd.DataFrame(unique_list, 
                columns =["activation", "optimizer", "loss", "epochs", "batch-size", "learning-rate", "layers", "kernel-shape", "pooling", "isGray", "isNorm", "Dropout", "L1", "L2"]) 
-df.to_csv("../../config/cnn.csv", index=False)
+df.to_csv("../../config/archive/Cnn/optimizer_activaction_testing.csv", index=False)

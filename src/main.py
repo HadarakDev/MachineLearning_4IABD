@@ -110,37 +110,42 @@ def nn(X_all, Y, config_path, save_path):
         nn_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, save_path, array_layers, dropout, l1, l2)
 
 # test(X_all, Y)
-def cnn():
-    data = pd.read_csv("../config/cnn.csv")
+def cnn(X_all, Y, config_path, save_path):
+    data = pd.read_csv(config_path)
     for i in range(data.shape[0]):
-        activation_param = data['activation_param'].iloc[i].split(";")
-        optimizer_param = data['optimizer_param'].iloc[i]
-        pooling_param = data['pooling_param'].iloc[i]
-        lr_param = data['learning_rate'].iloc[i]
-        loss_param = "sparse_" + data['loss_param'].iloc[i]
-        batch_size_param = data['batch_size_param'].iloc[i]
-        epochs_param = data['epochs_param'].iloc[i]
-        save_path_info = data['save_path_info'].iloc[i]
-        array_layers = data['array_layers'].iloc[i].split(";")
-        kernel_shape_param = data['kernel_shape_param'].iloc[i]
 
-        print("START NEW TRAINING")
-        print("activation_param : " + str(activation_param))
-        print("optimizer_param : " + str(optimizer_param))
-        print("learning_rate : " + str(lr_param))
-        print("loss_param : " + str(loss_param))
-        print("batch_size_param : " + str(batch_size_param))
-        print("epochs_param : " + str(epochs_param))
-        print("save_path_info : " + str(save_path_info))
-        print("array_layers : " + str(array_layers))
-        print("kernel_shape_param : " + str(kernel_shape_param))
-        print("pooling_param : " + str(pooling_param))
+        activation = data['activation'].iloc[i]
+        optimizer = data['optimizer'].iloc[i]
+        loss = "sparse_" + data['loss'].iloc[i]
+
+        epochs = data['epochs'].iloc[i]
+        batch_size = data['batch-size'].iloc[i]
+        lr = data['learning-rate'].iloc[i]
+
+        isGray = data['isGray'].iloc[i]
+        isNorm = data['isNorm'].iloc[i]
+
+        dropout = data["Dropout"].iloc[i]
+        l1 = data["L1"].iloc[i]
+        l2 = data["L2"].iloc[i]
+        pooling = data["pooling"].iloc[i]
+        kernel_shape = data["kernel-shape"].iloc[i]
+
+        # A voir si load norm et non norm de base pour perf
+        if isNorm == True:
+            X_Final = X_all / 255.0
+        else:
+            X_Final = X_all
+
+        save_dir = generate_name(data.iloc[i]) + "_sparse"
+
+        array_layers = data['layers'].iloc[i].split("-")
+        display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm, array_layers, dropout, l1, l2)
+
+        cnn_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, save_path,
+                  array_layers, pooling, kernel_shape,  dropout, l1, l2)
 
 
-        #launch cnn sparse
-        print(X_all.shape)
-        cnn_sparse(X_all, Y, True, activation_param, optimizer_param, lr_param, loss_param, batch_size_param,
-                   epochs_param, save_path_info, array_layers, pooling_param, kernel_shape_param)
         # save_path_info_sparse = save_path_info.split("_")
         # save_path_info_sparse.insert(3, "sparse")
         # save_path_info_sparse = "_".join(save_path_info_sparse)
@@ -152,10 +157,11 @@ if __name__ == "__main__":
     #create_dirs()
 
     #linear(X_all, Y, "../config/archive/Linear/learning_rate_change2.csv", "..\\models\\Linear\\linear_final\\learning_rate_change\\")
-    # export_tensorboard_to_csv("../config/archive/Nn/10_best_more_neurons_test.csv", "../results/Nn/10_best_more_neurons_test.csv",\
-    #                          "..\\models\\Nn\\nn_final\\10_best_more_neurons_test\\")
+    export_tensorboard_to_csv("../config/archive/Cnn/optimizer_activaction_testing.csv", "../results/Cnn/optimizer_activaction_testing.csv",\
+                              "..\\models\\Cnn\\cnn_final\\optimizer_activaction_testing\\")
 
-    nn(X_all, Y, "../config/archive/Nn/5_top_with_regularizers.csv", "..\\models\\Nn\\nn_final\\5_top_with_regularizers\\")
+    #nn(X_all, Y, "../config/archive/Nn/5_top_with_regularizers.csv", "..\\models\\Nn\\nn_final\\5_top_with_regularizers\\")
+    #cnn(X_all, Y, "../config/archive/Cnn/optimizer_activaction_testing.csv", "..\\models\\Cnn\\cnn_final\\optimizer_activaction_testing\\")
     #cnn()
     #export_tensorboard()
     #renameWithNorm()
