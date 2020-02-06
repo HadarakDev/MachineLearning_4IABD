@@ -30,12 +30,12 @@ def cnn_model(image_size, nb_output, activation, optimizer, loss, lr, array_laye
         if dropout != 0:
             model.add(Dropout(dropout))
         if l1 != 0 and l2 != 0:
-            model.add(tf.keras.layers.Conv2D(array_layers[i], (kernel_shape, kernel_shape), padding='same',  activation=activation), kernel_regularizer=L1L2(l1=l1, l2=l2))
+            model.add(tf.keras.layers.Conv2D(array_layers[i], (kernel_shape, kernel_shape), padding='same',  activation=activation, kernel_regularizer=L1L2(l1=l1, l2=l2)))
         elif l1 != 0:
-            model.add(tf.keras.layers.Conv2D(array_layers[i], (kernel_shape, kernel_shape), padding='same', activation=activation), kernel_regularizer=L1L2(l1=l1))
+            model.add(tf.keras.layers.Conv2D(array_layers[i], (kernel_shape, kernel_shape), padding='same', activation=activation, kernel_regularizer=L1L2(l1=l1)))
         elif l2 != 0:
             model.add(tf.keras.layers.Conv2D(array_layers[i], (kernel_shape, kernel_shape), padding='same',
-                                             activation=activation), kernel_regularizer=L1L2(l2=l2))
+                                             activation=activation, kernel_regularizer=L1L2(l2=l2)))
         else:
             model.add(tf.keras.layers.Conv2D(array_layers[i], (kernel_shape, kernel_shape), padding='same',
                                              activation=activation))
@@ -46,7 +46,7 @@ def cnn_model(image_size, nb_output, activation, optimizer, loss, lr, array_laye
     model.add(tf.keras.layers.Flatten())
     model.add(Dense(nb_output, activation="softmax"))
     model.compile(optimizer=optimizer_param, loss=loss, metrics=['sparse_categorical_accuracy'])
-    model.summary()
+   # model.summary()
     return model
 
 

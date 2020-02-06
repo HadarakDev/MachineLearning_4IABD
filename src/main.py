@@ -157,18 +157,17 @@ if __name__ == "__main__":
     #create_dirs()
 
     #linear(X_all, Y, "../config/archive/Linear/learning_rate_change2.csv", "..\\models\\Linear\\linear_final\\learning_rate_change\\")
-    export_tensorboard_to_csv("../config/archive/Cnn/10_best_more_neurons.csv", "../results/Cnn/10_best_more_neurons.csv",\
-                                "../models/Cnn/cnn_final/10_best_more_neurons/")
+    #export_tensorboard_to_csv("../config/archive/Cnn/10_best_more_neurons.csv", "../results/Cnn/10_best_more_neurons.csv",\
+                                #"../models/Cnn/cnn_final/10_best_more_neurons/")
 
     # Coder function export avec dropout
 
     #nn(X_all, Y, "../config/archive/Nn/5_top_with_regularizers2.csv", "..\\models\\Nn\\nn_final\\5_top_with_regularizers\\")
-    #cnn(X_all, Y, "../config/archive/Cnn/10_best_more_neurons2.csv", "..\\models\\Cnn\\cnn_final\\10_best_more_neurons\\")
-    #cnn()
-    #export_tensorboard()
-    #renameWithNorm()
+    cnn(X_all, Y, "../config/archive/Cnn/5_top_with_regularizers.csv", "..\\models\\Cnn\\cnn_final\\5_top_with_regularizers\\")
+
+
     # test(X_all, Y)
     #renameSyntax()
-    #tanh,adagrad,categorical_crossentropy,100,5000,0.0001,32-32-32-32,False,True,0,0,0
+
     # unet_conv2D(X_all, Y, True, "tanh", "adagrad", 0.001, "sparse_categorical_crossentropy", 5000,
     #             1000, "my_cool_unet", [64, 64], 2)
