@@ -6,6 +6,7 @@ import numpy as np
 import os
 
 from tensorflow_core.python.keras.layers import MaxPool2D, AveragePooling2D
+from tensorflow_core.python.keras.regularizers import L1L2
 
 from src.utils.tools import unpickle, load_linear_model, get_optimizer
 from tensorflow.keras.optimizers import Adadelta, Adagrad, Adam, Adamax, Ftrl, Nadam, RMSprop, SGD
@@ -17,6 +18,8 @@ def cnn_model(image_size, nb_output, activation, optimizer, loss, lr, array_laye
     optimizer_param = get_optimizer(optimizer, lr)
     model = tf.keras.Sequential()
 
+    if dropout != 0:
+        model.add(Dropout(dropout))
     model.add(tf.keras.layers.Conv2D(filters=array_layers[0], kernel_size=(kernel_shape, kernel_shape), padding='same', activation=activation, input_shape=(32, 32, 3)))
     if pooling == "avg_pool":
         model.add(tf.keras.layers.AveragePooling2D((2, 2), padding='same'))
@@ -24,7 +27,18 @@ def cnn_model(image_size, nb_output, activation, optimizer, loss, lr, array_laye
         model.add(tf.keras.layers.MaxPooling2D((2, 2), padding='same'))
 
     for i in range(1, len(array_layers)):
-        model.add(tf.keras.layers.Conv2D(array_layers[i], (kernel_shape, kernel_shape), padding='same',  activation=activation))
+        if dropout != 0:
+            model.add(Dropout(dropout))
+        if l1 != 0 and l2 != 0:
+            model.add(tf.keras.layers.Conv2D(array_layers[i], (kernel_shape, kernel_shape), padding='same',  activation=activation), kernel_regularizer=L1L2(l1=l1, l2=l2))
+        elif l1 != 0:
+            model.add(tf.keras.layers.Conv2D(array_layers[i], (kernel_shape, kernel_shape), padding='same', activation=activation), kernel_regularizer=L1L2(l1=l1))
+        elif l2 != 0:
+            model.add(tf.keras.layers.Conv2D(array_layers[i], (kernel_shape, kernel_shape), padding='same',
+                                             activation=activation), kernel_regularizer=L1L2(l2=l2))
+        else:
+            model.add(tf.keras.layers.Conv2D(array_layers[i], (kernel_shape, kernel_shape), padding='same',
+                                             activation=activation))
         if pooling == "avg_pool":
             model.add(tf.keras.layers.AveragePooling2D((2, 2), padding='same'))
         else:

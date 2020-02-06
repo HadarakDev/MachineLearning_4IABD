@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
@@ -96,7 +98,6 @@ def nn(X_all, Y, config_path, save_path):
         l1 = data["L1"].iloc[i]
         l2 = data["L2"].iloc[i]
 
-        # A voir si load norm et non norm de base pour perf
         if isNorm == True:
             X_Final = X_all / 255.0
         else:
@@ -131,7 +132,6 @@ def cnn(X_all, Y, config_path, save_path):
         pooling = data["pooling"].iloc[i]
         kernel_shape = data["kernel-shape"].iloc[i]
 
-        # A voir si load norm et non norm de base pour perf
         if isNorm == True:
             X_Final = X_all / 255.0
         else:
@@ -157,11 +157,13 @@ if __name__ == "__main__":
     #create_dirs()
 
     #linear(X_all, Y, "../config/archive/Linear/learning_rate_change2.csv", "..\\models\\Linear\\linear_final\\learning_rate_change\\")
-    export_tensorboard_to_csv("../config/archive/Cnn/optimizer_activaction_testing.csv", "../results/Cnn/optimizer_activaction_testing.csv",\
-                              "..\\models\\Cnn\\cnn_final\\optimizer_activaction_testing\\")
+    export_tensorboard_to_csv("../config/archive/Cnn/10_best_more_neurons.csv", "../results/Cnn/10_best_more_neurons.csv",\
+                                "../models/Cnn/cnn_final/10_best_more_neurons/")
 
-    #nn(X_all, Y, "../config/archive/Nn/5_top_with_regularizers.csv", "..\\models\\Nn\\nn_final\\5_top_with_regularizers\\")
-    #cnn(X_all, Y, "../config/archive/Cnn/optimizer_activaction_testing.csv", "..\\models\\Cnn\\cnn_final\\optimizer_activaction_testing\\")
+    # Coder function export avec dropout
+
+    #nn(X_all, Y, "../config/archive/Nn/5_top_with_regularizers2.csv", "..\\models\\Nn\\nn_final\\5_top_with_regularizers\\")
+    #cnn(X_all, Y, "../config/archive/Cnn/10_best_more_neurons2.csv", "..\\models\\Cnn\\cnn_final\\10_best_more_neurons\\")
     #cnn()
     #export_tensorboard()
     #renameWithNorm()

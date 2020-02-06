@@ -15,7 +15,7 @@ from src.utils.models import model_fit
 def nn_model(image_size, nb_output, activation, optimizer, loss, lr, array_layers, dropout, l1, l2):
     optimizer_param = get_optimizer(optimizer, lr)
     model = tf.keras.Sequential()
-    model.add(Flatten(input_shape=(1024,)))
+    model.add(Flatten(input_shape=(3072,)))
     if dropout != 0:
         model.add(Dropout(dropout))
     model.add(Dense(array_layers[0], activation=activation, input_dim=image_size))

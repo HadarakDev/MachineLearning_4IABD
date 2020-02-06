@@ -1,7 +1,9 @@
 # Dataset Information
 
 - Contains 60 000 images
+- We use only 50000 of them
 
+- Seed set to 1
 # Sparse VS One Hot
 
 Sparse is most of the better than One Hot. ( refers to the doc Sparse VS One hot)
@@ -170,15 +172,50 @@ As we have seen with Linear Norm is better because it avoid Nan, and Gray don't 
 - learning rate : 0.0001
 - batchs : 5000 / 1000
 - epochs : 100
-- Norm : False
+- Norm : False / True
 - Gray : False
 - loss : categorical_crossentropy
 - layers : 24-24-24-24
 - pooling : avg_pool / max_pool
 
-# executer cnn with norm
+| activation   |	optimizer	| loss	                    | epochs   | batch-size | learning-rate | layers	  | kernel-shape  | pooling	 | isGray | isNorm	|Dropout |	L1 | L2	|last_loss	| last_val_loss	| last_accuracy	| last_val_accuracy |
+|--------------|----------------|---------------------------|----------|------------|---------------|-------------|---------------|----------|--------|---------|--------|-----|----|-----------|---------------|---------------|-------------------|
+| selu	       | adam	        | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 24-24-24-24 |	2             | avg_pool |	FAUX  | FAUX	| 0	     | 0   | 0	| 1.223  	| 1.25737	    | 0.56318	    | 0.5593            |
+| tanh	       | adam	        | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 24-24-24-24 |	2             | max_pool |	FAUX  | FAUX	| 0	     | 0   | 0	| 1.20722	| 1.23557	    | 0.56905	    | 0.5559            |
+| relu	       | adam	        | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 24-24-24-24 |	2             | avg_pool |	FAUX  | FAUX	| 0	     | 0   | 0	| 1.31531	| 1.33521	    | 0.53027	    | 0.5303            |
+| elu	       | adam	        | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 24-24-24-24 |	2             | avg_pool |	FAUX  | FAUX	| 0	     | 0   | 0	| 1.30731	| 1.32057	    | 0.53127	    | 0.5302            |
+| selu	       | nadam	        | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 24-24-24-24 |	2             | max_pool |	FAUX  | VRAI	| 0	     | 0   | 0	| 1.29309	| 1.31514	    | 0.54135	    | 0.5285            |
+| softplus	   | adam	        | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 24-24-24-24 |	2             | avg_pool |	FAUX  | FAUX	| 0	     | 0   | 0	| 1.30364	| 1.31689	    | 0.5312	    | 0.5282            |
+| softsign	   | nadam	        | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 24-24-24-24 |	2             | max_pool |	FAUX  | FAUX	| 0	     | 0   | 0	| 1.30057	| 1.32063	    | 0.52852	    | 0.525             |
+| selu	       | rmsprop	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 24-24-24-24 |	2             | max_pool |	FAUX  | VRAI	| 0	     | 0   | 0	| 1.3282	| 1.35057	    | 0.5276	    | 0.5225            |
+| softsign	   | adam	        | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 24-24-24-24 |	2             | max_pool |	FAUX  | FAUX	| 0	     | 0   | 0	| 1.30387	| 1.3179	    | 0.52718	    | 0.522             |
+| tanh	       | nadam	        | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 24-24-24-24 |	2             | max_pool |	FAUX  | FAUX	| 0	     | 0   | 0	| 1.30726	| 1.33597	    | 0.5319	    | 0.5178            |
+
 
 # Prendre top 10 et ajouter des neurones et layers
+- 64-64-64-64
+- 128-128-128-128
+- 256-256-256-256
+- 512-512-512-512
+
+# top 5 results
+
+| activation   | optimizer	| loss	                    | epochs   | batch-size | learning-rate | layers	    | kernel-shape  | pooling  | isGray | isNorm  | Dropout| L1  | L2  |last_loss  | last_val_loss | last_accuracy | last_val_accuracy|
+|--------------|------------|---------------------------|----------|------------|---------------|---------------|---------------|----------|--------|---------|--------|-----|-----|-----------|---------------|---------------|-------------------|
+| tanh	       | adam	    | categorical_crossentropy	| 500	   | 1000	    | 0.0001	    |512-512-512-512| 2	            | max_pool | FAUX   | FAUX    |	0      | 0	 | 0   | 0.01662   |0.70971	       |1.0	           |0.7902             |
+| softsign	   | adam	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    |256-256-256-256| 2	            | max_pool | FAUX   | FAUX    |	0      | 0	 | 0   | 0.22349   |0.66631	       |0.95253        |0.7738             |
+| softsign	   | nadam	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    |256-256-256-256| 2	            | max_pool | FAUX   | FAUX    |	0      | 0	 | 0   | 0.24754   |0.68603	       |0.94407        |0.7682             |
+| tanh	       | adam	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    |256-256-256-256| 2	            | max_pool | FAUX   | FAUX    |	0      | 0	 | 0   | 0.09287   |0.74141	       |0.9945         |0.7613             |
+| elu	       | adam	    | categorical_crossentropy	| 500	   | 1000	    | 0.0001	    |512-512-512-512| 2	            | avg_pool | FAUX   | FAUX    |	0      | 0	 | 0   | 0.17191   |0.88388	       |0.9524         |0.7489             |
+
+### Ces configurations prennent plus de memoire que les autres et ne tiennent pas sur notre GPU (1080Ti)
+```
+selu,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,2,avg_pool,False,False,0,0,0
+selu,nadam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,2,max_pool,False,True,0,0,0
+```
+
+
+
 
 
 
