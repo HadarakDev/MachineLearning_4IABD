@@ -4,6 +4,15 @@ import numpy as np
 
 from utils.tools import unpickle
 
+def load_validation_data():
+    X_all = []
+    Y = []
+
+    features, labels = unpickle("../dataset/test_batch", 32, True)
+    X_all.append(features.flatten().reshape(10000, 32 * 32 * 3))
+    Y.append(np.asarray(labels))
+
+    return X_all, Y
 
 def load_dataset():
     tf.random.set_seed(1)

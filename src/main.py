@@ -4,16 +4,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import pandas as pd
+from tensorflow_core.python.keras.backend import clear_session
 
 from models.cnn_sparse import cnn_sparse
 from models.nn_sparse import nn_sparse
+from models.unet_conv2D import unet_conv2D_sparse
 from src.models.linear_one_hot import linear_one_hot
 from src.models.linear_sparse import linear_sparse
-from src.models.unet_conv2D import unet_conv2D
 # from src.models.nn_sparse import nn_sparse
 # from src.models.nn_one_hot import nn_one_hot
 # from src.models.cnn_sparse import cnn_sparse
 from src.utils.tools import unpickle, create_dirs,  export_tensorboard, generate_name, display_config
+from tensorflow.keras import Model
 
 
 # # Gray
@@ -21,7 +23,7 @@ from src.utils.tools import unpickle, create_dirs,  export_tensorboard, generate
 #
 # Y = np.concatenate(Y)
 from utils.data import load_dataset
-from utils.export import export_tensorboard_to_csv
+from utils.export import export_tensorboard_to_csv, export_tensorboard_regularizers
 
 
 def compareOneHotAndSparse(X_all, Y):
@@ -114,7 +116,8 @@ def nn(X_all, Y, config_path, save_path):
 def cnn(X_all, Y, config_path, save_path):
     data = pd.read_csv(config_path)
     for i in range(data.shape[0]):
-
+        if i % 25 == 0:
+            clear_session()
         activation = data['activation'].iloc[i]
         optimizer = data['optimizer'].iloc[i]
         loss = "sparse_" + data['loss'].iloc[i]
@@ -146,10 +149,43 @@ def cnn(X_all, Y, config_path, save_path):
                   array_layers, pooling, kernel_shape,  dropout, l1, l2)
 
 
-        # save_path_info_sparse = save_path_info.split("_")
-        # save_path_info_sparse.insert(3, "sparse")
-        # save_path_info_sparse = "_".join(save_path_info_sparse)
 
+
+
+def unet_conv2d(X_all, Y, config_path, save_path):
+    data = pd.read_csv(config_path)
+    for i in range(data.shape[0]):
+        if i % 25 == 0:
+            clear_session()
+        activation = data['activation'].iloc[i]
+        optimizer = data['optimizer'].iloc[i]
+        loss = "sparse_" + data['loss'].iloc[i]
+
+        epochs = data['epochs'].iloc[i]
+        batch_size = data['batch-size'].iloc[i]
+        lr = data['learning-rate'].iloc[i]
+
+        isGray = data['isGray'].iloc[i]
+        isNorm = data['isNorm'].iloc[i]
+
+        dropout = data["Dropout"].iloc[i]
+        l1 = data["L1"].iloc[i]
+        l2 = data["L2"].iloc[i]
+        pooling = data["pooling"].iloc[i]
+        kernel_shape = data["kernel-shape"].iloc[i]
+
+        if isNorm == True:
+            X_Final = X_all / 255.0
+        else:
+            X_Final = X_all
+
+        save_dir = generate_name(data.iloc[i]) + "_sparse"
+
+        array_layers = data['layers'].iloc[i].split("-")
+        display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm, array_layers, dropout, l1, l2)
+
+        unet_conv2D_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, save_path,
+                  array_layers, pooling, kernel_shape,  dropout, l1, l2)
 
 
 if __name__ == "__main__":
@@ -157,15 +193,16 @@ if __name__ == "__main__":
     #create_dirs()
 
     #linear(X_all, Y, "../config/archive/Linear/learning_rate_change2.csv", "..\\models\\Linear\\linear_final\\learning_rate_change\\")
-    #export_tensorboard_to_csv("../config/archive/Cnn/10_best_more_neurons.csv", "../results/Cnn/10_best_more_neurons.csv",\
-                                #"../models/Cnn/cnn_final/10_best_more_neurons/")
+    #export_tensorboard_to_csv("../config/archive/Nn/5_top_with_regularizers_2.csv", "../results/Nn/5_top_with_regularizers_5.csv",  "..\\models\\Nn\\nn_final\\5_top_with_regularizers_2\\")
+    #X = X_all.reshape(50000, 32, 32, 3)
+    #export_tensorboard_regularizers("../config/archive/Nn/5_top_with_regularizers_2.csv", "../results/Nn/5_top_with_regularizers_4.csv", "..\\models\\Nn\\nn_final\\5_top_with_regularizers_2\\",  X_all, Y)
 
     # Coder function export avec dropout
+    #print(os.path.exists("..\\models\\Nn\\nn_final\\5_top_with_regularizers\\elu_adam_categorical_crossentropy_500_1000_0.0001_1024-1024-1024-1024_False_True_0.2_0.0_0.01_sparse\\model.h5"))
+    #nn(X_all, Y, "../config/archive/Nn/5_top_with_regularizers_2.csv", "..\\models\\Nn\\nn_final\\5_top_with_regularizers_2\\")
+    #cnn(X_all, Y, "../config/archive/Cnn/5_top_with_regularizers_2.csv", "..\\models\\Cnn\\cnn_final\\5_top_with_regularizers_2\\")
 
-    #nn(X_all, Y, "../config/archive/Nn/5_top_with_regularizers2.csv", "..\\models\\Nn\\nn_final\\5_top_with_regularizers\\")
-    cnn(X_all, Y, "../config/archive/Cnn/5_top_with_regularizers.csv", "..\\models\\Cnn\\cnn_final\\5_top_with_regularizers\\")
-
-
+    unet_conv2d(X_all, Y, "../config/archive/Unet/optimizer_activaction_testing.csv", "..\\models\\Unet\\optimizer_activaction_testing\\")
     # test(X_all, Y)
     #renameSyntax()
 

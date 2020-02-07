@@ -11,15 +11,15 @@ from src.utils.tools import unpickle, get_optimizer
 from src.utils.models import model_fit
 
 
-def create_model(activation_param, optimizer_param, lr_param, loss_param, array_layers, kernel_shape_param, depth):
-    optimizer_param = get_optimizer(optimizer_param, lr_param)
+def create_model(activation, optimizer, lr, loss, array_layers, kernel_shape, depth, dropout, l1, l2):
+    optimizer = get_optimizer(optimizer, lr)
     stack = []
     input_layer = Input((32, 32, 3))
     # Edit padding depending of size of image. For cifar 10, do not zeropad
     padding_layer = ZeroPadding2D((2, 2))(input_layer)
     last_output = Conv2D(filters=array_layers[0],
-                         kernel_size=(kernel_shape_param, kernel_shape_param),
-                         activation=activation_param,
+                         kernel_size=(kernel_shape, kernel_shape),
+                         activation=activation,
                          name=f"Conv2D",
                          padding='SAME')(padding_layer)
     stack.append(last_output)
@@ -28,10 +28,10 @@ def create_model(activation_param, optimizer_param, lr_param, loss_param, array_
 
     for i in range((depth * 2)):
         last_output = Conv2D(filters=array_layers[i],
-                             kernel_size=(kernel_shape_param, kernel_shape_param),
-                             activation=activation_param,
+                             kernel_size=(kernel_shape, kernel_shape),
+                             activation=activation,
                              name=f"Conv2D_{i}",
-                             padding='SAME')(last_output)
+                             padding='SAME', kernel_regularizer=L1L2(l1=l1, l2=l2))(last_output)
         # last_output = BatchNormalization(name=f"BatchNormalization_{i}")(last_output)
         # last_output = Activation(activation=relu, name=f"Activation_{i}")(last_output)
         if i < depth:
@@ -42,33 +42,30 @@ def create_model(activation_param, optimizer_param, lr_param, loss_param, array_
             last_output = Add(name=f"Add_{i}")([last_output, stack.pop()])
 
     last_output = Conv2D(filters=array_layers[len(array_layers) - 1],
-                         kernel_size=(kernel_shape_param, kernel_shape_param),
-                         activation=activation_param,
+                         kernel_size=(kernel_shape, kernel_shape),
+                         activation=activation,
                          name=f"Conv2D_last",
-                         padding='SAME')(last_output)
+                         padding='SAME', kernel_regularizer=L1L2(l1=l1, l2=l2))(last_output)
     last_output = UpSampling2D((2, 2), name=f"UpSampling2D_last")(last_output)
     last_output = Add(name=f"Add_last")([last_output, stack.pop()])
 
-    print(len(stack))
     last_output = Flatten(name="flatten")(last_output)
     # kernel_regularizer_param = get_kernel_regularizer()... kernel_regularizer=L1L2(l2=0.001 / depth)
     output_tensor = Dense(10, activation=softmax, name=f"Dense_output")(last_output)
     model = Model(input_layer, output_tensor)
 
-    model.compile(loss=loss_param,
-                  optimizer=optimizer_param,
+    model.compile(loss=loss,
+                  optimizer=optimizer,
                   metrics=[sparse_categorical_accuracy])
     return model
 
 
-def unet_conv2D(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, loss_param, batch_size_param,
-                epochs_param, array_layers, kernel_shape_param, save_dir, base_path):
+def unet_conv2D_sparse(X_all, Y, isTrain,  activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, base_path, array_layers, pooling, kernel_shape,  dropout, l1, l2):
     depth = int(len(array_layers) / 2)
     if depth % 2 == 0:
         depth = depth - 1
 
-    model = create_model(activation_param, optimizer_param, lr_param, loss_param, array_layers, kernel_shape_param,
-                         depth)
+    model = create_model(activation, optimizer, lr, loss, array_layers, kernel_shape, depth, dropout, l1, l2)
     print(model.summary())
     #plot_model(model, "unet_conv2d.png")
 
@@ -79,4 +76,4 @@ def unet_conv2D(X_all, Y, isTrain, activation_param, optimizer_param, lr_param, 
 
     X = X_all.reshape(50000, 32, 32, 3)
     if isTrain:
-        model_fit(model, X, Y, epochs_param, batch_size_param, path, save_dir, base_path)
+        model_fit(model, X, Y, epochs, batch_size, path, save_dir, base_path)

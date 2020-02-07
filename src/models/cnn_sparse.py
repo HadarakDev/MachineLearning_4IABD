@@ -5,7 +5,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 import numpy as np
 import os
 
-from tensorflow_core.python.keras.layers import MaxPool2D, AveragePooling2D
+from tensorflow_core.python.keras.layers import MaxPool2D, AveragePooling2D, Flatten
 from tensorflow_core.python.keras.regularizers import L1L2
 
 from src.utils.tools import unpickle, load_linear_model, get_optimizer
@@ -17,9 +17,8 @@ from src.utils.models import model_fit
 def cnn_model(image_size, nb_output, activation, optimizer, loss, lr, array_layers, pooling, kernel_shape, dropout, l1, l2):
     optimizer_param = get_optimizer(optimizer, lr)
     model = tf.keras.Sequential()
-
-    if dropout != 0:
-        model.add(Dropout(dropout))
+    # if dropout != 0:
+    #     model.add(Dropout(dropout, input_shape=(32, 32, 3)))
     model.add(tf.keras.layers.Conv2D(filters=array_layers[0], kernel_size=(kernel_shape, kernel_shape), padding='same', activation=activation, input_shape=(32, 32, 3)))
     if pooling == "avg_pool":
         model.add(tf.keras.layers.AveragePooling2D((2, 2), padding='same'))
@@ -46,7 +45,7 @@ def cnn_model(image_size, nb_output, activation, optimizer, loss, lr, array_laye
     model.add(tf.keras.layers.Flatten())
     model.add(Dense(nb_output, activation="softmax"))
     model.compile(optimizer=optimizer_param, loss=loss, metrics=['sparse_categorical_accuracy'])
-   # model.summary()
+    model.summary()
     return model
 
 
