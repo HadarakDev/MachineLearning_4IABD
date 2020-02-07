@@ -161,10 +161,18 @@ As we have seen with Linear Norm is better because it avoid Nan, and Gray don't 
 | selu	     | adamax	 | categorical_crossentropy	| 500	 | 1000	      | 0.0001	      | 1024-1024-1024-1024| FAUX	| VRAI	    | 0	       | 0	   | 0	   | 0.38091   | 1.72022	   | 0.87552	   | 0.5458            |
 | elu	     | adam	     | categorical_crossentropy	| 500	 | 1000	      | 0.0001	      | 1024-1024-1024-1024| FAUX	| VRAI	    | 0	       | 0	   | 0	   | 0.39739   | 2.00565	   | 0.86193	   | 0.5246            |
 
-> Let's try to add regularizers to improve val_accuracy on models with higher overfit
+> Let's try to add regularizers to improve val_accuracy on models which overfit .
 
-### Add regularizers to avoid overfiting
-## ajouter callback pour calculer la accuracy / nouvelle foncton export avec evaluate
+### Add regularizers to avoid / reduce overfiting
+ 
+ Results are not good with these combinations of Regularizers:
+ - dropout 0.2 / 0.4 (before each layer)
+ - l1 : 0.01
+ - l2 : 0.01
+
+### More precise test on Regularizers
+- reduce dropout 0.1
+- increase number of trained images
 
 # Convolutional neural network
 
@@ -177,6 +185,8 @@ As we have seen with Linear Norm is better because it avoid Nan, and Gray don't 
 - loss : categorical_crossentropy
 - layers : 24-24-24-24
 - pooling : avg_pool / max_pool
+
+#### Best 10 configs for CNN
 
 | activation   |	optimizer	| loss	                    | epochs   | batch-size | learning-rate | layers	  | kernel-shape  | pooling	 | isGray | isNorm	|Dropout |	L1 | L2	|last_loss	| last_val_loss	| last_accuracy	| last_val_accuracy |
 |--------------|----------------|---------------------------|----------|------------|---------------|-------------|---------------|----------|--------|---------|--------|-----|----|-----------|---------------|---------------|-------------------|
@@ -192,27 +202,44 @@ As we have seen with Linear Norm is better because it avoid Nan, and Gray don't 
 | tanh	       | nadam	        | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 24-24-24-24 |	2             | max_pool |	FAUX  | FAUX	| 0	     | 0   | 0	| 1.30726	| 1.33597	    | 0.5319	    | 0.5178            |
 
 
-# Prendre top 10 et ajouter des neurones et layers
+### Add more neurons
 - 64-64-64-64
 - 128-128-128-128
 - 256-256-256-256
 - 512-512-512-512
 
-# top 5 results
 
-| activation   | optimizer	| loss	                    | epochs   | batch-size | learning-rate | layers	    | kernel-shape  | pooling  | isGray | isNorm  | Dropout| L1  | L2  |last_loss  | last_val_loss | last_accuracy | last_val_accuracy|
-|--------------|------------|---------------------------|----------|------------|---------------|---------------|---------------|----------|--------|---------|--------|-----|-----|-----------|---------------|---------------|-------------------|
-| tanh	       | adam	    | categorical_crossentropy	| 500	   | 1000	    | 0.0001	    |512-512-512-512| 2	            | max_pool | FAUX   | FAUX    |	0      | 0	 | 0   | 0.01662   |0.70971	       |1.0	           |0.7902             |
-| softsign	   | adam	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    |256-256-256-256| 2	            | max_pool | FAUX   | FAUX    |	0      | 0	 | 0   | 0.22349   |0.66631	       |0.95253        |0.7738             |
-| softsign	   | nadam	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    |256-256-256-256| 2	            | max_pool | FAUX   | FAUX    |	0      | 0	 | 0   | 0.24754   |0.68603	       |0.94407        |0.7682             |
-| tanh	       | adam	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    |256-256-256-256| 2	            | max_pool | FAUX   | FAUX    |	0      | 0	 | 0   | 0.09287   |0.74141	       |0.9945         |0.7613             |
-| elu	       | adam	    | categorical_crossentropy	| 500	   | 1000	    | 0.0001	    |512-512-512-512| 2	            | avg_pool | FAUX   | FAUX    |	0      | 0	 | 0   | 0.17191   |0.88388	       |0.9524         |0.7489             |
-
-### Ces configurations prennent plus de memoire que les autres et ne tiennent pas sur notre GPU (1080Ti)
+##### Note :  Ces configurations prennent plus de memoire que les autres et ne tiennent pas sur notre GPU (1080Ti)
 ```
 selu,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,2,avg_pool,False,False,0,0,0
 selu,nadam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,2,max_pool,False,True,0,0,0
 ```
+
+#### Best 10 configs for CNN with more neurons
+
+| activation   | optimizer	| loss	                    | epochs   | batch-size | learning-rate | layers	      | kernel-shape  | pooling  | isGray | isNorm  | Dropout| L1  | L2  |last_loss  | last_val_loss | last_accuracy | last_val_accuracy|
+|--------------|------------|---------------------------|----------|------------|---------------|-----------------|---------------|----------|--------|---------|--------|-----|-----|-----------|---------------|---------------|-------------------|
+| tanh	       | adam	    | categorical_crossentropy	| 500	   | 1000	    | 0.0001	    | 512-512-512-512 | 2	          | max_pool | FAUX   | FAUX    | 0      | 0   | 0   | 0.01662   | 0.70971	     | 1.0	         | 0.7902            |
+| softsign	   | adam	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 256-256-256-256 | 2	          | max_pool | FAUX   | FAUX    | 0      | 0   | 0   | 0.22349   | 0.66631	     | 0.95253       | 0.7738            |
+| softsign	   | nadam	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 256-256-256-256 | 2	          | max_pool | FAUX   | FAUX    | 0      | 0   | 0   | 0.24754   | 0.68603	     | 0.94407       | 0.7682            |
+| tanh	       | adam	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 256-256-256-256 | 2	          | max_pool | FAUX   | FAUX    | 0      | 0   | 0   | 0.09287   | 0.74141	     | 0.9945        | 0.7613            |
+| elu	       | adam	    | categorical_crossentropy	| 500	   | 1000	    | 0.0001	    | 512-512-512-512 | 2	          | avg_pool | FAUX   | FAUX    | 0      | 0   | 0   | 0.17191   | 0.88388	     | 0.9524        | 0.7489            |
+| tanh	       | nadam	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 256-256-256-256 |	2	          | max_pool | FAUX   |	FAUX	| 0	     | 0   | 0	 | 0.12882	 | 0.76197	     | 0.9887	     | 0.74              |
+| relu	       | adam	    | categorical_crossentropy	| 500	   | 1000	    | 0.0001	    | 512-512-512-512 |	2	          | avg_pool | FAUX   |	FAUX	| 0	     | 0   | 0	 | 0.3074	 | 0.82664	     | 0.90235	     | 0.7427            |
+| softsign	   | adam	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 128-128-128-128 |	2	          | max_pool | FAUX   |	FAUX	| 0	     | 0   | 0	 | 0.55998	 | 0.77076	     | 0.81912	     | 0.7298            |
+| elu	       | adam	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 256-256-256-256 |	2	          | avg_pool | FAUX   |	FAUX	| 0	     | 0   | 0	 | 0.5837	 | 0.796	     | 0.8008	     | 0.7288            |
+| softsign	   | nadam	    | categorical_crossentropy	| 100	   | 1000	    | 0.0001	    | 128-128-128-128 |	2	          | max_pool | FAUX   |	FAUX	| 0	     | 0   | 0	 | 0.60491	 | 0.78591	     | 0.8015	     | 0.7285            |
+ 
+> - All these results are good
+> - On the top 10, they are all non Norm config.
+> - high overfit with a train accuracy of 1 on the first config
+
+
+### Add regularizers to avoid / reduce overfiting
+
+elu,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,2,avg_pool,False,False
+ 
+
 
 
 
