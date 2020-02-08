@@ -144,9 +144,12 @@ def cnn(X_all, Y, config_path, save_path):
 
         array_layers = data['layers'].iloc[i].split("-")
         display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm, array_layers, dropout, l1, l2)
-
-        cnn_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, save_path,
+        try:
+            cnn_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, save_path,
                   array_layers, pooling, kernel_shape,  dropout, l1, l2)
+        except ValueError:
+            clear_session()
+            print("fail")
 
 
 
@@ -155,6 +158,7 @@ def cnn(X_all, Y, config_path, save_path):
 def unet_conv2d(X_all, Y, config_path, save_path):
     data = pd.read_csv(config_path)
     for i in range(data.shape[0]):
+
         if i % 25 == 0:
             clear_session()
         activation = data['activation'].iloc[i]
@@ -182,10 +186,14 @@ def unet_conv2d(X_all, Y, config_path, save_path):
         save_dir = generate_name(data.iloc[i]) + "_sparse"
 
         array_layers = data['layers'].iloc[i].split("-")
+        array_layers = [int(x) for x in array_layers]
         display_config(activation, optimizer, loss, epochs, batch_size, lr, isGray, isNorm, array_layers, dropout, l1, l2)
 
-        unet_conv2D_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, save_path,
-                  array_layers, pooling, kernel_shape,  dropout, l1, l2)
+        try:
+            unet_conv2D_sparse(X_Final, Y, True, activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, save_path, array_layers, pooling, kernel_shape,  dropout, l1, l2)
+        except ValueError:
+            clear_session()
+            print("fail")
 
 
 if __name__ == "__main__":
@@ -193,7 +201,7 @@ if __name__ == "__main__":
     #create_dirs()
 
     #linear(X_all, Y, "../config/archive/Linear/learning_rate_change2.csv", "..\\models\\Linear\\linear_final\\learning_rate_change\\")
-    #export_tensorboard_to_csv("../config/archive/Nn/5_top_with_regularizers_2.csv", "../results/Nn/5_top_with_regularizers_5.csv",  "..\\models\\Nn\\nn_final\\5_top_with_regularizers_2\\")
+    #export_tensorboard_to_csv("../config/archive/Cnn/cnn_regu_already_done.csv", "../results/Cnn/5_top_with_regularizers_3.csv",  "..\\models\\Cnn\\Cnn_final\\5_top_with_regularizers_2\\")
     #X = X_all.reshape(50000, 32, 32, 3)
     #export_tensorboard_regularizers("../config/archive/Nn/5_top_with_regularizers_2.csv", "../results/Nn/5_top_with_regularizers_4.csv", "..\\models\\Nn\\nn_final\\5_top_with_regularizers_2\\",  X_all, Y)
 
@@ -201,8 +209,9 @@ if __name__ == "__main__":
     #print(os.path.exists("..\\models\\Nn\\nn_final\\5_top_with_regularizers\\elu_adam_categorical_crossentropy_500_1000_0.0001_1024-1024-1024-1024_False_True_0.2_0.0_0.01_sparse\\model.h5"))
     #nn(X_all, Y, "../config/archive/Nn/5_top_with_regularizers_2.csv", "..\\models\\Nn\\nn_final\\5_top_with_regularizers_2\\")
     #cnn(X_all, Y, "../config/archive/Cnn/5_top_with_regularizers_2.csv", "..\\models\\Cnn\\cnn_final\\5_top_with_regularizers_2\\")
+    #clear_session()
+    unet_conv2d(X_all, Y, "../config/archive/Unet/optimizer_activaction_testing_antoine.csv", "..\\models\\Unet\\optimizer_activaction_testing\\")
 
-    unet_conv2d(X_all, Y, "../config/archive/Unet/optimizer_activaction_testing.csv", "..\\models\\Unet\\optimizer_activaction_testing\\")
     # test(X_all, Y)
     #renameSyntax()
 

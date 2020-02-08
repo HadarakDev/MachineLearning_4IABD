@@ -10,13 +10,13 @@ from tensorflow_core.python.keras.regularizers import L1L2
 from src.utils.tools import unpickle, get_optimizer
 from src.utils.models import model_fit
 
-
 def create_model(activation, optimizer, lr, loss, array_layers, kernel_shape, depth, dropout, l1, l2):
     optimizer = get_optimizer(optimizer, lr)
     stack = []
     input_layer = Input((32, 32, 3))
     # Edit padding depending of size of image. For cifar 10, do not zeropad
     padding_layer = ZeroPadding2D((2, 2))(input_layer)
+
     last_output = Conv2D(filters=array_layers[0],
                          kernel_size=(kernel_shape, kernel_shape),
                          activation=activation,
@@ -31,7 +31,7 @@ def create_model(activation, optimizer, lr, loss, array_layers, kernel_shape, de
                              kernel_size=(kernel_shape, kernel_shape),
                              activation=activation,
                              name=f"Conv2D_{i}",
-                             padding='SAME', kernel_regularizer=L1L2(l1=l1, l2=l2))(last_output)
+                             padding='SAME')(last_output)
         # last_output = BatchNormalization(name=f"BatchNormalization_{i}")(last_output)
         # last_output = Activation(activation=relu, name=f"Activation_{i}")(last_output)
         if i < depth:
@@ -45,7 +45,7 @@ def create_model(activation, optimizer, lr, loss, array_layers, kernel_shape, de
                          kernel_size=(kernel_shape, kernel_shape),
                          activation=activation,
                          name=f"Conv2D_last",
-                         padding='SAME', kernel_regularizer=L1L2(l1=l1, l2=l2))(last_output)
+                         padding='SAME')(last_output)
     last_output = UpSampling2D((2, 2), name=f"UpSampling2D_last")(last_output)
     last_output = Add(name=f"Add_last")([last_output, stack.pop()])
 
@@ -58,7 +58,6 @@ def create_model(activation, optimizer, lr, loss, array_layers, kernel_shape, de
                   optimizer=optimizer,
                   metrics=[sparse_categorical_accuracy])
     return model
-
 
 def unet_conv2D_sparse(X_all, Y, isTrain,  activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, base_path, array_layers, pooling, kernel_shape,  dropout, l1, l2):
     depth = int(len(array_layers) / 2)
