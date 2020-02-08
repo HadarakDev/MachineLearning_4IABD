@@ -239,7 +239,14 @@ selu,nadam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,2,max_pool,F
 
 elu,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,2,avg_pool,False,False
  
+### Unet
 
+
+# NAN ERROR ( without norm)
+linear,sgd,categorical_crossentropy,100,1000,0.0001,24-24-24-24,2,avg_pool,False,False,0.0,0.0,0.0
+linear,sgd,categorical_crossentropy,100,5000,0.0001,24-24-24-24,2,avg_pool,False,False,0.0,0.0,0.0
+linear,sgd,categorical_crossentropy,100,5000,0.0001,24-24-24-24,2,max_pool,False,False,0.0,0.0,0.0
+linear,sgd,categorical_crossentropy,100,1000,0.0001,24-24-24-24,2,max_pool,False,False,0.0,0.0,0.0
 
 
 
