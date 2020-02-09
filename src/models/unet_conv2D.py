@@ -21,19 +21,20 @@ def create_model(activation, optimizer, lr, loss, array_layers, kernel_shape, de
                          kernel_size=(kernel_shape, kernel_shape),
                          activation=activation,
                          name=f"Conv2D",
-                         padding='SAME')(padding_layer)
+                         padding='SAME',  kernel_regularizer=L1L2(l2=l2))(padding_layer)
     stack.append(last_output)
-
     last_output = MaxPooling2D((2, 2), padding='SAME', name=f"MaxPooling2D")(last_output)
 
     for i in range((depth * 2)):
+        last_output = Dropout(dropout, name=f"Dropout_{i}")(last_output)
         last_output = Conv2D(filters=array_layers[i],
                              kernel_size=(kernel_shape, kernel_shape),
                              activation=activation,
                              name=f"Conv2D_{i}",
                              padding='SAME')(last_output)
+        last_output = Dropout(dropout, name=f"Dropout_{i}")(last_output)
         # last_output = BatchNormalization(name=f"BatchNormalization_{i}")(last_output)
-        # last_output = Activation(activation=relu, name=f"Activation_{i}")(last_output)
+        # last_ou                                                                                                                            tput = Activation(activation=relu, name=f"Activation_{i}")(last_output)
         if i < depth:
             stack.append(last_output)
             last_output = MaxPooling2D((2, 2), padding='SAME', name=f"MaxPooling2D_{i}")(last_output)
@@ -45,7 +46,7 @@ def create_model(activation, optimizer, lr, loss, array_layers, kernel_shape, de
                          kernel_size=(kernel_shape, kernel_shape),
                          activation=activation,
                          name=f"Conv2D_last",
-                         padding='SAME')(last_output)
+                         padding='SAME',  kernel_regularizer=L1L2(l2=l2))(last_output)
     last_output = UpSampling2D((2, 2), name=f"UpSampling2D_last")(last_output)
     last_output = Add(name=f"Add_last")([last_output, stack.pop()])
 
@@ -65,7 +66,7 @@ def unet_conv2D_sparse(X_all, Y, isTrain,  activation, optimizer, loss, epochs, 
         depth = depth - 1
 
     model = create_model(activation, optimizer, lr, loss, array_layers, kernel_shape, depth, dropout, l1, l2)
-    print(model.summary())
+    # print(model.summary())
     #plot_model(model, "unet_conv2d.png")
 
     directory = base_path + save_dir
