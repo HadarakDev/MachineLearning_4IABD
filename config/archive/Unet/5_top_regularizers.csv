@@ -1,0 +1,1 @@
+activation,optimizer,loss,epochs,batch-size,learning-rate,layers,kernel-shape,pooling,isGray,isNorm,Dropout,L1,L2
