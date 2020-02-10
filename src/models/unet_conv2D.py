@@ -31,8 +31,7 @@ def create_model(activation, optimizer, lr, loss, array_layers, kernel_shape, de
                              kernel_size=(kernel_shape, kernel_shape),
                              activation=activation,
                              name=f"Conv2D_{i}",
-                             padding='SAME')(last_output)
-        last_output = Dropout(dropout, name=f"Dropout_{i}")(last_output)
+                             padding='SAME', kernel_regularizer=L1L2(l2=l2))(last_output)
         # last_output = BatchNormalization(name=f"BatchNormalization_{i}")(last_output)
         # last_ou                                                                                                                            tput = Activation(activation=relu, name=f"Activation_{i}")(last_output)
         if i < depth:
