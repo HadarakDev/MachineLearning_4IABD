@@ -40,7 +40,19 @@ def generate_name(config):
     name = name[0:-1]
     return name
 
+def display_weights_number(source, model_path):
+    with open(source) as input:
+        configs = input.readlines()
+        for conf in configs[1::]:
+            filename = generate_name(conf.split(","))
 
+            if filename[-1] == "\n":
+                filename = filename[0:-1] + "_sparse"
+            else:
+                filename = filename + "_sparse"
+            fullPath = model_path + filename + "/model.h5"
+            model = tf.keras.models.load_model(fullPath)
+            model.summary()
 
 def unpickle(path_batch, size, isRGB):
     with open(path_batch, 'rb') as fo:

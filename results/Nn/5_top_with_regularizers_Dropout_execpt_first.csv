@@ -1,0 +1,26 @@
+activation,optimizer,loss,epochs,batch-size,learning-rate,layers,isGray,isNorm,Dropout,L1,L2,last_loss, last_val_loss, last_accuracy, last_val_accuracy
+selu,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,False,True,0.15,0.001,0.0,1.50247,1.56397,0.53725,0.5207
+softplus,nadam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,False,True,0.15,0.001,0.0,1.77999,1.76548,0.43045,0.4489
+softsign,adam,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.15,0.001,0.0,2.41011,2.41485,0.20565,0.2026
+selu,adamax,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.15,0.001,0.0,1.83629,1.87956,0.5065,0.4921
+elu,adam,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.15,0.001,0.0,1.87091,1.89144,0.47225,0.4624
+selu,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,False,True,0.0,0.001,0.0,1.23214,1.65883,0.62687,0.4986
+softplus,nadam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,False,True,0.0,0.001,0.0,1.66926,1.76626,0.46733,0.4383
+softsign,adam,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.0,0.001,0.0,2.36334,2.35264,0.2514,0.2543
+selu,adamax,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.0,0.001,0.0,1.54732,1.8657,0.60738,0.511
+elu,adam,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.0,0.001,0.0,1.61795,1.88159,0.566,0.4895
+selu,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,False,True,0.1,0.001,0.0,1.49401,1.55984,0.53597,0.5133
+softplus,nadam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,False,True,0.1,0.001,0.0,1.77542,1.749,0.42975,0.4485
+softsign,adam,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.1,0.001,0.0,2.41558,2.42413,0.19445,0.1919
+selu,adamax,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.1,0.001,0.0,2.83529,2.78602,0.44337,0.4434
+elu,adam,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.1,0.001,0.0,1.80024,1.83785,0.5018,0.4909
+selu,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,False,True,0.1,0.01,0.0,2.91716,2.89171,0.18262,0.1868
+softplus,nadam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,False,True,0.1,0.01,0.0,4.50122,4.45439,0.10167,0.0952
+softsign,adam,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.1,0.01,0.0,6.14815,6.1226,0.0994,0.098
+selu,adamax,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.1,0.01,0.0,11.76331,10.71267,0.1832,0.1903
+elu,adam,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.1,0.01,0.0,6.01082,6.01377,0.0969,0.0997
+selu,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,False,True,0.1,0.0,0.0,0.7942,1.47426,0.71463,0.5389
+softplus,nadam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,False,True,0.1,0.0,0.0,0.73272,1.58329,0.73263,0.5295
+softsign,adam,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.1,0.0,0.0,0.62766,1.48232,0.7806,0.5354
+selu,adamax,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.1,0.0,0.0,0.3901,1.75368,0.86243,0.554
+elu,adam,categorical_crossentropy,500,1000,0.0001,1024-1024-1024-1024,False,True,0.1,0.0,0.0,0.44288,1.89389,0.8408,0.5415

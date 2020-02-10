@@ -1,0 +1,19 @@
+activation,optimizer,loss,epochs,batch-size,learning-rate,layers,kernel-shape,pooling,isGray,isNorm,Dropout,L1,L2,last_loss, last_val_loss, last_accuracy, last_val_accuracy
+tanh,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,2,max_pool,False,False,0.2,0.0,0.0,1.37661,3.78735,0.50612,0.1906
+softsign,adam,categorical_crossentropy,500,1000,0.0001,256-256-256-256,2,max_pool,False,False,0.2,0.0,0.0,1.49284,3.31311,0.45987,0.1908
+softsign,nadam,categorical_crossentropy,500,1000,0.0001,256-256-256-256,2,max_pool,False,False,0.2,0.0,0.0,1.45691,3.11992,0.47712,0.2091
+tanh,adam,categorical_crossentropy,500,1000,0.0001,256-256-256-256,2,max_pool,False,False,0.2,0.0,0.0,1.45689,3.32871,0.46973,0.1829
+tanh,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,2,max_pool,False,False,0.0,0.01,0.0,2.65314,2.6527,0.1005,0.098
+softsign,adam,categorical_crossentropy,500,1000,0.0001,256-256-256-256,2,max_pool,False,False,0.0,0.01,0.0,2.39574,2.39036,0.1012,0.0952
+softsign,nadam,categorical_crossentropy,500,1000,0.0001,256-256-256-256,2,max_pool,False,False,0.0,0.01,0.0,2.66469,2.51994,0.09925,0.098
+tanh,adam,categorical_crossentropy,500,1000,0.0001,256-256-256-256,2,max_pool,False,False,0.0,0.01,0.0,4.18964,3.08205,0.1513,0.0997
+elu,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,2,avg_pool,False,False,0.0,0.01,0.0,28.59047,26.06574,0.30457,0.3083
+tanh,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,2,max_pool,False,False,0.0,0.01,0.01,2.65174,2.65215,0.1012,0.0952
+softsign,adam,categorical_crossentropy,500,1000,0.0001,256-256-256-256,2,max_pool,False,False,0.0,0.01,0.01,8.65362,6.21795,0.19762,0.162
+softsign,nadam,categorical_crossentropy,500,1000,0.0001,256-256-256-256,2,max_pool,False,False,0.0,0.01,0.01,2.87832,2.53063,0.09872,0.0952
+tanh,adam,categorical_crossentropy,500,1000,0.0001,256-256-256-256,2,max_pool,False,False,0.0,0.01,0.01,2.42371,2.39337,0.09965,0.1014
+elu,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,2,avg_pool,False,False,0.0,0.01,0.01,20.36837,18.33368,0.2925,0.2946
+tanh,adam,categorical_crossentropy,500,1000,0.0001,512-512-512-512,2,max_pool,False,False,0.2,0.01,0.01,2.65441,2.65412,0.09992,0.1003
+softsign,adam,categorical_crossentropy,500,1000,0.0001,256-256-256-256,2,max_pool,False,False,0.2,0.01,0.01,2.38946,2.38947,0.1012,0.0952
+softsign,nadam,categorical_crossentropy,500,1000,0.0001,256-256-256-256,2,max_pool,False,False,0.2,0.01,0.01,2.84095,2.52002,0.10058,0.0977
+tanh,adam,categorical_crossentropy,500,1000,0.0001,256-256-256-256,2,max_pool,False,False,0.2,0.01,0.01,2.8049,2.47487,0.09965,0.1014

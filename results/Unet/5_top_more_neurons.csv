@@ -1,0 +1,23 @@
+activation,optimizer,loss,epochs,batch-size,learning-rate,layers,kernel-shape,pooling,isGray,isNorm,Dropout,L1,L2,last_loss, last_val_loss, last_accuracy, last_val_accuracy
+softsign,adam,categorical_crossentropy,1000,1000,0.0001,128-128-128-128,3,max_pool,False,False,0.0,0.0,0.0,0.07011,1.08358,0.99832,0.6792
+softsign,adamax,categorical_crossentropy,1000,1000,0.0001,128-128-128-128,3,avg_pool,False,False,0.0,0.0,0.0,0.42147,1.00505,0.88552,0.6586
+hard_sigmoid,adam,categorical_crossentropy,1000,1000,0.0001,128-128-128-128,3,avg_pool,False,False,0.0,0.0,0.0,0.43438,1.12195,0.89382,0.6171
+sigmoid,nadam,categorical_crossentropy,1000,1000,0.0001,128-128-128-128,3,max_pool,False,False,0.0,0.0,0.0,0.78164,1.19767,0.73362,0.5867
+softsign,adam,categorical_crossentropy,1000,1000,0.0001,128-128-128-128,3,avg_pool,False,False,0.0,0.0,0.0,0.10646,1.09568,0.9936,0.6636
+softsign,adam,categorical_crossentropy,1000,1000,0.0001,64-64-64-64,3,max_pool,False,False,0.0,0.0,0.0,0.23519,1.07496,0.96342,0.649
+softsign,adamax,categorical_crossentropy,1000,1000,0.0001,64-64-64-64,3,avg_pool,False,False,0.0,0.0,0.0,0.31452,1.05745,0.93603,0.6442
+hard_sigmoid,adam,categorical_crossentropy,1000,1000,0.0001,64-64-64-64,3,avg_pool,False,False,0.0,0.0,0.0,0.59239,1.10754,0.8273,0.6118
+sigmoid,nadam,categorical_crossentropy,1000,1000,0.0001,64-64-64-64,3,max_pool,False,False,0.0,0.0,0.0,0.67749,1.19504,0.78427,0.5867
+softsign,adam,categorical_crossentropy,1000,1000,0.0001,64-64-64-64,3,avg_pool,False,False,0.0,0.0,0.0,0.06635,1.24297,0.99878,0.6503
+softsign,adam,categorical_crossentropy,1000,1000,0.0001,128-128-128-128,2,max_pool,False,False,0.0,0.0,0.0,0.24094,1.06612,0.95455,0.6606
+softsign,adamax,categorical_crossentropy,1000,1000,0.0001,128-128-128-128,2,avg_pool,False,False,0.0,0.0,0.0,0.39774,1.0197,0.89858,0.6542
+hard_sigmoid,adam,categorical_crossentropy,1000,1000,0.0001,128-128-128-128,2,avg_pool,False,False,0.0,0.0,0.0,0.52823,1.13454,0.84637,0.6062
+sigmoid,nadam,categorical_crossentropy,1000,1000,0.0001,128-128-128-128,2,max_pool,False,False,0.0,0.0,0.0,0.91456,1.38589,0.688,0.5229
+softsign,adam,categorical_crossentropy,1000,1000,0.0001,128-128-128-128,2,avg_pool,False,False,0.0,0.0,0.0,0.20343,1.0879,0.96755,0.655
+softsign,adam,categorical_crossentropy,1000,1000,0.0001,64-64-64-64,2,max_pool,False,False,0.0,0.0,0.0,0.225,1.13838,0.96555,0.6354
+softsign,adamax,categorical_crossentropy,1000,1000,0.0001,64-64-64-64,2,avg_pool,False,False,0.0,0.0,0.0,0.82321,1.12872,0.7272,0.6111
+hard_sigmoid,adam,categorical_crossentropy,1000,1000,0.0001,64-64-64-64,2,avg_pool,False,False,0.0,0.0,0.0,0.65498,1.13601,0.80102,0.6019
+sigmoid,nadam,categorical_crossentropy,1000,1000,0.0001,64-64-64-64,2,max_pool,False,False,0.0,0.0,0.0,1.18743,1.31994,0.58073,0.5358
+softsign,adam,categorical_crossentropy,1000,1000,0.0001,64-64-64-64,2,avg_pool,False,False,0.0,0.0,0.0,0.54629,1.10832,0.83742,0.62
+softsign,adam,categorical_crossentropy,1000,1000,0.0001,256-256-256-256,2,max_pool,False,False,0.0,0.0,0.0,0.0953,1.12838,0.99477,0.6608
+softsign,adamax,categorical_crossentropy,1000,1000,0.0001,256-256-256-256,2,avg_pool,False,False,0.0,0.0,0.0,0.32063,1.01834,0.92252,0.6668

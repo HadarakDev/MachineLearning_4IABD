@@ -23,26 +23,25 @@ def shift_out(last_output, penultimate_output, i):
     penultimate_output = tmp_out
     return last_output, penultimate_output
 
-def resnet_model_dense(depth, jumps, shape):
-    nb_neurons = np.prod(np.array(shape))
+def create_resnet_model_dense(X_all, Y, isTrain,  activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, base_path, array_layers, jumps, dropout, l1, l2):
     input_layer = Input(shape)
     flatten_layer_output = Flatten(name="flatten")(input_layer)
 
     penultimate_output = None
     last_output = flatten_layer_output
 
-    for i in range(depth):
+    for i in range(1, len(array_layers)):
         if penultimate_output is not None:
 
             last_output, penultimate_output = shift_out(last_output, penultimate_output, i)
             for j in range(jumps):
-                last_output = Dense(nb_neurons, activation=linear, name=f"Dense_{i}_{j}", kernel_regularizer=L1L2(l2=0.001 / depth))(last_output)
+                last_output = Dense(array_layers[i], activation=linear, name=f"Dense_{i}_{j}", kernel_regularizer=L1L2(l2=0.001 / depth))(last_output)
                 last_output = BatchNormalization(name=f"BatchNormalization_{i}_{j}")(last_output)
                 last_output = Activation(activation=relu, name=f"Activation_{i}_{j}")(last_output)
         else:
             penultimate_output = last_output
             for j in range(jumps):
-                last_output = Dense(nb_neurons, activation=linear, name=f"Dense_{i}_{j}", kernel_regularizer=L1L2(l2=0.001 / depth))(last_output)
+                last_output = Dense(array_layers[i], activation=linear, name=f"Dense_{i}_{j}", kernel_regularizer=L1L2(l2=0.001 / depth))(last_output)
                 last_output = BatchNormalization(name=f"BatchNormalization_{i}_{j}")(last_output)
                 last_output = Activation(activation=relu, name=f"Activation_{i}_{j}")(last_output)
 
@@ -56,6 +55,10 @@ def resnet_model_dense(depth, jumps, shape):
                   optimizer=Adam(lr=0.001),
                   metrics=[sparse_categorical_accuracy])
     return model
+
+
+def resnet_model_dense(X_all, Y, isTrain,  activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, base_path, array_layers, jumps, dropout, l1, l2):
+    model = create_resnet_model_dense(X_all, Y, True,  activation, optimizer, loss, epochs, batch_size, lr, isGray, save_dir, base_path, array_layers, jumps, dropout, l1, l2)
 
 
 if __name__ == "__main__":

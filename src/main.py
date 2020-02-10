@@ -14,7 +14,8 @@ from src.models.linear_sparse import linear_sparse
 # from src.models.nn_sparse import nn_sparse
 # from src.models.nn_one_hot import nn_one_hot
 # from src.models.cnn_sparse import cnn_sparse
-from src.utils.tools import unpickle, create_dirs,  export_tensorboard, generate_name, display_config
+from src.utils.tools import unpickle, create_dirs, export_tensorboard, generate_name, display_config, \
+    display_weights_number
 from tensorflow.keras import Model
 
 
@@ -199,18 +200,21 @@ def unet_conv2d(X_all, Y, config_path, save_path):
 if __name__ == "__main__":
     X_all, Y = load_dataset()
     #create_dirs()
-
+    #display_weights_number("../config/archive/Unet/optimizer_activaction_testing.csv", "..\\models\\Unet\\optimizer_activaction_testing\\")
     #linear(X_all, Y, "../config/archive/Linear/learning_rate_change2.csv", "..\\models\\Linear\\linear_final\\learning_rate_change\\")
-    #export_tensorboard_to_csv("../config/archive/Cnn/cnn_regu_already_done.csv", "../results/Cnn/5_top_with_regularizers_3.csv",  "..\\models\\Cnn\\Cnn_final\\5_top_with_regularizers_2\\")
+    #export_tensorboard_to_csv("../config/archive/Unet/5_top_more_neurons.csv", "../results/Unet/5_top_more_neurons.csv", "..\\models\\Unet\\5_top_more_neurons\\")
+    # export_tensorboard_to_csv("../config/archive/Nn/5_top_with_regularizers_2.csv",
+    #                           "../results/Nn/5_top_with_regularizers_Dropout_execpt_first.csv",
+    #                           "..\\models\\Nn\\nn_final\\5_top_with_regularizers_2\\")
     #X = X_all.reshape(50000, 32, 32, 3)
-    #export_tensorboard_regularizers("../config/archive/Nn/5_top_with_regularizers_2.csv", "../results/Nn/5_top_with_regularizers_4.csv", "..\\models\\Nn\\nn_final\\5_top_with_regularizers_2\\",  X_all, Y)
+    #export_tensorboard_regularizers("../config/archive/Cnn/5_top_with_regularizers_2.csv", "../results/Cnn/5_top_with_regularizers_final.csv", "..\\models\\Cnn\\cnn_final\\5_top_with_regularizers_2\\",  X_all, Y)
 
     # Coder function export avec dropout
     #print(os.path.exists("..\\models\\Nn\\nn_final\\5_top_with_regularizers\\elu_adam_categorical_crossentropy_500_1000_0.0001_1024-1024-1024-1024_False_True_0.2_0.0_0.01_sparse\\model.h5"))
     #nn(X_all, Y, "../config/archive/Nn/5_top_with_regularizers_2.csv", "..\\models\\Nn\\nn_final\\5_top_with_regularizers_2\\")
     #cnn(X_all, Y, "../config/archive/Cnn/5_top_with_regularizers_2.csv", "..\\models\\Cnn\\cnn_final\\5_top_with_regularizers_2\\")
     #clear_session()
-    unet_conv2d(X_all, Y, "../config/archive/Unet/optimizer_activaction_testing_antoine.csv", "..\\models\\Unet\\optimizer_activaction_testing\\")
+    unet_conv2d(X_all, Y, "../config/archive/Unet/5_top_regularizers.csv", "..\\models\\Unet\\5_top_regularizers\\")
 
     # test(X_all, Y)
     #renameSyntax()
